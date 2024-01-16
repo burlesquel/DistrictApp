@@ -1,6 +1,6 @@
 <template>
     <div class="main-section relative font-nunito text-sm font-normal antialiased"
-        :class="[store.sidebar ? 'toggle-sidebar' : '', store.menu, store.layout, store.rtlClass]">
+        :class="[store.sidebar ? 'toggle-sidebar' : '', store.menu, store.layout]">
         <!--  BEGIN MAIN CONTAINER  -->
         <div class="relative">
             <!-- sidebar menu overlay -->
@@ -42,11 +42,7 @@
                 </template>
             </div>
 
-            <!-- BEGIN APP SETTING LAUNCHER -->
-            <theme-customizer />
-            <!-- END APP SETTING LAUNCHER -->
-
-            <div class="main-container min-h-screen text-black dark:text-white-dark" :class="[store.navbar]">
+            <div v-if="store.user" class="main-container min-h-screen text-black dark:text-white-dark" :class="[store.navbar]">
                 <!--  BEGIN SIDEBAR  -->
                 <app-layout-sidebar />
                 <!--  END SIDEBAR  -->
@@ -78,6 +74,9 @@ const store = useAppStore();
 const showTopButton = ref(false);
 onMounted(() => {
     // set default settings
+    if(!store.user){
+        return navigateTo("/auth/sign-in")
+    }
     appSetting.init();
 
     window.onscroll = () => {
@@ -89,9 +88,11 @@ onMounted(() => {
     };
 
     const eleanimation = document.querySelector('.animation');
-    eleanimation.addEventListener('animationend', function () {
+    if(eleanimation){
+        eleanimation.addEventListener('animationend', function () {
         appSetting.changeAnimation('remove');
     });
+    }
     store.toggleMainLoader();
 });
 

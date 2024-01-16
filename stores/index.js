@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import appSetting from '@/app-setting';
 export const useAppStore = defineStore('app', {
     state: () => ({
+        user: null,
+        auth:false,
         isDarkMode: false,
         mainLayout: 'app',
         theme: 'light',
@@ -35,10 +37,10 @@ export const useAppStore = defineStore('app', {
     }),
 
     actions: {
-        setMainLayout(payload: any = null) {
+        setMainLayout(payload = null) {
             this.mainLayout = payload; //app , auth
         },
-        toggleTheme(payload: any = null) {
+        toggleTheme(payload = null) {
             payload = payload || this.theme; // light|dark|system
             localStorage.setItem('theme', payload);
             this.theme = payload;
@@ -60,41 +62,41 @@ export const useAppStore = defineStore('app', {
                 document.querySelector('body')?.classList.remove('dark');
             }
         },
-        toggleMenu(payload: any = null) {
+        toggleMenu(payload = null) {
             payload = payload || this.menu; // vertical, collapsible-vertical, horizontal
             this.sidebar = false; // reset sidebar state
             localStorage.setItem('menu', payload);
             this.menu = payload;
         },
-        toggleLayout(payload: any = null) {
+        toggleLayout(payload = null) {
             payload = payload || this.layout; // full, boxed-layout
             localStorage.setItem('layout', payload);
             this.layout = payload;
         },
-        toggleRTL(payload: any = null) {
+        toggleRTL(payload = null) {
             payload = payload || this.rtlClass; // rtl, ltr
             localStorage.setItem('rtlClass', payload);
             this.rtlClass = payload;
             document.querySelector('html')?.setAttribute('dir', this.rtlClass || 'ltr');
         },
-        toggleAnimation(payload: any = null) {
+        toggleAnimation(payload = null) {
             payload = payload || this.animation; // animate__fadeIn, animate__fadeInDown, animate__fadeInUp, animate__fadeInLeft, animate__fadeInRight, animate__slideInDown, animate__slideInLeft, animate__slideInRight, animate__zoomIn
             payload = payload?.trim();
             localStorage.setItem('animation', payload);
             this.animation = payload;
             appSetting.changeAnimation();
         },
-        toggleNavbar(payload: any = null) {
+        toggleNavbar(payload = null) {
             payload = payload || this.navbar; // navbar-sticky, navbar-floating, navbar-static
             localStorage.setItem('navbar', payload);
             this.navbar = payload;
         },
-        toggleSemidark(payload: any = null) {
+        toggleSemidark(payload = null) {
             payload = payload || false;
             localStorage.setItem('semidark', payload);
             this.semidark = payload;
         },
-        toggleLocale(payload: any = null, setLocale: any) {
+        toggleLocale(payload = null, setLocale) {
             payload = payload || this.locale;
             localStorage.setItem('i18n_locale', payload);
             this.locale = payload;
@@ -105,10 +107,10 @@ export const useAppStore = defineStore('app', {
                 this.toggleRTL('ltr');
             }
         },
-        toggleSidebar(state: boolean = false) {
+        toggleSidebar(state = false) {
             this.sidebar = !this.sidebar;
         },
-        toggleMainLoader(state: boolean = false) {
+        toggleMainLoader(state = false) {
             this.isShowMainLoader = true;
             setTimeout(() => {
                 this.isShowMainLoader = false;

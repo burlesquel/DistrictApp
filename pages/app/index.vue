@@ -2,10 +2,11 @@
 definePageMeta({
     layout:"app-default"
 })
+const store = useAppStore()
 </script>
 
 <template>
     <div>
-        selam
+        selam {{ store.user ? store.user : "guest" }} !
     </div>
 </template>
