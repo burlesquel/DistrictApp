@@ -28,6 +28,7 @@
     "@pinia/nuxt": "^0.5.1",
     "file-upload-with-preview": "^6.0.2",
     "firebase": "^10.7.1",
+    "firebase-tools": "^13.0.3",
     "maska": "^2.1.11",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.3",
