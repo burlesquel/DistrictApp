@@ -13,7 +13,7 @@ export const useAppStore = defineStore('app', {
         animation: '',
         navbar: 'navbar-sticky',
         locale: 'en',
-        sidebar: true,
+        sidebar: false,
         languageList: [
             { code: 'zh', name: 'Chinese' },
             { code: 'da', name: 'Danish' },

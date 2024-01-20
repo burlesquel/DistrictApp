@@ -2,8 +2,9 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from "firebase/auth"
 import { getFirestore } from 'firebase/firestore'
 import { getAnalytics } from "firebase/analytics"
-
-export default defineNuxtPlugin( async nuxtApp => {
+import {getStorage} from "firebase/storage"
+import { setDoc, getDoc, doc, getDocs, updateDoc, collection, WriteBatch, writeBatch, query, where } from "firebase/firestore"
+export default defineNuxtPlugin(async nuxtApp => {
     const config = useRuntimeConfig()
     const store = useAppStore()
     const firebaseConfig = {
@@ -21,6 +22,7 @@ export default defineNuxtPlugin( async nuxtApp => {
     const analytics = getAnalytics(app)
     const auth = getAuth(app)
     const firestore = getFirestore(app)
+    const storage = getStorage(app)
 
     nuxtApp.vueApp.provide('auth', auth)
     nuxtApp.provide('auth', auth)
@@ -28,18 +30,30 @@ export default defineNuxtPlugin( async nuxtApp => {
     nuxtApp.vueApp.provide('firestore', firestore)
     nuxtApp.provide('firestore', firestore)
 
-    auth.authStateReady().then(res => {
-        store.user = auth.currentUser
+    nuxtApp.vueApp.provide('storage', storage)
+    nuxtApp.provide('storage', storage)
+
+     await new Promise( resolve => {
+        auth.authStateReady().then(async res => {
+            if(!auth.currentUser){
+                navigateTo("/auth/sign-in")
+                resolve(false)
+            }
+            const docRef = doc(firestore, "users", auth.currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            store.user = {id:docSnap.id,...docSnap.data()}
+            resolve(store.user)
+        })
+     })
+
+    auth.onAuthStateChanged(async function (user) {
+        if (!auth.currentUser) {
+            navigateTo("/auth/sign-in")
+        }
+        const docRef = doc(firestore, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        store.user = {id:docSnap.id,...docSnap.data()}
     })
 
-    await new Promise (resolve => {
-        auth.onAuthStateChanged(function(user){
-            store.user = user
-            store.authChecked = true
-            if(!user){
-                navigateTo("/auth/sign-in")
-            }
-            resolve(user)
-        })
-    })
+    console.log(auth.currentUser);
 })

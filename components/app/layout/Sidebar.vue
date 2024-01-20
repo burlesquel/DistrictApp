@@ -22,11 +22,11 @@
                     }" class="relative h-[calc(100vh-80px)]">
                         <ul class="relative space-y-0.5 p-4 py-0">
                             <li class="nav-item">
-                                <NuxtLink to="/app" class="group" @click="toggleMobileMenu">
+                                <NuxtLink to="/app/district" class="group" @click="toggleMobileMenu">
                                     <div class="flex items-center">
                                         <icon-menu-components class="shrink-0 group-hover:!text-primary" />
                                         <span
-                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Dashboard</span>
+                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">My District</span>
                                     </div>
                                 </NuxtLink>
                             </li>
@@ -63,19 +63,19 @@
                                         <vue-collapsible :isOpen="activeDropdown === 'invoice'">
                                             <ul class="sub-menu text-gray-500">
                                                 <li>
-                                                    <NuxtLink to="/apps/invoice/list" @click="toggleMobileMenu">list
+                                                    <NuxtLink to="/app" @click="toggleMobileMenu">list
                                                     </NuxtLink>
                                                 </li>
                                                 <li>
-                                                    <NuxtLink to="/apps/invoice/preview" @click="toggleMobileMenu">preview
+                                                    <NuxtLink to="/app" @click="toggleMobileMenu">preview
                                                     </NuxtLink>
                                                 </li>
                                                 <li>
-                                                    <NuxtLink to="/apps/invoice/add" @click="toggleMobileMenu">add
+                                                    <NuxtLink to="/app" @click="toggleMobileMenu">add
                                                     </NuxtLink>
                                                 </li>
                                                 <li>
-                                                    <NuxtLink to="/apps/invoice/edit" @click="toggleMobileMenu">edit
+                                                    <NuxtLink to="/app" @click="toggleMobileMenu">edit
                                                     </NuxtLink>
                                                 </li>
                                             </ul>
@@ -105,7 +105,7 @@
                                 <vue-collapsible :isOpen="activeDropdown === 'components'">
                                     <ul class="sub-menu text-gray-500">
                                         <li>
-                                            <NuxtLink to="/components/tabs" @click="toggleMobileMenu">tabs
+                                            <NuxtLink to="/app" @click="toggleMobileMenu">tabs
                                             </NuxtLink>
                                         </li>
                                     </ul>

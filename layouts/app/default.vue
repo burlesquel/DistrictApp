@@ -72,11 +72,9 @@ import appSetting from '@/app-setting';
 import { useAppStore } from '@/stores/index';
 const store = useAppStore();
 const showTopButton = ref(false);
-onMounted(() => {
+onBeforeMount(() => {
     // set default settings
-    if(!store.user){
-        return navigateTo("/auth/sign-in")
-    }
+    
     appSetting.init();
 
     window.onscroll = () => {

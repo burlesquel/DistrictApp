@@ -9,13 +9,13 @@ import { useAppStore } from '@/stores/index';
 const store = useAppStore();
 const route = useRoute();
 const search = ref(false);
+const nuxtApp = useNuxtApp()
 
 const $t = (text) => text
 
 const currentFlag = computed(() => {
     return `/app/images/flags/${store.locale?.toUpperCase()}.svg`;
 });
-
 const notifications = ref([
     {
         id: 1,
@@ -127,19 +127,19 @@ const removeMessage = (value) => {
                 <div class="hidden ltr:mr-2 rtl:ml-2 sm:block">
                     <ul class="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                         <li>
-                            <NuxtLink to="/apps/calendar"
+                            <NuxtLink to="/app"
                                 class="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
                                 <icon-calendar />
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink to="/apps/todolist"
+                            <NuxtLink to="/app"
                                 class="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
                                 <icon-edit />
                             </NuxtLink>
                         </li>
                         <li>
-                            <NuxtLink to="/apps/chat"
+                            <NuxtLink to="/app"
                                 class="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
                                 <icon-chat-notification />
                             </NuxtLink>
@@ -388,21 +388,21 @@ const removeMessage = (value) => {
                                             </div>
                                         </li>
                                         <li>
-                                            <NuxtLink to="/users/profile" class="dark:hover:text-white" @click="close()">
+                                            <NuxtLink to="/app/profile" class="dark:hover:text-white" @click="close()">
                                                 <icon-user class="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
                                                 Profile
                                             </NuxtLink>
                                         </li>
                                         <li>
-                                            <NuxtLink to="/apps/mailbox" class="dark:hover:text-white" @click="close()">
+                                            <NuxtLink to="/app" class="dark:hover:text-white" @click="close()">
                                                 <icon-mail class="h-4.5 w-4.5 shrink-0 ltr:mr-2 rtl:ml-2" />
                                                 Inbox
                                             </NuxtLink>
                                         </li>
                                         <li class="border-t border-white-light dark:border-white-light/10">
-                                            <NuxtLink to="/auth/boxed-signin" class="!py-3 text-danger" @click="close()">
+                                            <NuxtLink class="!py-3 text-danger cursor-pointer" @click="nuxtApp.$auth.signOut(); close()">
                                                 <icon-logout class="h-4.5 w-4.5 shrink-0 rotate-90 ltr:mr-2 rtl:ml-2" />
-                                                Sign Out
+                                                Sign out
                                             </NuxtLink>
                                         </li>
                                     </ul>
@@ -413,508 +413,6 @@ const removeMessage = (value) => {
                 </div>
             </div>
 
-            <!-- horizontal menu -->
-            <ul
-                class="horizontal-menu hidden border-t border-[#ebedf2] bg-white px-6 py-1.5 font-semibold text-black rtl:space-x-reverse dark:border-[#191e3a] dark:bg-[#0e1726] dark:text-white-dark lg:space-x-1.5 xl:space-x-8">
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-dashboard class="shrink-0" />
-
-                            <span class="px-2">{{ $t('dashboard') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/">{{ $t('sales') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/analytics">{{ $t('analytics') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/finance">{{ $t('finance') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/crypto">{{ $t('crypto') }}</NuxtLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-apps class="shrink-0" />
-
-                            <span class="px-2">{{ $t('apps') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/apps/chat">{{ $t('chat') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/mailbox">{{ $t('mailbox') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/todolist">{{ $t('todo_list') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/notes">{{ $t('notes') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/scrumboard">{{ $t('scrumboard') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/contacts">{{ $t('contacts') }}</NuxtLink>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('invoice') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/apps/invoice/list">{{ $t('list') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/apps/invoice/preview">{{ $t('preview') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/apps/invoice/add">{{ $t('add') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/apps/invoice/edit">{{ $t('edit') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <NuxtLink to="/apps/calendar">{{ $t('calendar') }}</NuxtLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-components class="shrink-0" />
-                            <span class="px-2">{{ $t('components') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/components/tabs">{{ $t('tabs') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/accordions">{{ $t('accordions') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/modals">{{ $t('modals') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/cards">{{ $t('cards') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/carousel">{{ $t('carousel') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/countdown">{{ $t('countdown') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/counter">{{ $t('counter') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/sweetalert">{{ $t('sweet_alerts') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/timeline">{{ $t('timeline') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/notifications">{{ $t('notifications') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/media-object">{{ $t('media_object') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/list-group">{{ $t('list_group') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/pricing-table">{{ $t('pricing_tables') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/components/lightbox">{{ $t('lightbox') }}</NuxtLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-elements class="shrink-0" />
-                            <span class="px-2">{{ $t('elements') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/elements/alerts">{{ $t('alerts') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/avatar">{{ $t('avatar') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/badges">{{ $t('badges') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/breadcrumbs">{{ $t('breadcrumbs') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/buttons">{{ $t('buttons') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/buttons-group">{{ $t('button_groups') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/color-library">{{ $t('color_library') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/dropdown">{{ $t('dropdown') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/infobox">{{ $t('infobox') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/jumbotron">{{ $t('jumbotron') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/loader">{{ $t('loader') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/pagination">{{ $t('pagination') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/popovers">{{ $t('popovers') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/progress-bar">{{ $t('progress_bar') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/search">{{ $t('search') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/tooltips">{{ $t('tooltips') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/treeview">{{ $t('treeview') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/elements/typography">{{ $t('typography') }}</NuxtLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-datatables class="shrink-0" />
-                            <span class="px-2">{{ $t('tables') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/tables">{{ $t('tables') }}</NuxtLink>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('datatables') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/datatables/basic">{{ $t('basic') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/advanced">{{ $t('advanced') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/skin">{{ $t('skin') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/order-sorting">{{ $t('order_sorting') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/columns-filter">{{ $t('columns_filter') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/multi-column">{{ $t('multi_column') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/multiple-tables">{{ $t('multiple_tables') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/alt-pagination">{{ $t('alt_pagination') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/checkbox">{{ $t('checkbox') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/range-search">{{ $t('range_search') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/export">{{ $t('export') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/sticky-header">{{ $t('sticky_header') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/clone-header">{{ $t('clone_header') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/datatables/column-chooser">{{ $t('column_chooser') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-forms class="shrink-0" />
-                            <span class="px-2">{{ $t('forms') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/forms/basic">{{ $t('basic') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/input-group">{{ $t('input_group') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/layouts">{{ $t('layouts') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/validation">{{ $t('validation') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/input-mask">{{ $t('input_mask') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/select2">{{ $t('select2') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/touchspin">{{ $t('touchspin') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/checkbox-radio">{{ $t('checkbox_and_radio') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/switches">{{ $t('switches') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/wizards">{{ $t('wizards') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/file-upload">{{ $t('file_upload') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/quill-editor">{{ $t('quill_editor') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/markdown-editor">{{ $t('markdown_editor') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/date-picker">{{ $t('date_and_range_picker') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/forms/clipboard">{{ $t('clipboard') }}</NuxtLink>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-pages class="shrink-0" />
-                            <span class="px-2">{{ $t('pages') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('users') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/users/profile">{{ $t('profile') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/users/user-account-settings">{{ $t('account_settings') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/knowledge-base">{{ $t('knowledge_base') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/contact-us-boxed" target="_blank">{{ $t('contact_us_boxed') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/contact-us-cover" target="_blank">{{ $t('contact_us_cover') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/faq">FAQ</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/coming-soon-boxed" target="_blank">{{ $t('coming_soon_boxed') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/coming-soon-cover" target="_blank">{{ $t('coming_soon_cover') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/pages/maintenence" target="_blank">{{ $t('maintenence') }}</NuxtLink>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('error') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/pages/error404" target="_blank">{{ $t('404') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/pages/error500" target="_blank">{{ $t('500') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/pages/error503" target="_blank">{{ $t('503') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('login') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/auth/cover-login" target="_blank">{{ $t('login_cover') }}</NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/auth/boxed-signin" target="_blank">{{ $t('login_boxed') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('register') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/auth/cover-register" target="_blank">{{ $t('register_cover') }}
-                                    </NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/auth/boxed-signup" target="_blank">{{ $t('register_boxed') }}</NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('password_recovery') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/auth/cover-password-reset" target="_blank">{{ $t('recover_id_cover') }}
-                                    </NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/auth/boxed-password-reset" target="_blank">{{ $t('recover_id_boxed') }}
-                                    </NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="relative">
-                            <a href="javascript:;">{{ $t('lockscreen') }}
-                                <div class="-rotate-90 ltr:ml-auto rtl:mr-auto rtl:rotate-90">
-                                    <icon-caret-down />
-                                </div>
-                            </a>
-                            <ul
-                                class="absolute top-0 z-[10] hidden min-w-[180px] rounded bg-white p-0 py-2 text-dark shadow ltr:left-[95%] rtl:right-[95%] dark:bg-[#1b2e4b] dark:text-white-dark">
-                                <li>
-                                    <NuxtLink to="/auth/cover-lockscreen" target="_blank">{{ $t('unlock_cover') }}
-                                    </NuxtLink>
-                                </li>
-                                <li>
-                                    <NuxtLink to="/auth/boxed-lockscreen" target="_blank">{{ $t('unlock_boxed') }}
-                                    </NuxtLink>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu nav-item relative">
-                    <a href="javascript:;" class="nav-link">
-                        <div class="flex items-center">
-                            <icon-menu-more class="shrink-0" />
-
-                            <span class="px-2">{{ $t('more') }}</span>
-                        </div>
-                        <div class="right_arrow">
-                            <icon-caret-down />
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <NuxtLink to="/dragndrop">{{ $t('drag_and_drop') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/charts">{{ $t('charts') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/font-icons">{{ $t('font_icons') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <NuxtLink to="/widgets">{{ $t('widgets') }}</NuxtLink>
-                        </li>
-                        <li>
-                            <a href="https://vristo.sbthemes.com" target="_blank">{{ $t('documentation') }}</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
         </div>
     </header>
 </template>

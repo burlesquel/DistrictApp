@@ -1211,9 +1211,8 @@ const showMessage = (msg = '', type = 'success') => {
             <div class="panel dark:gray-50 absolute z-10 hidden h-full w-[250px] max-w-full flex-none space-y-3 overflow-hidden p-4 ltr:rounded-r-none rtl:rounded-l-none xl:relative xl:block xl:h-auto ltr:xl:rounded-r-md rtl:xl:rounded-l-md"
                 :class="{ '!block': isShowMailMenu }">
                 <div class="flex h-full flex-col pb-16">
-                    <div class="pb-5">
-                        <button class="btn btn-primary w-full" type="button" @click="openMail('add', null)">New
-                            Message</button>
+                    <div v-if="store.user.isDirector" class="pb-5">
+                        <button class="btn btn-primary w-full" type="button" @click="openMail('add', null)">New Message</button>
                     </div>
                     <client-only>
                         <perfect-scrollbar :options="{
@@ -1223,12 +1222,9 @@ const showMessage = (msg = '', type = 'success') => {
                             <div class="space-y-1">
                                 <button type="button"
                                     class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': !isEdit && selectedTab === 'inbox',
-                                    }" @click="tabChanged('inbox')">
+                                    :class="{'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': !isEdit && selectedTab === 'inbox',}" @click="tabChanged('inbox')">
                                     <div class="flex items-center">
                                         <icon-mail class="w-5 h-5 shrink-0" />
-
                                         <div class="ltr:ml-3 rtl:mr-3">Inbox</div>
                                     </div>
                                     <div
@@ -1629,83 +1625,158 @@ const showMessage = (msg = '', type = 'success') => {
                     </div>
                     <div class="h-px border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
                     <template v-if="pagedMails.length">
-                        <div class="table-responsive min-h-[300px] grow overflow-y-auto">
-                            <table>
-                                <tbody>
-                                    <template v-for="mail in pagedMails" :key="mail.id">
-                                        <tr class="cursor-pointer" @click="selectMail(mail)">
-                                            <td>
-                                                <div class="flex items-center whitespace-nowrap">
-                                                    <div class="ltr:mr-3 rtl:ml-3">
-                                                        <input type="checkbox" :id="`chk-${mail.id}`" v-model.number="ids"
-                                                            :value="mail.id" @click="$event.stopPropagation()"
-                                                            class="form-checkbox" />
+                        <div class="min-h-[400px] sm:min-h-[300px] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                            <template v-for="note in pagedMails" :key="note.id">
+                                <div class="panel pb-12" :class="{
+                                    'bg-primary-light shadow-primary': note.tag === 'personal',
+                                    'bg-warning-light shadow-warning': note.tag === 'work',
+                                    'bg-info-light shadow-info': note.tag === 'social',
+                                    'bg-danger-light shadow-danger': note.tag === 'important',
+                                    'dark:shadow-dark': !note.tag,
+                                }">
+                                    <div class="min-h-[142px]">
+                                        <div class="flex justify-between">
+                                            <div class="flex w-max items-center">
+                                                <div class="flex-none">
+                                                    <div v-if="note.thumb"
+                                                        class="rounded-full bg-gray-300 p-0.5 dark:bg-gray-700">
+                                                        <img class="h-8 w-8 rounded-full object-cover"
+                                                            :src="`/assets/images/${note.thumb}`" />
                                                     </div>
-                                                    <div class="ltr:mr-3 rtl:ml-3">
-                                                        <client-only>
-                                                            <button type="button" v-tippy:star
-                                                                class="flex items-center enabled:hover:text-warning disabled:opacity-60"
-                                                                :class="{ 'text-warning': mail.isStar }"
-                                                                @click.stop="setStar(mail.id)"
-                                                                :disabled="selectedTab === 'trash'">
-                                                                <icon-star :class="{ 'fill-warning': mail.isStar }" />
-                                                            </button>
-                                                            <tippy target="star">Star</tippy>
-                                                        </client-only>
+                                                    <div v-if="!note.thumb && note.user"
+                                                        class="grid h-8 w-8 place-content-center rounded-full bg-gray-300 text-sm font-semibold dark:bg-gray-700">
+                                                        {{ note.user.charAt(0) + '' + note.user.charAt(note.user.indexOf('')
+                                                            + 1) }}
                                                     </div>
-                                                    <div class="ltr:mr-3 rtl:ml-3">
-                                                        <client-only>
-                                                            <button type="button" v-tippy:important
-                                                                class="flex rotate-90 items-center enabled:hover:text-primary disabled:opacity-60"
-                                                                :class="{ 'text-primary': mail.isImportant }"
-                                                                @click.stop="setImportant(mail.id)"
-                                                                :disabled="selectedTab === 'trash'">
-                                                                <icon-bookmark :bookmark="false" class="w-4.5 h-4.5"
-                                                                    :class="{ 'fill-primary': mail.isImportant }" />
-                                                            </button>
-                                                            <tippy target="important">Important</tippy>
-                                                        </client-only>
-                                                    </div>
-                                                    <div class="whitespace-nowrap font-semibold dark:text-gray-300" :class="{
-                                                        'font-normal text-gray-500 dark:!text-gray-500': !mail.isUnread,
-                                                    }">
-                                                        {{ mail.firstName ? mail.firstName + ' ' + mail.lastName :
-                                                            mail.email }}
+                                                    <div v-if="!note.thumb && !note.user"
+                                                        class="grid h-8 w-8 place-content-center rounded-full bg-gray-300 dark:bg-gray-700">
+                                                        <icon-user class="w-4.5 h-4.5" />
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div
-                                                    class="line-clamp-1 min-w-[300px] overflow-hidden font-medium text-white-dark">
-                                                    <span :class="{
-                                                        'font-semibold text-gray-800 dark:text-gray-300': mail.isUnread,
-                                                    }">
-                                                        <span>{{ mail.title }}</span> &minus; <span>{{
-                                                            mail.displayDescription }}</span></span>
+                                                <div class="ltr:ml-2 rtl:mr-2">
+                                                    <div class="font-semibold">{{ note.firstName }}</div>
+                                                    <div class="text-sx text-white-dark">{{ note.date }}</div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="flex items-center">
-                                                    <div class="h-2 w-2 rounded-full" :class="{
-                                                        'bg-primary': mail.group === 'personal',
-                                                        'bg-warning': mail.group === 'work',
-                                                        'bg-success': mail.group === 'social',
-                                                        'bg-danger': mail.group === 'private',
-                                                    }"></div>
-                                                    <template v-if="mail.attachments">
-                                                        <div class="ltr:ml-4 rtl:mr-4">
-                                                            <icon-paperclip />
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </td>
-                                            <td class="whitespace-nowrap font-medium ltr:text-right rtl:text-left">
-                                                {{ showTime(mail) }}
-                                            </td>
-                                        </tr>
-                                    </template>
-                                </tbody>
-                            </table>
+                                            </div>
+                                            <div class="dropdown">
+                                                <client-only>
+                                                    <Popper
+                                                        :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'"
+                                                        offsetDistance="0">
+                                                        <button type="button" class="text-primary">
+                                                            <icon-horizontal-dots
+                                                                class="rotate-90 opacity-70 hover:opacity-100" />
+                                                        </button>
+                                                        <template #content="{ close }">
+                                                            <ul @click="close()" class="text-sm font-medium">
+                                                                <li>
+                                                                    <a href="javascript:;" class="w-full"
+                                                                        @click="editNote(note)">
+                                                                        <icon-pencil
+                                                                            class="w-4 h-4 ltr:mr-3 rtl:ml-3 shrink-0" />
+
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;" class="w-full"
+                                                                        @click="deleteNoteConfirm(note)">
+                                                                        <icon-trash-lines
+                                                                            class="w-4.5 h-4.5 ltr:mr-3 rtl:ml-3 shrink-0" />
+                                                                        Delete
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;" class="w-full"
+                                                                        @click="viewNote(note)">
+                                                                        <icon-eye
+                                                                            class="w-4.5 h-4.5 ltr:mr-3 rtl:ml-3 shrink-0" />
+
+                                                                        View
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </template>
+                                                    </Popper>
+                                                </client-only>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 class="mt-4 font-semibold">{{ note.title }}</h4>
+                                            <p class="mt-2 text-white-dark">{{ note.description }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="absolute bottom-5 left-0 w-full px-5">
+                                        <div class="mt-2 flex items-center justify-between">
+                                            <div class="dropdown">
+                                                <client-only>
+                                                    <Popper
+                                                        :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'"
+                                                        offsetDistance="0">
+                                                        <button type="button" :class="{
+                                                            'text-primary': note.tag === 'personal',
+                                                            'text-warning': note.tag === 'work',
+                                                            'text-info': note.tag === 'social',
+                                                            'text-danger': note.tag === 'important',
+                                                        }">
+                                                            <icon-square-rotated :class="{
+                                                                'fill-primary': note.tag === 'personal',
+                                                                'fill-warning': note.tag === 'work',
+                                                                'fill-info': note.tag === 'social',
+                                                                'fill-danger': note.tag === 'important',
+                                                            }" />
+                                                        </button>
+                                                        <template #content="{ close }">
+                                                            <ul @click="close()">
+                                                                <li>
+                                                                    <a href="javascript:;"
+                                                                        @click="setTag(note, 'personal')">
+                                                                        <icon-square-rotated
+                                                                            class="ltr:mr-2 rtl:ml-2 fill-primary text-primary" />
+                                                                        Personal
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;" @click="setTag(note, 'work')">
+                                                                        <icon-square-rotated
+                                                                            class="ltr:mr-2 rtl:ml-2 fill-warning text-warning" />
+                                                                        Work
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;" @click="setTag(note, 'social')">
+                                                                        <icon-square-rotated
+                                                                            class="ltr:mr-2 rtl:ml-2 fill-info text-info" />
+                                                                        Social
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="javascript:;"
+                                                                        @click="setTag(note, 'important')">
+                                                                        <icon-square-rotated
+                                                                            class="ltr:mr-2 rtl:ml-2 fill-danger text-danger" />
+                                                                        Important
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </template>
+                                                    </Popper>
+                                                </client-only>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <button type="button" class="text-danger" @click="deleteNoteConfirm(note)">
+                                                    <icon-trash-lines />
+                                                </button>
+                                                <button type="button" class="group text-warning ltr:ml-2 rtl:mr-2"
+                                                    @click="setFav(note)">
+                                                    <icon-star class="w-4.5 h-4.5 group-hover:fill-warning"
+                                                        :class="{ 'fill-warning': note.isFav }" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </template>
                     <template v-if="!pagedMails.length">
