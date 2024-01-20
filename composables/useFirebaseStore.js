@@ -137,23 +137,44 @@ export default function () {
         if(typeof district_id !== "string"){
             district_id = store.user.districtId
         }
-        console.log("GETTING DISTRICT META WITH: ", district_id)
-        const docRef = doc($firestore, "district", district_id)
-        const district = (await getDoc(docRef)).data()
+        const districtRef = doc($firestore, "district", district_id)
+        const district = (await getDoc(districtRef)).data()
+        const countyRef = doc($firestore, "county", district.county_id)
+        const county = (await getDoc(countyRef)).data()
+        const cityRef = doc($firestore, "city", district.city_id)
+        const city = (await getDoc(cityRef)).data()
         const numOfPeopleSnapshot = await getCountFromServer(query(collection($firestore, 'users'), where('districtId', '==', district_id)))
         const numOfPeople = numOfPeopleSnapshot.data().count
         let director;
-        if(district.directorId){
-            const directorRef = doc($firestore, "user", district.directorId)
+        console.log(district);
+        if(district.director_id){
+            const directorRef = doc($firestore, "users", district.director_id)
             director = (await getDoc(directorRef)).data()
         }
+        console.log(director);
         return {
             ...district,
+            city,
+            county,
             numOfPeople,
             director
         }
+    }
+
+    async function updateDistrict(district_id, data={}){
+        const docRef = doc($firestore, "district", district_id)
+        await updateDoc(docRef, data)
+    }
+
+    async function updateDistrictPreview(district_id, file){
+        let url = await uploadPhoto("images/district-previews", district_id, file)
+        await updateDistrict(district_id, {previewURL:url})
+    }
+
+    async function createPost(data={}){
         
     }
+
 
     return {
         createUser,
@@ -166,7 +187,7 @@ export default function () {
         getDistricts,
         selectDistrict,
         getDistrictMeta,
-
+        updateDistrictPreview,
         setCounties,
         setDistricts
     }
