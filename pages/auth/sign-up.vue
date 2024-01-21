@@ -12,19 +12,20 @@ const { registerUser, authorizeWithGoogle } = useFirebaseAuth()
 definePageMeta({
     layout: 'app-auth',
 });
-const onRegister = (e) => {
+const onRegister = async (e) => {
     const { name, email, password } = e.target
-    registerUser(email.value, password.value).catch(err => {
-        console.log(err.message);
-        const toast = Swal.mixin({
-            toast:true,
-            position:"bottom-start",
-            showConfirmButton:false,
-            timer:3000,
-            title:errors[err.code]
-        });
-        toast.fire()
-    })
+    // registerUser(email.value, password.value).catch(err => {
+    //     console.log(err.message);
+    //     const toast = Swal.mixin({
+    //         toast:true,
+    //         position:"bottom-start",
+    //         showConfirmButton:false,
+    //         timer:3000,
+    //         title:errors[err.code] ?? err.message
+    //     });
+    //     toast.fire()
+    // })
+    await registerUser(email.value, password.value, name.value)
 }
 
 const onGoogleAuth = authorizeWithGoogle

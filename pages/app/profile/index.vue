@@ -5,7 +5,7 @@ import { useAppStore } from '@/stores/index';
 import Swal from 'sweetalert2';
 useHead({ title: 'Account Setting' });
 const store = useAppStore();
-const {$auth} = useNuxtApp()
+const { $auth } = useNuxtApp()
 const { getAllCities, getCounties, getDistricts, updateUser, updateProfilePhoto } = useFirebaseStore()
 definePageMeta({
     layout: "app-default"
@@ -20,44 +20,44 @@ const selectedCounty = ref(`${city_id}-${county}`)
 const selectedDistrict = ref(store.user.districtId)
 
 let { data: cities, city_pending } = useAsyncData('cities', getAllCities, { server: false, lazy: false })
-let { data: counties, county_pending } = useAsyncData('counties',async () => {return await getCounties(selectedCity.value)}, { server: false, lazy: false, watch:[selectedCity]})
-let { data: districts, district_pending } = useAsyncData('districts', async () => {return await getDistricts(selectedCounty.value)}, { server: false, lazy: false, watch:[selectedCounty] })
+let { data: counties, county_pending } = useAsyncData('counties', async () => { return await getCounties(selectedCity.value) }, { server: false, lazy: false, watch: [selectedCity] })
+let { data: districts, district_pending } = useAsyncData('districts', async () => { return await getDistricts(selectedCounty.value) }, { server: false, lazy: false, watch: [selectedCounty] })
 
-async function onSave(){
+async function onSave() {
     console.log(selectedDistrict.value);
     await updateUser(store.user.id, {
-        districtId:selectedDistrict.value,
+        districtId: selectedDistrict.value,
         displayName: currentName.value,
-        phoneNumber:currentPhone.value,
-        job:currentJob.value
+        phoneNumber: currentPhone.value ?? "",
+        job: currentJob.value ?? ""
     })
     const toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-start',
-            showConfirmButton: false,
-            timer: 2000,
-            showCloseButton: false,
-        });
-        toast.fire({
-            title: "Your profile has been updated.",
-        });
+        toast: true,
+        position: 'bottom-start',
+        showConfirmButton: false,
+        timer: 2000,
+        showCloseButton: false,
+    });
+    toast.fire({
+        title: "Your profile has been updated.",
+    });
 }
 
 const imageInput = ref(null)
 
-async function onPhotoChange(e){
+async function onPhotoChange(e) {
     const file = e.target.files[0]
     await updateProfilePhoto(file)
     const toast = Swal.mixin({
-            toast: true,
-            position: 'bottom-start',
-            showConfirmButton: false,
-            timer: 2000,
-            showCloseButton: false,
-        });
-        toast.fire({
-            title: "Profile picture has been successfully updated.",
-        });
+        toast: true,
+        position: 'bottom-start',
+        showConfirmButton: false,
+        timer: 2000,
+        showCloseButton: false,
+    });
+    toast.fire({
+        title: "Profile picture has been successfully updated.",
+    });
 }
 
 </script>
@@ -108,24 +108,27 @@ async function onPhotoChange(e){
                     <TabPanels class="w-4/5">
                         <TabPanel>
                             <div>
-                                <form @submit.prevent="onSave" class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+                                <form @submit.prevent="onSave"
+                                    class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
                                     <h6 class="mb-5 text-lg font-bold">General Information</h6>
                                     <div class="flex flex-col sm:flex-row">
                                         <div class="mb-5 w-full sm:w-2/12 ltr:sm:mr-4 rtl:sm:ml-4 relative">
-                                            <input @input="onPhotoChange" ref="imageInput" hidden type="file" accept=".jpg,.png,.jpeg" class="w-100 h-100 absolute">
-                                            <img @click="imageInput.click()" :src="store.user.photoURL" alt=""
+                                            <input @input="onPhotoChange" ref="imageInput" hidden type="file"
+                                                accept=".jpg,.png,.jpeg" class="w-100 h-100 absolute">
+                                            <img @click="imageInput.click()"
+                                                :src="store.user.photoURL ?? '/app/images/avatar-placeholder.jpg'" alt=""
                                                 class="mx-auto h-20 w-20 rounded-full object-cover md:h-32 md:w-32" />
                                         </div>
                                         <div class="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2">
                                             <div>
                                                 <label for="name">Full Name</label>
-                                                <input required v-model="currentName" id="name" type="text" placeholder="Your full name"
-                                                    class="form-input"/>
+                                                <input required v-model="currentName" id="name" type="text"
+                                                    placeholder="Your full name" class="form-input" />
                                             </div>
                                             <div>
                                                 <label for="phone">Phone</label>
-                                                <input v-model="currentPhone" id="phone" type="text" placeholder="+1 (530) 555-12121"
-                                                    class="form-input"/>
+                                                <input v-model="currentPhone" id="phone" type="text"
+                                                    placeholder="+1 (530) 555-12121" class="form-input" />
                                             </div>
                                             <div>
                                                 <label for="email">Email</label>
@@ -134,30 +137,39 @@ async function onPhotoChange(e){
                                             </div>
                                             <div>
                                                 <label for="Job">Job</label>
-                                                <input v-model="currentJob" id="Job" type="text" placeholder="Your job" class="form-input" />
+                                                <input v-model="currentJob" id="Job" type="text" placeholder="Your job"
+                                                    class="form-input" />
                                             </div>
                                             <div>
                                                 <label for="web">City</label>
-                                                <span v-if="city_pending" class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
-                                                <select required v-model="selectedCity" v-else class="" name="city" id="">
+                                                <span v-if="city_pending"
+                                                    class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
+                                                <select v-else-if="cities" required v-model="selectedCity" class=""
+                                                    name="city" id="">
                                                     <option></option>
                                                     <option v-for="city in cities" :value="city.id">{{ city.name }}</option>
                                                 </select>
                                             </div>
                                             <div>
                                                 <label for="web">County</label>
-                                                <span v-if="county_pending" class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
-                                                <select required v-model="selectedCounty" v-else-if="counties" name="" id="">
+                                                <span v-if="county_pending"
+                                                    class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
+                                                <select v-else-if="counties" required v-model="selectedCounty" name=""
+                                                    id="">
                                                     <option value="Select a county"></option>
-                                                    <option v-for="county in counties" :value="county.id">{{ county.name }}</option>
+                                                    <option v-for="county in counties" :value="county.id">{{ county.name }}
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div>
                                                 <label for="web">District</label>
-                                                <span v-if="district_pending" class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
-                                                <select required v-model="selectedDistrict" v-else-if="districts" name="" id="">
+                                                <span v-if="district_pending"
+                                                    class="animate-spin border-4 border-transparent border-l-primary rounded-full w-10 h-10 inline-block align-middle m-auto mb-10"></span>
+                                                <select v-else-if="districts" required v-model="selectedDistrict" name=""
+                                                    id="">
                                                     <option value="">Select a district</option>
-                                                    <option v-for="district in districts" :value="district.id">{{ district.name }}</option>
+                                                    <option v-for="district in districts" :value="district.id">{{
+                                                        district.name }}</option>
                                                 </select>
                                             </div>
                                             <div class="mt-3 sm:col-span-2">
@@ -240,13 +252,12 @@ async function onPhotoChange(e){
                                         <h5 class="mb-4 text-lg font-semibold">Delete Account</h5>
                                         <p>Once you delete the account, there is no going back. Please be certain.</p>
                                         <button class="btn btn-danger btn-delete-account">Delete my account</button>
-                                    </div>
                                 </div>
                             </div>
-                        </TabPanel>
-                    </TabPanels>
-                </div>
-            </TabGroup>
-        </div>
+                        </div>
+                    </TabPanel>
+                </TabPanels>
+            </div>
+        </TabGroup>
     </div>
-</template>
+</div></template>

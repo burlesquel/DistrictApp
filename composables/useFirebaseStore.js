@@ -4,11 +4,11 @@ export default function () {
     const {uploadPhoto} = useFirebaseStorage()
     const store = useAppStore()
 
-    async function createUser(id, email, { ...args }) {
+    async function createUser(id, email, data={}) {
         const docRef = doc($firestore, "users", id)
         await setDoc(docRef, {
             email,
-            ...args,
+            ...data,
             role: 0
         })
     }

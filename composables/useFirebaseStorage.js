@@ -1,5 +1,4 @@
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-
 export default function () {
     const { $storage } = useNuxtApp()
 

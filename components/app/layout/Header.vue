@@ -376,7 +376,7 @@ const removeMessage = (value) => {
                                             <div class="flex items-center px-4 py-4">
                                                 <div class="flex-none">
                                                     <img class="h-10 w-10 rounded-md object-cover"
-                                                        :src="store.user.photoURL" alt="" />
+                                                        :src="store.user.photoURL ?? '/app/images/avatar-placeholder.jpg'" alt="" />
                                                 </div>
                                                 <div class="truncate ltr:pl-4 rtl:pr-4">
                                                     <NuxtLink to="/app/profile" class="text-base block text-black hover:text-primary dark:text-dark-light dark:hover:text-white cursor-pointer">
