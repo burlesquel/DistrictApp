@@ -74,9 +74,7 @@ const store = useAppStore();
 const showTopButton = ref(false);
 onBeforeMount(() => {
     // set default settings
-    
     appSetting.init();
-
     window.onscroll = () => {
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
             showTopButton.value = true;
@@ -84,7 +82,6 @@ onBeforeMount(() => {
             showTopButton.value = false;
         }
     };
-
     const eleanimation = document.querySelector('.animation');
     if(eleanimation){
         eleanimation.addEventListener('animationend', function () {

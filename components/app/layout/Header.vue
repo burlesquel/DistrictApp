@@ -376,10 +376,12 @@ const removeMessage = (value) => {
                                             <div class="flex items-center px-4 py-4">
                                                 <div class="flex-none">
                                                     <img class="h-10 w-10 rounded-md object-cover"
-                                                        :src="store.user.photoURL ?? '/app/images/avatar-placeholder.jpg'" alt="" />
+                                                        :src="store.user.photoURL ?? '/app/images/avatar-placeholder.jpg'"
+                                                        alt="" />
                                                 </div>
                                                 <div class="truncate ltr:pl-4 rtl:pr-4">
-                                                    <NuxtLink to="/app/profile" class="text-base block text-black hover:text-primary dark:text-dark-light dark:hover:text-white cursor-pointer">
+                                                    <NuxtLink to="/app/profile"
+                                                        class="text-base block text-black hover:text-primary dark:text-dark-light dark:hover:text-white cursor-pointer">
                                                         {{ store.user.displayName }}
                                                     </NuxtLink>
                                                     <span class="text-black/60 dark:text-dark-light/60"
@@ -400,7 +402,8 @@ const removeMessage = (value) => {
                                             </NuxtLink>
                                         </li>
                                         <li class="border-t border-white-light dark:border-white-light/10">
-                                            <NuxtLink class="!py-3 text-danger cursor-pointer" @click="nuxtApp.$auth.signOut(); close()">
+                                            <NuxtLink class="!py-3 text-danger cursor-pointer"
+                                                @click="nuxtApp.$auth.signOut(); close()">
                                                 <icon-logout class="h-4.5 w-4.5 shrink-0 rotate-90 ltr:mr-2 rtl:ml-2" />
                                                 Sign out
                                             </NuxtLink>
@@ -414,5 +417,4 @@ const removeMessage = (value) => {
             </div>
 
         </div>
-    </header>
-</template>
+    </header></template>

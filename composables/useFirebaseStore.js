@@ -1,10 +1,11 @@
-import { setDoc, getDoc, doc, getDocs, updateDoc, collection, getCountFromServer, writeBatch, query, where } from "firebase/firestore"
+import { setDoc, getDoc, addDoc, doc, getDocs, updateDoc, collection, getCountFromServer, writeBatch, query, where,limit, startAfter, orderBy, serverTimestamp } from "firebase/firestore"
+
 export default function () {
     const { $firestore, $auth } = useNuxtApp()
-    const {uploadPhoto} = useFirebaseStorage()
+    const { uploadPhoto } = useFirebaseStorage()
     const store = useAppStore()
 
-    async function createUser(id, email, data={}) {
+    async function createUser(id, email, data = {}) {
         const docRef = doc($firestore, "users", id)
         await setDoc(docRef, {
             email,
@@ -13,7 +14,7 @@ export default function () {
         })
     }
 
-    async function updateUser(id, data={}){
+    async function updateUser(id, data = {}) {
         const docRef = doc($firestore, "users", id)
         await updateDoc(docRef, data)
         await refreshUser()
@@ -24,10 +25,10 @@ export default function () {
         const docSnap = await getDoc(docRef);
         store.user = { id: docSnap.id, ...docSnap.data() }
     }
-    
+
     async function updateProfilePhoto(file) {
         const url = await uploadPhoto("images/profile-photos", store.user.id, file)
-        await updateUser(store.user.id, {photoURL:url})
+        await updateUser(store.user.id, { photoURL: url })
     }
 
     async function getUserById(id) {
@@ -49,9 +50,9 @@ export default function () {
             city.counties.forEach(async (county, index) => {
                 let county_id = `${city_id}-${index}`
                 let data = {
-                    id:county_id,
+                    id: county_id,
                     city_id,
-                    name:county.name
+                    name: county.name
                 }
                 let docRef = doc($firestore, 'county', county_id)
                 await setDoc(docRef, data)
@@ -133,8 +134,16 @@ export default function () {
         await refreshUser()
     }
 
-    async function getDistrictMeta(district_id){
-        if(typeof district_id !== "string"){
+    async function getMyDistrict() {
+        const district_id = store.user.districtId
+        const districtRef = doc($firestore, "district", district_id)
+        const district = (await getDoc(districtRef)).data()
+        return district
+    }
+
+
+    async function getDistrictMeta(district_id) {
+        if (typeof district_id !== "string") {
             district_id = store.user.districtId
         }
         const districtRef = doc($firestore, "district", district_id)
@@ -147,7 +156,7 @@ export default function () {
         const numOfPeople = numOfPeopleSnapshot.data().count
         let director;
         console.log(district);
-        if(district.director_id){
+        if (district.director_id) {
             const directorRef = doc($firestore, "users", district.director_id)
             director = (await getDoc(directorRef)).data()
         }
@@ -161,18 +170,45 @@ export default function () {
         }
     }
 
-    async function updateDistrict(district_id, data={}){
+    async function updateDistrict(district_id, data = {}) {
         const docRef = doc($firestore, "district", district_id)
         await updateDoc(docRef, data)
     }
 
-    async function updateDistrictPreview(district_id, file){
+    async function updateDistrictPreview(district_id, file) {
         let url = await uploadPhoto("images/district-previews", district_id, file)
-        await updateDistrict(district_id, {previewURL:url})
+        await updateDistrict(district_id, { previewURL: url })
     }
 
-    async function createPost(data={}){
-        
+    async function createPost(type, user_id, district_id, data = {}) {
+        const colRef = collection($firestore, "posts")
+        await addDoc(colRef, {
+            type,
+            user_id,
+            district_id,
+            ...data,
+            attendees: [],
+            created: serverTimestamp()
+        })
+    }
+
+    async function createEvent(data) {
+        await createPost("event", store.user.id, store.user.districtId, data)
+    }
+
+    async function getEvents(district_id, filter = {}) {
+        console.log("fetching events with, ", district_id);
+        const colRef = collection($firestore, "posts")
+        let q = query(colRef,
+            orderBy("created"),
+            where("district_id", "==", district_id),
+            where("type", "==", "event"),
+            limit(12))
+        if (filter.nextPage) {
+            let lastElem = filter.nextPage
+            q = query(q, startAfter(lastElem))
+        }
+        return await getDocs(q)
     }
 
 
@@ -186,9 +222,13 @@ export default function () {
         getCounties,
         getDistricts,
         selectDistrict,
+        getMyDistrict,
         getDistrictMeta,
         updateDistrictPreview,
         setCounties,
-        setDistricts
+        setDistricts,
+        createPost,
+        createEvent,
+        getEvents
     }
 }

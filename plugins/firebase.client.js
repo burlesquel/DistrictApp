@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from "firebase/auth"
 import { getFirestore } from 'firebase/firestore'
 import { getAnalytics } from "firebase/analytics"
-import {getStorage} from "firebase/storage"
+import { getStorage } from "firebase/storage"
 import { setDoc, getDoc, doc, getDocs, updateDoc, collection, WriteBatch, writeBatch, query, where } from "firebase/firestore"
 export default defineNuxtPlugin(async nuxtApp => {
     const config = useRuntimeConfig()
@@ -14,7 +14,17 @@ export default defineNuxtPlugin(async nuxtApp => {
         storageBucket: "mahalleapp-8c649.appspot.com",
         messagingSenderId: "965204160771",
         appId: "1:965204160771:web:b99e2d24cf0547cd44f936",
-        measurementId: "G-25R57CCPDQ"
+        measurementId: "G-25R57CCPDQ",
+
+        clientId: "965204160771-osnt55s8mph4h3n74l11cvl3qfc6unae.apps.googleusercontent.com",
+        scopes: [
+            "email",
+            "profile",
+            "https://www.googleapis.com/auth/calendar"
+        ],
+        discoveryDocs: [
+            "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"
+            ]
     };
 
     const app = initializeApp(firebaseConfig)
@@ -33,18 +43,18 @@ export default defineNuxtPlugin(async nuxtApp => {
     nuxtApp.vueApp.provide('storage', storage)
     nuxtApp.provide('storage', storage)
 
-     await new Promise( resolve => {
+    await new Promise(resolve => {
         auth.authStateReady().then(async res => {
-            if(!auth.currentUser){
+            if (!auth.currentUser) {
                 navigateTo("/auth/sign-in")
                 resolve(false)
             }
             const docRef = doc(firestore, "users", auth.currentUser.uid);
             const docSnap = await getDoc(docRef);
-            store.user = {id:docSnap.id,...docSnap.data()}
+            store.user = { id: docSnap.id, ...docSnap.data() }
             resolve(store.user)
         })
-     })
+    })
 
     auth.onAuthStateChanged(async function (user) {
         if (!auth.currentUser) {
@@ -52,7 +62,11 @@ export default defineNuxtPlugin(async nuxtApp => {
         }
         const docRef = doc(firestore, "users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
-        store.user = {id:docSnap.id,...docSnap.data()}
+        store.user = { id: docSnap.id, ...docSnap.data() }
+    //     google.calendar({
+    //         version:"v3",
+    //         auth:firebaseConfig.apiKey
+    //     })
     })
 
     console.log(auth.currentUser);

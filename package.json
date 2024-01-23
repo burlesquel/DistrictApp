@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "nuxt generate && firebase deploy"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.0",
@@ -24,15 +25,19 @@
   },
   "dependencies": {
     "@bhplugin/vue3-datatable": "^1.1.3",
+    "@google-cloud/local-auth": "^2.1.0",
     "@headlessui/vue": "^1.7.17",
     "@pinia/nuxt": "^0.5.1",
+    "@suadelabs/vue3-multiselect": "^1.0.2",
     "file-upload-with-preview": "^6.0.2",
     "firebase": "^10.7.1",
     "firebase-tools": "^13.0.3",
+    "googleapis": "^105.0.0",
     "maska": "^2.1.11",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.3",
     "tippy.vue": "^3.2.1",
+    "vue-flatpickr-component": "^11.0.3",
     "vue-height-collapsible": "^0.1.1",
     "vue3-apexcharts": "^1.4.4",
     "vue3-easymde": "^1.0.1",
