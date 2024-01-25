@@ -4,71 +4,10 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import 'vue3-quill/lib/vue3-quill.css';
 import Swal from 'sweetalert2';
 import { useAppStore } from '@/stores/index';
+import LoadingSpinner from '~/components/loading.vue';
 useHead({ title: 'Mailbox' });
 const store = useAppStore();
-const { getEvents, getMyDistrict } = useFirebaseStore()
-const exData = [
-    {
-        id: 1,
-        path: 'profile-15.jpeg',
-        firstName: 'Laurie',
-        lastName: 'Fox',
-        email: 'laurieFox@mail.com',
-        date: new Date(),
-        time: '2:00 PM',
-        title: 'Promotion Page',
-        displayDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar feugiat consequat. Duis lacus nibh, sagittis id varius vel, aliquet non augue.',
-        type: 'inbox',
-        isImportant: false,
-        isStar: true,
-        group: 'social',
-        isUnread: false,
-        attachments: [
-            {
-                name: 'Confirm File.txt',
-                size: '450KB',
-                type: 'file',
-            },
-            {
-                name: 'Important Docs.xml',
-                size: '2.1MB',
-                type: 'file',
-            },
-        ],
-        description: `
-                        <p class="mail-content"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
-                        <div class="gallery text-center">
-                            <img alt="image-gallery" src="${'/assets/images/carousel3.jpeg'}" class="mb-4 mt-4" style="width: 250px; height: 180px;" />
-                            <img alt="image-gallery" src="${'/assets/images/carousel2.jpeg'}" class="mb-4 mt-4" style="width: 250px; height: 180px;" />
-                            <img alt="image-gallery" src="${'/assets/images/carousel1.jpeg'}" class="mb-4 mt-4" style="width: 250px; height: 180px;" />
-                        </div>
-                        <p>Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        `,
-    },
-    {
-        id: 2,
-        path: 'profile-14.jpeg',
-        firstName: 'Andy',
-        lastName: 'King',
-        email: 'kingAndy@mail.com',
-        date: new Date(),
-        time: '6:28 PM',
-        title: 'Hosting Payment Reminder',
-        displayDescription:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar feugiat consequat. Duis lacus nibh, sagittis id varius vel, aliquet non augue.',
-        type: 'inbox',
-        isImportant: false,
-        isStar: false,
-        group: '',
-        isUnread: false,
-        description: `
-                        <p class="mail-content"> Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS. </p>
-                        <p>Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
-                        `,
-    }
-
-]
+const { getEvents, getMyDistrict, deleteEvent, attendEvent, leaveEvent } = useFirebaseStore()
 
 definePageMeta({
     layout: "app-default"
@@ -76,16 +15,28 @@ definePageMeta({
 const events = ref([])
 const currentPage = ref(0)
 const totalPageNum = ref(9999)
-const loading = ref(true)
+const loading = ref('init')
 const selectedEvent = ref(null);
 const selectedTab = ref('inbox');
 const district = ref(null)
+
 async function onNextPage() {
     currentPage.value = currentPage.value + 1
 }
-
-async function onPrevPage(){
+async function onPrevPage() {
     currentPage.value = currentPage.value - 1
+}
+
+async function refreshData() {
+    loading.value = true
+    let lastElem;
+    if (currentPage.value !== 0) {
+        let prevPage = events.value[currentPage.value ? currentPage.value - 1 : currentPage.value]
+        lastElem = prevPage[prevPage.length - 1]
+    }
+    let data = await getEvents(store.user.districtId, { nextPage: lastElem, type: selectedTab.value })
+    events.value[currentPage.value] = data.docs
+    loading.value = false
 }
 
 watch(currentPage, async function (toPage, fromPage) {
@@ -94,14 +45,14 @@ watch(currentPage, async function (toPage, fromPage) {
         loading.value = true
         let prevPage = events.value[fromPage]
         let lastElem = prevPage[prevPage.length - 1]
-        let data = await getEvents(store.user.districtId, {nextPage:lastElem})
-        if(data.size === 0){
+        let data = await getEvents(store.user.districtId, { nextPage: lastElem, type: selectedTab.value })
+        if (data.size === 0) {
             totalPageNum.value = fromPage
             currentPage.value = fromPage
             loading.value = false
             return;
         }
-        if(data.size < 12){
+        if (data.size < 12) {
             totalPageNum.value = toPage
         }
         events.value[toPage] = data.docs
@@ -109,20 +60,31 @@ watch(currentPage, async function (toPage, fromPage) {
     }
 })
 
-const currentEvents = computed(()=>{
-    let currentPageData = events.value[currentPage.value]
-    if(currentPageData){
-        return Array.from(currentPageData, data => data.data())
-    }
-    else{
-        return []
-    }
-    
+watch(selectedTab, async () => {
+    events.value = []
+    currentPage.value = 0
+    totalPageNum.value = 9999
+    loading.value = true
+    let data = await getEvents(store.user.districtId, { type: selectedTab.value })
+    events.value.push(data.docs)
+    loading.value = false
 })
 
-async function onPreviousPage() {
+const currentEvents = computed(() => {
+    let currentPageData = events.value[currentPage.value]
+    if (currentPageData) {
+        return Array.from(currentPageData, data => { return { ...data.data(), id: data.id } })
+    }
+    else {
+        return []
+    }
+})
 
-}
+watch(currentEvents, () => {
+    if (currentEvents.value.length < 12) {
+        totalPageNum.value = currentPage.value
+    }
+})
 
 onMounted(async () => {
     district.value = await getMyDistrict()
@@ -131,18 +93,41 @@ onMounted(async () => {
     loading.value = false
 })
 
+async function attendNote(note_id) {
+    await attendEvent(note_id)
+}
+
+async function leaveNote(note_id){
+    await leaveEvent(note_id)
+}
+
+async function deleteNote(note_id) {
+    const toast = Swal.mixin({
+        showConfirmButton: true,
+        showCancelButton: true,
+        text: "This post will be deleted irreversably. Are you sure?",
+    })
+    toast.fire().then(async action => {
+        if (action.isConfirmed) {
+            await deleteEvent(note_id)
+            await refreshData()
+        }
+    })
+
+}
+
 </script>
 
 
 <template>
     <div>
-        <div class="relative flex h-full gap-5 sm:h-[calc(100vh_-_150px)]">
+        <LoadingSpinner v-if="loading === 'init'" class="w-full h-[70vh]" />
+        <div v-else class="relative flex h-full gap-5 sm:h-[calc(100vh_-_150px)]">
             <div
                 class="panel dark:gray-50 absolute z-10 hidden h-full w-[250px] max-w-full flex-none space-y-3 overflow-hidden p-4 ltr:rounded-r-none rtl:rounded-l-none xl:relative xl:block xl:h-auto ltr:xl:rounded-r-md rtl:xl:rounded-l-md">
                 <div class="flex h-full flex-col pb-16">
-                    <div v-if="true" class="pb-5">
-                        <button class="btn btn-primary w-full" type="button" @click="openMail('add', null)">New
-                            Event</button>
+                    <div v-if="district.director_id === store.user.id" class="pb-5">
+                        <NuxtLink to="/app/create-event" class="btn btn-primary w-full" type="button">New Event</NuxtLink>
                     </div>
                     <client-only>
                         <perfect-scrollbar :options="{
@@ -152,11 +137,11 @@ onMounted(async () => {
                             <div class="space-y-1">
                                 <button type="button"
                                     class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{ 'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'inbox', }"
-                                    @click="tabChanged('inbox')">
+                                    :class="{ 'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'all', }"
+                                    @click="selectedTab = 'all'">
                                     <div class="flex items-center">
                                         <icon-mail class="w-5 h-5 shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">Inbox</div>
+                                        <div class="ltr:ml-3 rtl:mr-3">All Events</div>
                                     </div>
                                     <div
                                         class="whitespace-nowrap rounded-md bg-primary-light px-2 py-0.5 font-semibold dark:bg-[#060818]">
@@ -167,35 +152,33 @@ onMounted(async () => {
                                 <button type="button"
                                     class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
                                     :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'star',
-                                    }" @click="tabChanged('star')">
-                                    <div class="flex items-center">
-                                        <icon-star class="shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">Marked</div>
-                                    </div>
-                                </button>
-
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'sent_mail',
-                                    }" @click="tabChanged('sent_mail')">
-                                    <div class="flex items-center">
-                                        <icon-send class="shrink-0" />
-
-                                        <div class="ltr:ml-3 rtl:mr-3">Sent</div>
-                                    </div>
-                                </button>
-
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'spam',
-                                    }" @click="tabChanged('spam')">
+                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'incoming',
+                                    }" @click="selectedTab = 'incoming'">
                                     <div class="flex items-center">
                                         <icon-info-hexagon class="shrink-0" />
+                                        <div class="ltr:ml-3 rtl:mr-3">Incoming Events</div>
+                                    </div>
+                                </button>
 
-                                        <div class="ltr:ml-3 rtl:mr-3">Spam</div>
+                                <button type="button"
+                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
+                                    :class="{
+                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'attending',
+                                    }" @click="selectedTab = 'attending'">
+                                    <div class="flex items-center">
+                                        <icon-send class="shrink-0" />
+                                        <div class="ltr:ml-3 rtl:mr-3">Events I Will Attend</div>
+                                    </div>
+                                </button>
+
+                                <button type="button"
+                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
+                                    :class="{
+                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'outdated',
+                                    }" @click="selectedTab = 'outdated'">
+                                    <div class="flex items-center">
+                                        <icon-send class="shrink-0" />
+                                        <div class="ltr:ml-3 rtl:mr-3">Outdated Events</div>
                                     </div>
                                 </button>
                             </div>
@@ -203,15 +186,12 @@ onMounted(async () => {
                     </client-only>
                 </div>
             </div>
-            <div v-if="loading" class="w-full h-full flex items-center justify-center">
-                <span
-                    class="animate-[spin_3s_linear_infinite] border-8 border-r-warning border-l-primary border-t-danger border-b-success rounded-full w-16 h-16"></span>
-            </div>
+            <LoadingSpinner v-if="loading" class="w-full h-[70vh]" />
             <div v-else class="panel h-full flex-1 overflow-x-hidden p-0">
                 <div v-show="!selectedEvent" class="flex h-full flex-col">
                     <div class="h-px border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
-                    <div class="flex flex-col flex-wrap items-center justify-between px-4 pb-4 md:flex-row xl:w-auto">
-                        <div class="mt-4 grid w-full grid-cols-2 gap-3 sm:w-auto sm:grid-cols-4">
+                    <div class="flex flex-col flex-wrap items-center justify-between p-4 md:flex-row xl:w-auto">
+                        <div v-if="false" class="mt-4 grid w-full grid-cols-2 gap-3 sm:w-auto sm:grid-cols-4">
                             <button type="button" class="btn btn-outline-primary flex"
                                 :class="{ 'bg-primary text-white': selectedTab === 'personal' }"
                                 @click="tabChanged('personal')">
@@ -239,16 +219,16 @@ onMounted(async () => {
                                 Private
                             </button>
                         </div>
-                        <div class="mt-4 flex-1 md:flex-auto">
+                        <div class="d-flex flex-row justify-center items-center" v-else>
+                            <span class="font-bold text-[1rem]">EVENTS IN {{ district.name }}</span>
+                        </div>
+                        <div class="flex-1 md:flex-auto">
                             <div class="flex items-center justify-center md:justify-end">
-                                <div class="ltr:mr-3 rtl:ml-3">
-                                    1-5 of 10
-                                </div>
-                                <button @click="onPrevPage" :disabled="currentPage === 0" type="button" 
+                                <button @click="onPrevPage" :disabled="currentPage === 0" type="button"
                                     class="rounded-md bg-[#f4f4f4] p-1 enabled:hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-60 ltr:mr-3 rtl:ml-3 dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30">
                                     <icon-caret-down class="w-5 h-5 rtl:-rotate-90 rotate-90" />
                                 </button>
-                                <button @click="onNextPage" :disabled="currentPage === totalPageNum" type="button" 
+                                <button @click="onNextPage" :disabled="currentPage === totalPageNum" type="button"
                                     class="rounded-md bg-[#f4f4f4] p-1 enabled:hover:bg-primary-light disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white-dark/20 enabled:dark:hover:bg-white-dark/30">
                                     <icon-caret-down class="w-5 h-5 rtl:rotate-90 -rotate-90" />
                                 </button>
@@ -260,7 +240,7 @@ onMounted(async () => {
                         <div
                             class="min-h-[400px] sm:min-h-[300px] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                             <template v-for="note in currentEvents" :key="note.id">
-                                <div class="panel pb-12" :class="{
+                                <div class="panel" :class="{
                                     'bg-primary-light shadow-primary': note.tag === 'personal',
                                     'bg-warning-light shadow-warning': note.tag === 'work',
                                     'bg-info-light shadow-info': note.tag === 'social',
@@ -278,122 +258,54 @@ onMounted(async () => {
                                                 </div>
                                                 <div class="ltr:ml-2 rtl:mr-2">
                                                     <div class="font-semibold">{{ district.name }}</div>
-                                                    <div class="text-sx text-white-dark">{{ note.created.toDate().toDateString() }}</div>
+                                                    <div class="text-sx text-white-dark">{{
+                                                        note.created.toDate().toDateString() }}</div>
                                                 </div>
                                             </div>
-                                            <div class="dropdown">
-                                                <client-only>
-                                                    <Popper offsetDistance="0">
-                                                        <button type="button" class="text-primary">
-                                                            <icon-horizontal-dots
-                                                                class="rotate-90 opacity-70 hover:opacity-100" />
-                                                        </button>
-                                                        <template #content="{ close }">
-                                                            <ul @click="close()" class="text-sm font-medium">
-                                                                <li>
-                                                                    <a href="javascript:;" class="w-full"
-                                                                        @click="editNote(note)">
-                                                                        <icon-pencil
-                                                                            class="w-4 h-4 ltr:mr-3 rtl:ml-3 shrink-0" />
-
-                                                                        Edit
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;" class="w-full"
-                                                                        @click="deleteNoteConfirm(note)">
-                                                                        <icon-trash-lines
-                                                                            class="w-4.5 h-4.5 ltr:mr-3 rtl:ml-3 shrink-0" />
-                                                                        Delete
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;" class="w-full"
-                                                                        @click="viewNote(note)">
-                                                                        <icon-eye
-                                                                            class="w-4.5 h-4.5 ltr:mr-3 rtl:ml-3 shrink-0" />
-
-                                                                        View
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </template>
-                                                    </Popper>
-                                                </client-only>
-                                            </div>
                                         </div>
-                                        <div>
-                                            <h4 class="mt-4 font-semibold">{{ note.title }}</h4>
-                                            <p class="mt-2 text-white-dark line-clamp-4">{{ note.description }}</p>
+                                        <div class="flex flex-col gap-3 py-4">
+                                            <h4 class="font-semibold">{{ note.title }}</h4>
+                                            <p class="text-white-dark line-clamp-4">{{ note.description }} Lorem ipsum
+                                                dolor sit amet consectetur, adipisicing elit. Officiis amet, a quo quasi
+                                                molestias blanditiis nulla eaque nesciunt incidunt excepturi repellendus
+                                                modi temporibus repellat impedit natus quaerat omnis magnam odit?</p>
+                                            <div class="flex flex-col font-semibold gap-1">
+                                                <span>
+                                                    <icon-clock class="text-danger inline" />
+                                                    {{ note.starts.toDate().toDateString() }}
+                                                </span>
+                                                <span>
+                                                    <icon-clock class="text-green-700 inline" />
+                                                    {{ note.ends.toDate().toDateString() }}
+                                                </span>
+                                            </div>
+                                            <img class="w-full h-40 object-cover"
+                                                :src="note.preview_url ?? '/app/images/event-placeholder.gif'" alt="">
                                         </div>
                                     </div>
-                                    <div class="absolute bottom-5 left-0 w-full px-5">
-                                        <div class="mt-2 flex items-center justify-between">
-                                            <div class="dropdown">
-                                                <client-only>
-                                                    <Popper
-                                                        :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'"
-                                                        offsetDistance="0">
-                                                        <button type="button" :class="{
-                                                            'text-primary': note.tag === 'personal',
-                                                            'text-warning': note.tag === 'work',
-                                                            'text-info': note.tag === 'social',
-                                                            'text-danger': note.tag === 'important',
-                                                        }">
-                                                            <icon-square-rotated :class="{
-                                                                'fill-primary': note.tag === 'personal',
-                                                                'fill-warning': note.tag === 'work',
-                                                                'fill-info': note.tag === 'social',
-                                                                'fill-danger': note.tag === 'important',
-                                                            }" />
-                                                        </button>
-                                                        <template #content="{ close }">
-                                                            <ul @click="close()">
-                                                                <li>
-                                                                    <a href="javascript:;"
-                                                                        @click="setTag(note, 'personal')">
-                                                                        <icon-square-rotated
-                                                                            class="ltr:mr-2 rtl:ml-2 fill-primary text-primary" />
-                                                                        Personal
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;" @click="setTag(note, 'work')">
-                                                                        <icon-square-rotated
-                                                                            class="ltr:mr-2 rtl:ml-2 fill-warning text-warning" />
-                                                                        Work
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;" @click="setTag(note, 'social')">
-                                                                        <icon-square-rotated
-                                                                            class="ltr:mr-2 rtl:ml-2 fill-info text-info" />
-                                                                        Social
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:;"
-                                                                        @click="setTag(note, 'important')">
-                                                                        <icon-square-rotated
-                                                                            class="ltr:mr-2 rtl:ml-2 fill-danger text-danger" />
-                                                                        Important
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </template>
-                                                    </Popper>
-                                                </client-only>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <button type="button" class="text-danger" @click="deleteNoteConfirm(note)">
-                                                    <icon-trash-lines />
+                                    <div class="mt-2 flex items-center justify-center px-4">
+                                        <div class="flex items-center">
+                                            <button title="Delete the event" v-if="district.director_id === store.user.id"
+                                                type="button" class="text-danger" @click="deleteNote(note.id)">
+                                                <icon-trash-lines class="w-7 h-7" />
+                                            </button>
+                                            <template v-else>
+                                                <button v-if="store.user.attending_events.includes(note.id)"
+                                                    @click="leaveNote(note.id)" type="button" title="Attend to this event"
+                                                    class="group text-danger ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
+                                                    <icon-x class="w-7 h-7 group-hover:fill-danger"
+                                                        :class="{ 'fill-danger': note.isFav }" />
+                                                        Leave
                                                 </button>
-                                                <button type="button" class="group text-warning ltr:ml-2 rtl:mr-2"
-                                                    @click="setFav(note)">
-                                                    <icon-star class="w-4.5 h-4.5 group-hover:fill-warning"
-                                                        :class="{ 'fill-warning': note.isFav }" />
+                                                <button v-else
+                                                    @click="attendNote(note.id)" type="button" title="Attend to this event"
+                                                    class="group text-primary ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
+                                                    <icon-square-check class="w-7 h-7 group-hover:fill-primary"
+                                                        :class="{ 'fill-primary': note.isFav }" />
+                                                        Attend
                                                 </button>
-                                            </div>
+                                            </template>
+
                                         </div>
                                     </div>
                                 </div>

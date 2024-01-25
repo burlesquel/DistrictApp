@@ -1,4 +1,6 @@
-import { setDoc, getDoc, addDoc, doc, getDocs, updateDoc, collection, getCountFromServer, writeBatch, query, where,limit, startAfter, orderBy, serverTimestamp } from "firebase/firestore"
+import { setDoc, getDoc, addDoc, doc, getDocs, updateDoc, collection, getCountFromServer, writeBatch, query, where, limit, startAfter, orderBy, arrayUnion, arrayRemove, serverTimestamp, Timestamp, documentId, deleteDoc } from "firebase/firestore"
+
+const TWO_WEEKS_IN_SECONDS = 14 * 24 * 60 * 60
 
 export default function () {
     const { $firestore, $auth } = useNuxtApp()
@@ -182,6 +184,12 @@ export default function () {
 
     async function createPost(type, user_id, district_id, data = {}) {
         const colRef = collection($firestore, "posts")
+        if (data.starts) {
+            data.starts = Timestamp.fromDate(new Date(data.starts))
+        }
+        if (data.ends) {
+            data.ends = Timestamp.fromDate(new Date(data.ends))
+        }
         await addDoc(colRef, {
             type,
             user_id,
@@ -197,18 +205,64 @@ export default function () {
     }
 
     async function getEvents(district_id, filter = {}) {
-        console.log("fetching events with, ", district_id);
+        let typeQuery = null
         const colRef = collection($firestore, "posts")
         let q = query(colRef,
-            orderBy("created"),
             where("district_id", "==", district_id),
-            where("type", "==", "event"),
-            limit(12))
+            where("type", "==", "event"))
+        switch (filter.type) { // all, incoming, attending, outdated
+            case "all":
+                q = query(q, orderBy("created", "desc"))
+                break;
+            case "incoming":
+                let twoWeeksLater = new Date()
+                twoWeeksLater.setDate(twoWeeksLater.getDate() + 14)
+                q = query(q, where('starts', "<", Timestamp.fromDate(twoWeeksLater)))
+                q = query(q, where('starts', ">", Timestamp.fromDate(new Date())))
+                q = query(q, orderBy('starts'))
+                q = query(q, orderBy("created", "desc"))
+                break;
+            case "attending":
+                let attendingEventIds = Array.isArray(store.user.attending_events) && store.user.attending_events.length > 0 ? store.user.attending_events : ["dummy_id"]
+                if (Array.isArray(attendingEventIds)) {
+                    q = query(q, where(documentId(), "in", attendingEventIds))
+                    q = query(q, orderBy(documentId()))
+                }
+                break;
+            case "outdated":
+                q = query(q, where('ends', "<", Timestamp.fromDate(new Date())))
+                q = query(q, orderBy('ends'))
+                q = query(q, orderBy("created", "desc"))
+                break;
+        }
+
+        q = query(q, limit(12))
         if (filter.nextPage) {
             let lastElem = filter.nextPage
             q = query(q, startAfter(lastElem))
         }
         return await getDocs(q)
+    }
+
+    async function deleteEvent(post_id) {
+        let docRef = doc($firestore, "posts", post_id)
+        await deleteDoc(docRef)
+    }
+
+    async function attendEvent(post_id){
+        let meRef = doc($firestore, "users", store.user.id) 
+        await updateDoc(meRef, {
+            attending_events:arrayUnion(post_id)
+        })
+        await refreshUser()
+    }
+    
+    async function leaveEvent(post_id){
+        let meRef = doc($firestore, "users", store.user.id) 
+        await updateDoc(meRef, {
+            attending_events:arrayRemove(post_id)
+        })
+        await refreshUser()
     }
 
 
@@ -229,6 +283,9 @@ export default function () {
         setDistricts,
         createPost,
         createEvent,
-        getEvents
+        getEvents,
+        deleteEvent,
+        attendEvent,
+        leaveEvent
     }
 }

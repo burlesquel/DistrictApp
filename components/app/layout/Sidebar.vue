@@ -46,41 +46,6 @@
                                             </div>
                                         </NuxtLink>
                                     </li>
-                                    <li class="menu nav-item">
-                                        <button type="button" class="nav-link group w-full"
-                                            :class="{ active: activeDropdown === 'invoice' }"
-                                            @click="activeDropdown === 'invoice' ? (activeDropdown = null) : (activeDropdown = 'invoice')">
-                                            <div class="flex items-center">
-                                                <icon-menu-invoice class="shrink-0 group-hover:!text-primary" />
-
-                                                <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">invoice</span>
-                                            </div>
-                                            <div :class="{ '-rotate-90 rtl:rotate-90': activeDropdown !== 'invoice' }">
-                                                <icon-caret-down />
-                                            </div>
-                                        </button>
-                                        <vue-collapsible :isOpen="activeDropdown === 'invoice'">
-                                            <ul class="sub-menu text-gray-500">
-                                                <li>
-                                                    <NuxtLink to="/app" @click="toggleMobileMenu">list
-                                                    </NuxtLink>
-                                                </li>
-                                                <li>
-                                                    <NuxtLink to="/app" @click="toggleMobileMenu">preview
-                                                    </NuxtLink>
-                                                </li>
-                                                <li>
-                                                    <NuxtLink to="/app" @click="toggleMobileMenu">add
-                                                    </NuxtLink>
-                                                </li>
-                                                <li>
-                                                    <NuxtLink to="/app" @click="toggleMobileMenu">edit
-                                                    </NuxtLink>
-                                                </li>
-                                            </ul>
-                                        </vue-collapsible>
-                                    </li>
                                 </ul>
                             </li>
                             <h2
@@ -88,29 +53,6 @@
                                 <icon-minus class="hidden h-5 w-4 flex-none" />
                                 <span>user_interface</span>
                             </h2>
-                            <li class="menu nav-item">
-                                <button type="button" class="nav-link group w-full"
-                                    :class="{ active: activeDropdown === 'components' }"
-                                    @click="activeDropdown === 'components' ? (activeDropdown = null) : (activeDropdown = 'components')">
-                                    <div class="flex items-center">
-                                        <icon-menu-components class="shrink-0 group-hover:!text-primary" />
-
-                                        <span
-                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">components</span>
-                                    </div>
-                                    <div :class="{ '-rotate-90 rtl:rotate-90': activeDropdown !== 'components' }">
-                                        <icon-caret-down />
-                                    </div>
-                                </button>
-                                <vue-collapsible :isOpen="activeDropdown === 'components'">
-                                    <ul class="sub-menu text-gray-500">
-                                        <li>
-                                            <NuxtLink to="/app" @click="toggleMobileMenu">tabs
-                                            </NuxtLink>
-                                        </li>
-                                    </ul>
-                                </vue-collapsible>
-                            </li>
                         </ul>
                     </perfect-scrollbar>
                 </client-only>

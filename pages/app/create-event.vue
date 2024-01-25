@@ -2,13 +2,14 @@
 import { ref, onMounted } from 'vue';
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
+import Swal from 'sweetalert2';
 useHead({ title: 'Invoice Add' });
 definePageMeta({
     layout: "app-default"
 })
 
-const {uploadPhoto} = useFirebaseStorage()
-const {createEvent} = useFirebaseStore()
+const { uploadPhoto } = useFirebaseStorage()
+const { createEvent } = useFirebaseStore()
 function onImageSelect(e) {
     let file = e.target.files[0]
     console.log(file);
@@ -17,6 +18,7 @@ function onImageSelect(e) {
 }
 const imageInput = ref(null)
 const selectedImage = ref(null)
+const saving = ref(false)
 
 const selectedType = ref("outdoor")
 
@@ -28,22 +30,38 @@ const rangeCalendar = ref({
     position: 'auto left',
 });
 
-async function onSave(e){
-    const {title, image, address, description, notes} = e.target
+async function onSave(e) {
+    saving.value = true
+    const { title, image, address, description, notes } = e.target
     const data = {
-        title: title.value, 
-        address: address.value, 
-        description: description.value, 
+        title: title.value,
+        address: address.value,
+        description: description.value,
         notes: notes.value,
-        starts:startTime.value,
-        ends:endTime.value
+        starts: startTime.value,
+        ends: endTime.value
     }
-    if(image.files.length > 0){
+    if (image.files.length > 0) {
         const image_url = await uploadPhoto("images/posts", crypto.randomUUID(), image.files[0])
         data.preview_url = image_url
     }
+    const toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-start',
+        showConfirmButton: false,
+        timer: 2000,
+        showCloseButton: false,
+    });
     await createEvent(data)
-    console.log("event has been created..");
+    toast.fire({
+        title: "Event has been created.",
+    }).then(() => {
+        setTimeout(() => {
+            navigateTo("/app/events")
+        }, 400)
+    });
+
+
 }
 
 </script>
@@ -54,8 +72,7 @@ async function onSave(e){
         <div class="flex flex-col flex-wrap justify-between px-4">
             <div class="flex items-center">
                 <label for="title" class="mb-0 w-1/5 ltr:mr-2 rtl:ml-2">EVENT TITLE</label>
-                <input id="title" type="text" required name="title" class="form-input"
-                    placeholder="Event Title" />
+                <input id="title" type="text" required name="title" class="form-input" placeholder="Event Title" />
             </div>
             <div class="w-full py-4 flex items-center justify-between">
                 <input ref="imageInput" @input="onImageSelect" type="file" name="image" accept=".jpg,.jpeg,.png" id=""
@@ -114,12 +131,13 @@ async function onSave(e){
                     </div>
                     <div class="w-full mb-2">
                         <div class="text-lg mb-2">Notes:</div>
-                        <textarea id="notes" required name="notes" rows="3" class="form-textarea" placeholder="Notes about the event."></textarea>
+                        <textarea id="notes" required name="notes" rows="3" class="form-textarea"
+                            placeholder="Notes about the event."></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success gap-2">
+        <button :disabled="saving" type="submit" class="btn btn-success gap-2">
             <icon-save class="ltr:mr-2 rtl:ml-2 shrink-0" />
             Save
         </button>
