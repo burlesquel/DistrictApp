@@ -205,7 +205,6 @@ export default function () {
     }
 
     async function getEvents(district_id, filter = {}) {
-        let typeQuery = null
         const colRef = collection($firestore, "posts")
         let q = query(colRef,
             where("district_id", "==", district_id),
@@ -249,20 +248,50 @@ export default function () {
         await deleteDoc(docRef)
     }
 
-    async function attendEvent(post_id){
-        let meRef = doc($firestore, "users", store.user.id) 
+    async function attendEvent(post_id) {
+        let meRef = doc($firestore, "users", store.user.id)
         await updateDoc(meRef, {
-            attending_events:arrayUnion(post_id)
+            attending_events: arrayUnion(post_id)
         })
         await refreshUser()
     }
-    
-    async function leaveEvent(post_id){
-        let meRef = doc($firestore, "users", store.user.id) 
+
+    async function leaveEvent(post_id) {
+        let meRef = doc($firestore, "users", store.user.id)
         await updateDoc(meRef, {
-            attending_events:arrayRemove(post_id)
+            attending_events: arrayRemove(post_id)
         })
         await refreshUser()
+    }
+
+    async function getComments(post_id) {
+        const colRef = collection($firestore, "comments")
+        let q = query(colRef, where("post_id", "==", post_id), orderBy("created", "desc"))
+        let comments = await getDocs(q)
+        return comments.docs
+    }
+
+    async function createComment(post_id, user_id, text) {
+        let data = {
+            post_id,
+            user_id,
+            text,
+            created: serverTimestamp()
+        }
+        const colRef = collection($firestore, "comments")
+        await addDoc(colRef, data)
+    }
+
+    async function deleteComment(comment_id) {
+        let docRef = doc($firestore, "comments", comment_id)
+        await deleteDoc(docRef)
+    }
+
+    async function getUsersData(user_ids = []) {
+        const colRef = collection($firestore, "users")
+        let q = query(colRef, where(documentId(), "in", user_ids))
+        let users = await getDocs(q)
+        return users.docs
     }
 
 
@@ -286,6 +315,10 @@ export default function () {
         getEvents,
         deleteEvent,
         attendEvent,
-        leaveEvent
+        leaveEvent,
+        getComments,
+        createComment,
+        deleteComment,
+        getUsersData
     }
 }

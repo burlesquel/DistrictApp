@@ -5,6 +5,8 @@ import 'vue3-quill/lib/vue3-quill.css';
 import Swal from 'sweetalert2';
 import { useAppStore } from '@/stores/index';
 import LoadingSpinner from '~/components/loading.vue';
+import Event from '~/components/app/Event.vue';
+
 useHead({ title: 'Mailbox' });
 const store = useAppStore();
 const { getEvents, getMyDistrict, deleteEvent, attendEvent, leaveEvent } = useFirebaseStore()
@@ -16,7 +18,6 @@ const events = ref([])
 const currentPage = ref(0)
 const totalPageNum = ref(9999)
 const loading = ref('init')
-const selectedEvent = ref(null);
 const selectedTab = ref('inbox');
 const district = ref(null)
 
@@ -61,6 +62,7 @@ watch(currentPage, async function (toPage, fromPage) {
 })
 
 watch(selectedTab, async () => {
+    selectedEvent.value = null
     events.value = []
     currentPage.value = 0
     totalPageNum.value = 9999
@@ -93,15 +95,15 @@ onMounted(async () => {
     loading.value = false
 })
 
-async function attendNote(note_id) {
-    await attendEvent(note_id)
+async function onAttendEvent(event_id) {
+    await attendEvent(event_id)
 }
 
-async function leaveNote(note_id){
-    await leaveEvent(note_id)
+async function onLeaveEvent(event_id) {
+    await leaveEvent(event_id)
 }
 
-async function deleteNote(note_id) {
+async function onDeleteEvent(event_id) {
     const toast = Swal.mixin({
         showConfirmButton: true,
         showCancelButton: true,
@@ -109,10 +111,17 @@ async function deleteNote(note_id) {
     })
     toast.fire().then(async action => {
         if (action.isConfirmed) {
-            await deleteEvent(note_id)
+            await deleteEvent(event_id)
             await refreshData()
         }
     })
+}
+
+// The below code is for managing 
+
+const selectedEvent = ref(null);
+
+async function onComment() {
 
 }
 
@@ -239,16 +248,16 @@ async function deleteNote(note_id) {
                     <template v-if="currentEvents.length">
                         <div
                             class="min-h-[400px] sm:min-h-[300px] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                            <template v-for="note in currentEvents" :key="note.id">
-                                <div class="panel" :class="{
-                                    'bg-primary-light shadow-primary': note.tag === 'personal',
-                                    'bg-warning-light shadow-warning': note.tag === 'work',
-                                    'bg-info-light shadow-info': note.tag === 'social',
-                                    'bg-danger-light shadow-danger': note.tag === 'important',
-                                    'dark:shadow-dark': !note.tag,
+                            <template v-for="event in currentEvents" :key="event.id">
+                                <div @click="selectedEvent = event" class="panel cursor-pointer" :class="{
+                                    'bg-primary-light shadow-primary': event.tag === 'personal',
+                                    'bg-warning-light shadow-warning': event.tag === 'work',
+                                    'bg-info-light shadow-info': event.tag === 'social',
+                                    'bg-danger-light shadow-danger': event.tag === 'important',
+                                    'dark:shadow-dark': !event.tag,
                                 }">
                                     <div class="min-h-[142px]">
-                                        <div class="flex justify-between">
+                                        <div class="flex justify-between flex-col gap-4 ">
                                             <div class="flex w-max items-center">
                                                 <div class="flex-none">
                                                     <div class="rounded-full bg-gray-300 p-0.5 dark:bg-gray-700">
@@ -259,53 +268,58 @@ async function deleteNote(note_id) {
                                                 <div class="ltr:ml-2 rtl:mr-2">
                                                     <div class="font-semibold">{{ district.name }}</div>
                                                     <div class="text-sx text-white-dark">{{
-                                                        note.created.toDate().toDateString() }}</div>
+                                                        event.created.toDate().toDateString() }}</div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="flex flex-col gap-3 py-4">
-                                            <h4 class="font-semibold">{{ note.title }}</h4>
-                                            <p class="text-white-dark line-clamp-4">{{ note.description }} Lorem ipsum
+                                            <h4 class="font-semibold">{{ event.title }}</h4>
+                                            <p class="text-white-dark line-clamp-4">{{ event.description }} Lorem ipsum
                                                 dolor sit amet consectetur, adipisicing elit. Officiis amet, a quo quasi
                                                 molestias blanditiis nulla eaque nesciunt incidunt excepturi repellendus
                                                 modi temporibus repellat impedit natus quaerat omnis magnam odit?</p>
                                             <div class="flex flex-col font-semibold gap-1">
                                                 <span>
                                                     <icon-clock class="text-danger inline" />
-                                                    {{ note.starts.toDate().toDateString() }}
+                                                    {{ event.starts.toDate().toDateString() }}
                                                 </span>
                                                 <span>
                                                     <icon-clock class="text-green-700 inline" />
-                                                    {{ note.ends.toDate().toDateString() }}
+                                                    {{ event.ends.toDate().toDateString() }}
                                                 </span>
                                             </div>
                                             <img class="w-full h-40 object-cover"
-                                                :src="note.preview_url ?? '/app/images/event-placeholder.gif'" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="mt-2 flex items-center justify-center px-4">
-                                        <div class="flex items-center">
-                                            <button title="Delete the event" v-if="district.director_id === store.user.id"
-                                                type="button" class="text-danger" @click="deleteNote(note.id)">
-                                                <icon-trash-lines class="w-7 h-7" />
-                                            </button>
-                                            <template v-else>
-                                                <button v-if="store.user.attending_events.includes(note.id)"
-                                                    @click="leaveNote(note.id)" type="button" title="Attend to this event"
-                                                    class="group text-danger ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
-                                                    <icon-x class="w-7 h-7 group-hover:fill-danger"
-                                                        :class="{ 'fill-danger': note.isFav }" />
-                                                        Leave
-                                                </button>
-                                                <button v-else
-                                                    @click="attendNote(note.id)" type="button" title="Attend to this event"
-                                                    class="group text-primary ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
-                                                    <icon-square-check class="w-7 h-7 group-hover:fill-primary"
-                                                        :class="{ 'fill-primary': note.isFav }" />
-                                                        Attend
-                                                </button>
-                                            </template>
-
+                                                :src="event.preview_url ?? '/app/images/event-placeholder.gif'" alt="">
+                                            <div class="mt-2 flex items-center justify-center px-4">
+                                                <div class="flex items-center gap-4">
+                                                    <template v-if="district.director_id === store.user.id">
+                                                        <button title="Delete this event" type="button" class="text-danger"
+                                                            @click="onDeleteEvent(event.id)">
+                                                            <icon-trash-lines class="w-7 h-7" />
+                                                        </button>
+                                                        <NuxtLink :to="`/app/edit-event/${event.id}`"
+                                                            title="Edit this event" type="button" class="text-blue-600"
+                                                            @click="onDeleteEvent(event.id)">
+                                                            <icon-edit class="w-6 h-6" />
+                                                        </NuxtLink>
+                                                    </template>
+                                                    <template v-else>
+                                                        <button v-if="store.user.attending_events?.includes(event.id)"
+                                                            @click="onLeaveEvent(event.id)" type="button"
+                                                            title="Attend to this event"
+                                                            class="group text-danger ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
+                                                            <icon-x class="w-7 h-7 group-hover:fill-danger"
+                                                                :class="{ 'fill-danger': event.isFav }" />
+                                                            Leave
+                                                        </button>
+                                                        <button v-else @click="onAttendEvent(event.id)" type="button"
+                                                            title="Attend to this event"
+                                                            class="group text-primary ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
+                                                            <icon-square-check class="w-7 h-7 group-hover:fill-primary"
+                                                                :class="{ 'fill-primary': event.isFav }" />
+                                                            Attend
+                                                        </button>
+                                                    </template>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -317,201 +331,14 @@ async function deleteNote(note_id) {
                         </div>
                     </template>
                 </div>
-                <template v-if="selectedEvent">
-                    <div>
-                        <div class="flex flex-wrap items-center justify-between p-4">
-                            <div class="flex items-center">
-                                <button type="button" class="hover:text-primary ltr:mr-2 rtl:ml-2"
-                                    @click="selectedEvent = null">
-                                    <icon-arrow-left class="w-5 h-5 rotate-180" />
-                                </button>
-                                <h4 class="text-base font-medium ltr:mr-2 rtl:ml-2 md:text-lg">
-                                    {{ selectedEvent.title }}
-                                </h4>
-                                <div class="badge bg-info hover:top-0">{{ selectedEvent.type }}</div>
-                            </div>
-                            <div>
-                                <client-only>
-                                    <button type="button" v-tippy:print>
-                                        <icon-printer />
-                                    </button>
-                                    <tippy target="print">Print</tippy>
-                                </client-only>
-                            </div>
-                        </div>
-                        <div class="h-px border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
-                        <div class="relative p-4">
-                            <div class="flex flex-wrap">
-                                <div class="flex-shrink-0 ltr:mr-2 rtl:ml-2">
-                                    <img v-show="selectedEvent.path" :src="`/assets/images/${selectedEvent.path}`"
-                                        class="h-12 w-12 rounded-full object-cover" alt="avatar" />
-                                    <div v-show="!selectedEvent.path"
-                                        class="rounded-full border border-gray-300 p-3 dark:border-gray-800">
-                                        <icon-user class="w-5 h-5" />
-                                    </div>
-                                </div>
-                                <div class="flex-1 ltr:mr-2 rtl:ml-2">
-                                    <div class="flex items-center">
-                                        <div class="whitespace-nowrap text-lg ltr:mr-4 rtl:ml-4">
-                                            {{ selectedEvent.firstName ? selectedEvent.firstName + ' ' +
-                                                selectedEvent.lastName
-                                                : selectedEvent.email }}
-                                        </div>
-                                        <div>
-                                            <div v-show="selectedEvent.group" class="ltr:mr-4 rtl:ml-4">
-                                                <client-only>
-                                                    <div v-tippy:group class="h-2 w-2 rounded-full" :class="{
-                                                        'bg-primary': selectedEvent.group === 'personal',
-                                                        'bg-warning': selectedEvent.group === 'work',
-                                                        'bg-success': selectedEvent.group === 'social',
-                                                        'bg-danger': selectedEvent.group === 'private',
-                                                    }"></div>
-                                                    <tippy target="group" class="capitalize">{{ selectedEvent.group }}
-                                                    </tippy>
-                                                </client-only>
-                                            </div>
-                                        </div>
-                                        <div class="whitespace-nowrap text-white-dark">1 days ago</div>
-                                    </div>
-                                    <div class="flex items-center text-white-dark">
-                                        <div class="ltr:mr-1 rtl:ml-1">
-                                            {{ selectedEvent.type === 'sent_mail' ? selectedEvent.email : 'to me' }}
-                                        </div>
-                                        <div class="dropdown">
-                                            <client-only>
-                                                <Popper :placement="'bottom-end'" offsetDistance="0" class="align-middle">
-                                                    <button type="button" class="mt-1.5">
-                                                        <icon-caret-down class="w-5 h-5" />
-                                                    </button>
-                                                    <template #content>
-                                                        <ul class="sm:w-56">
-                                                            <li>
-                                                                <div class="flex items-center px-4 py-2">
-                                                                    <div class="w-1/4 text-white-dark ltr:mr-2 rtl:ml-2">
-                                                                        From:</div>
-                                                                    <div class="flex-1">
-                                                                        {{ selectedEvent.type === 'sent_mail' ?
-                                                                            'tailly@gmail.com' : selectedEvent.email }}
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="flex items-center px-4 py-2">
-                                                                    <div class="w-1/4 text-white-dark ltr:mr-2 rtl:ml-2">To:
-                                                                    </div>
-                                                                    <div class="flex-1">
-                                                                        {{ selectedEvent.type !== 'sent_mail' ?
-                                                                            'tailly@gmail.com' : selectedEvent.email }}
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="flex items-center px-4 py-2">
-                                                                    <div class="w-1/4 text-white-dark ltr:mr-2 rtl:ml-2">
-                                                                        Date:</div>
-                                                                    <div class="flex-1">
-                                                                        {{ selectedEvent.date + ', ' + selectedEvent.time }}
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="flex items-center px-4 py-2">
-                                                                    <div class="w-1/4 text-white-dark ltr:mr-2 rtl:ml-2">
-                                                                        Subject:</div>
-                                                                    <div class="flex-1">{{ selectedEvent.title }}</div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </template>
-                                                </Popper>
-                                            </client-only>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex items-center justify-center space-x-3 rtl:space-x-reverse">
-                                        <client-only>
-                                            <button type="button" v-tippy:star
-                                                class="enabled:hover:text-warning disabled:opacity-60"
-                                                :class="{ 'text-warning': selectedEvent.isStar }"
-                                                @click="setStar(selectedEvent.id)" :disabled="selectedTab === 'trash'">
-                                                <icon-star :class="{ 'fill-warning': selectedEvent.isStar }" />
-                                            </button>
-                                            <tippy target="star">Star</tippy>
-
-                                            <button type="button" v-tippy:important
-                                                class="enabled:hover:text-primary disabled:opacity-60"
-                                                :class="{ 'text-primary': selectedEvent.isImportant }"
-                                                @click="setImportant(selectedEvent.id)" :disabled="selectedTab === 'trash'">
-                                                <icon-bookmark :bookmark="false" class="w-4.5 h-4.5 rotate-90"
-                                                    :class="{ 'fill-primary': selectedEvent.isImportant }" />
-                                            </button>
-                                            <tippy target="important">Important</tippy>
-
-                                            <button type="button" v-tippy:reply class="hover:text-info"
-                                                @click="openMail('reply', selectedEvent)">
-                                                <icon-arrow-backward class="rtl:hidden" />
-                                                <icon-arrow-forward class="ltr:hidden" />
-                                            </button>
-                                            <tippy target="reply">Reply</tippy>
-
-                                            <button type="button" v-tippy:forward class="hover:text-info"
-                                                @click="openMail('forward', selectedEvent)">
-                                                <icon-arrow-backward class="ltr:hidden" />
-                                                <icon-arrow-forward class="rtl:hidden" />
-                                            </button>
-                                            <tippy target="forward">Forward</tippy>
-                                        </client-only>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prose mt-8 max-w-full prose-p:text-sm prose-img:m-0 prose-img:inline-block dark:prose-p:text-white md:prose-p:text-sm"
-                                v-html="selectedEvent.description"></div>
-                            <p class="mt-4">Best Regards,</p>
-                            <p>{{ selectedEvent.firstName + ' ' + selectedEvent.lastName }}</p>
-
-                            <div class="mt-8" v-show="selectedEvent.attachments">
-                                <div class="mb-4 text-base">Attachments</div>
-                                <div class="h-px border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
-                                <div class="mt-6 flex flex-wrap items-center">
-                                    <template v-for="(attachment, i) in selectedEvent.attachments" :key="i">
-                                        <button type="button"
-                                            class="group relative mb-4 flex items-center rounded-md border border-[#e0e6ed] px-4 py-2.5 transition-all duration-300 hover:border-primary hover:text-primary ltr:mr-4 rtl:ml-4 dark:border-[#1b2e4b]">
-                                            <template v-if="attachment.type === 'image'">
-                                                <icon-gallery />
-                                            </template>
-                                            <template v-if="attachment.type === 'folder'">
-                                                <icon-folder />
-                                            </template>
-                                            <template v-if="attachment.type === 'zip'">
-                                                <icon-zip-file />
-                                            </template>
-                                            <template
-                                                v-if="attachment.type !== 'zip' && attachment.type !== 'image' && attachment.type !== 'folder'">
-                                                <icon-txt-file class="w-5 h-5" />
-                                            </template>
-                                            <div class="ltr:ml-3 rtl:mr-3">
-                                                <p class="text-xs font-semibold text-primary">
-                                                    {{ attachment.name }}
-                                                </p>
-                                                <p class="text-[11px] text-gray-400 dark:text-gray-600">
-                                                    {{ attachment.size }}
-                                                </p>
-                                            </div>
-                                            <div
-                                                class="absolute top-0 z-[5] hidden h-full w-full rounded-md bg-dark-light/40 group-hover:block ltr:left-0 rtl:right-0">
-                                            </div>
-                                            <div
-                                                class="btn btn-primary absolute left-1/2 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 rounded-full p-1 group-hover:block">
-                                                <icon-download class="w-4.5 h-4.5" />
-                                            </div>
-                                        </button>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+                <Event 
+                v-if="selectedEvent" 
+                :district="district" 
+                :selectedEvent="selectedEvent"
+                @back="selectedEvent = null"
+                @attend-event="onAttendEvent(selectedEvent.id)" 
+                @leave-event="onLeaveEvent(selectedEvent.id)" 
+                @delete-event="onDeleteEvent(selectedEvent.id)" />
             </div>
         </div>
     </div>
