@@ -26,7 +26,8 @@
                                     <div class="flex items-center">
                                         <icon-menu-components class="shrink-0 group-hover:!text-primary" />
                                         <span
-                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">My District</span>
+                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">My
+                                            District</span>
                                     </div>
                                 </NuxtLink>
                             </li>
@@ -51,8 +52,48 @@
                             <h2
                                 class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
                                 <icon-minus class="hidden h-5 w-4 flex-none" />
-                                <span>user_interface</span>
+                                <span>EVENTS</span>
                             </h2>
+                            <li class="nav-item">
+                                <ul>
+                                    <li class="nav-item">
+                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                            <div class="flex items-center">
+                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">All Events</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                    <li class="nav-item">
+                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                            <div class="flex items-center">
+                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Incoming Events</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                    <li class="nav-item">
+                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                            <div class="flex items-center">
+                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events I Will Attend</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                    <li class="nav-item">
+                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                            <div class="flex items-center">
+                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events I Will Attend</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </perfect-scrollbar>
                 </client-only>

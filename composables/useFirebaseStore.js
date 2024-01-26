@@ -196,8 +196,37 @@ export default function () {
             district_id,
             ...data,
             attendees: [],
+            likes:[],
             created: serverTimestamp()
         })
+    }
+
+    async function getPosts(district_id) {
+        console.log("getting posts with the id of ", district_id);
+        const colRef = collection($firestore, "posts")
+        let q = query(colRef,
+            where("district_id", "==", district_id),
+            where("type", "==", "post"),
+            limit(10))
+        let data = await getDocs(q)
+        console.log(data);
+        return data
+    }
+
+    async function likePost(post_id){
+        const docRef = doc($firestore, "posts", post_id)
+        let post = (await getDoc(docRef)).data()
+        if(post.likes.includes(store.user.id)){
+            await updateDoc(docRef, {
+                likes:arrayRemove(store.user.id)
+            })
+        }
+        else{
+            await updateDoc(docRef, {
+                likes:arrayUnion(store.user.id)
+            })
+        }
+
     }
 
     async function createEvent(data) {
@@ -311,6 +340,8 @@ export default function () {
         setCounties,
         setDistricts,
         createPost,
+        getPosts,
+        likePost,
         createEvent,
         getEvents,
         deleteEvent,

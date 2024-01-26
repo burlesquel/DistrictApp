@@ -3,12 +3,11 @@ import Hero from '~/components/front/hero.vue';
 import Content from '~/components/front/content.vue';
 
 definePageMeta({
-    layout:"front"
+    layout: "front"
 })
 </script>
 
 <template>
-       <Hero/> 
-       <Content/> 
-
+    <Hero />
+    <Content />
 </template>
