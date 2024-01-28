@@ -12,7 +12,8 @@ export default function () {
         await setDoc(docRef, {
             email,
             ...data,
-            role: 0
+            role: 0,
+            created:serverTimestamp()
         })
     }
 
@@ -286,32 +287,41 @@ export default function () {
         return await getDocs(q)
     }
 
+    async function getSingleEvent(post_id){
+        let docRef = doc($firestore, "posts", post_id)
+        return await getDoc(docRef)
+    }
+
     async function deleteEvent(post_id) {
         let docRef = doc($firestore, "posts", post_id)
         await deleteDoc(docRef)
     }
 
     async function attendEvent(post_id) {
-        let meRef = doc($firestore, "users", store.user.id)
-        await updateDoc(meRef, {
-            attending_events: arrayUnion(post_id)
+        let eventRef = doc($firestore, "posts", post_id)
+        await updateDoc(eventRef, {
+            attendees: arrayUnion(store.user.id)
         })
-        await refreshUser()
     }
 
     async function leaveEvent(post_id) {
-        let meRef = doc($firestore, "users", store.user.id)
-        await updateDoc(meRef, {
-            attending_events: arrayRemove(post_id)
+        let eventRef = doc($firestore, "posts", post_id)
+        await updateDoc(eventRef, {
+            attendees: arrayRemove(store.user.id)
         })
-        await refreshUser()
     }
 
     async function getComments(post_id) {
         const colRef = collection($firestore, "comments")
         let q = query(colRef, where("post_id", "==", post_id), orderBy("created", "desc"))
         let comments = await getDocs(q)
-        return comments.docs
+        let user_ids = [...new Set(Array.from(comments.docs, comment => comment.data().user_id))]
+        let users = await getUsersData(user_ids)
+        return Array.from(comments.docs, comment => {
+            let user = users.find(user => user.id === comment.data().user_id)
+            comment.user = {...user.data(), id:user.id}
+            return comment
+        })
     }
 
     async function createComment(post_id, user_id, text) {
@@ -358,6 +368,7 @@ export default function () {
         likePost,
         createEvent,
         getEvents,
+        getSingleEvent,
         deleteEvent,
         attendEvent,
         leaveEvent,

@@ -5,13 +5,19 @@ const props = defineProps({
     district: { required: true }
 })
 const store = useAppStore()
-const { getComments, getUsersData, createComment, deleteComment } = useFirebaseStore()
+const { getComments, createComment, getUsersData } = useFirebaseStore()
 const commentsData = ref([])
-const users = ref(null)
+const attendees = ref([])
 const loading = ref(true)
+const visibleAttendeeNum = 6
 
 const comments = computed(() => {
-    return Array.from(commentsData.value, comment => comment.data())
+    return Array.from(commentsData.value, comment => {
+        return {
+            ...comment.data(),
+            user: comment.user
+        }
+    })
 })
 
 async function onComment(e) {
@@ -21,22 +27,10 @@ async function onComment(e) {
     await refreshComments()
 }
 
-watch(comments, async () => {
-    let userIds = Array.from(comments.value, comment => comment.user_id)
-    try {
-        let data = await getUsersData(userIds)
-        users.value = Array.from(data, user => {
-            return { ...user.data(), id: user.id }
-        })
-    }
-    catch (err) {
-        console.log(err);
-    }
-    loading.value = false
-})
-
 onMounted(async () => {
     commentsData.value = await getComments(props.selectedEvent.id)
+    attendees.value = props.selectedEvent.attendees.length > 0 ? await getUsersData(props.selectedEvent.attendees.slice(0, visibleAttendeeNum)) : []
+    loading.value = false
 })
 
 async function refreshComments() {
@@ -87,8 +81,8 @@ async function refreshComments() {
                                 </NuxtLink>
                             </template>
                             <template v-else>
-                                <button v-if="store.user.attending_events?.includes(selectedEvent.id)"
-                                    @click="$emit('leaveEvent')" type="button" title="Attend to this event"
+                                <button v-if="props.selectedEvent.attendees.includes(store.user.id)" @click="$emit('leaveEvent')"
+                                    type="button" title="Attend to this event"
                                     class="group text-danger ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
                                     <icon-x class="w-7 h-7 grou p-hover:fill-danger"
                                         :class="{ 'fill-danger': selectedEvent.isFav }" />
@@ -112,6 +106,17 @@ async function refreshComments() {
                 </div>
             </div>
         </div>
+        <div v-if="attendees.length > 0" class="p-8 font-semibold">
+            <div class="mb-4 text-primary">{{ attendees.length }} Members Going</div>
+            <div class="group">
+                <div class="flex items-center justify-start group-hover:-space-x-2">
+                    <span v-if="props.selectedEvent.attendees.length > visibleAttendeeNum" class="flex h-9 w-9 items-center justify-center rounded-full bg-[#bfc9d4] font-semibold text-white opacity-0 transition-all duration-300 group-hover:opacity-100 dark:bg-dark">+{{ props.selectedEvent.attendees.length - visibleAttendeeNum }}</span>
+                    <img v-for="attendee of attendees" :src="attendee.photoURL ?? '/app/images/avatar-placeholder.jpg'"
+                        class="h-9 w-9 rounded-full border-2 border-white object-cover transition-all duration-300 dark:border-dark"
+                        src="/app/images/profile-8.jpeg" alt="" />
+                </div>
+            </div>
+        </div>
         <div class="p-4">
             <form @submit.prevent="onComment">
                 <label for="">Make a comment:</label>
@@ -121,27 +126,27 @@ async function refreshComments() {
             </form>
             <span class="text-[1rem] text-gray-600">Comments made on this event:</span>
             <Loading v-if="loading" />
-            <template v-else-if="users">
-                <div v-for="comment in comments" class="flex flex-col gap-3">
-                    <div class="flex w-max items-center mt-6">
-                        <div class="flex-none">
-                            <div class="rounded-full bg-gray-300 p-0.5 dark:bg-gray-700">
-                                <img class="h-8 w-8 rounded-full object-cover"
-                                    :src="users.find(user => user.id === comment.user_id).photoURL ?? '/app/images/district-placeholder.jpg'" />
-                            </div>
-                        </div>
-                        <div class="ltr:ml-2 rtl:mr-2">
-                            <div class="font-semibold">{{ users.find(user => user.id === comment.user_id).displayName }}
-                            </div>
-                            <div class="text-sx text-white-dark">{{
-                                selectedEvent.created.toDate().toDateString() }}</div>
+
+            <div v-for="comment in comments" class="flex flex-col gap-3">
+                <div class="flex w-max items-center mt-6">
+                    <div class="flex-none">
+                        <div class="rounded-full bg-gray-300 p-0.5 dark:bg-gray-700">
+                            <img class="h-8 w-8 rounded-full object-cover"
+                                :src="comment.user.photoURL ?? '/app/images/district-placeholder.jpg'" />
                         </div>
                     </div>
-                    <p class="pl-2">
-                        {{ comment.text }}
-                    </p>
+                    <div class="ltr:ml-2 rtl:mr-2">
+                        <div class="font-semibold">{{ comment.user.displayName }}
+                        </div>
+                        <div class="text-sx text-white-dark">{{
+                            selectedEvent.created.toDate().toDateString() }}</div>
+                    </div>
                 </div>
-            </template>
+                <p class="pl-2">
+                    {{ comment.text }}
+                </p>
+            </div>
+
         </div>
     </div>
 </template>

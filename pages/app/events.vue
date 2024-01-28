@@ -10,7 +10,7 @@ const router = useRouter()
 
 useHead({ title: 'Mailbox' });
 const store = useAppStore();
-const { getEvents, getMyDistrict, deleteEvent, attendEvent, leaveEvent } = useFirebaseStore()
+const { getEvents, getMyDistrict, deleteEvent, attendEvent, leaveEvent, getSingleEvent } = useFirebaseStore()
 
 definePageMeta({
     layout: "app-default"
@@ -21,6 +21,14 @@ const totalPageNum = ref(9999)
 const loading = ref('init')
 const selectedTab = ref(null);
 const district = ref(null)
+
+const notification = Swal.mixin({
+    toast: true,
+    position: 'bottom-start',
+    showConfirmButton: false,
+    timer: 2000,
+    showCloseButton: false,
+});
 
 async function onNextPage() {
     currentPage.value = currentPage.value + 1
@@ -106,12 +114,26 @@ onMounted(async () => {
     loading.value = false
 })
 
+async function refreshSingleEvent(event_id) {
+    let refreshed = await getSingleEvent(event_id)
+    let index = events.value[currentPage.value].findIndex(event => event.id === event_id)
+    events.value[currentPage.value][index] = refreshed
+}
+
 async function onAttendEvent(event_id) {
     await attendEvent(event_id)
+    notification.fire({
+        title: "You have successfully joined to the event!",
+    });
+    await refreshSingleEvent(event_id)
 }
 
 async function onLeaveEvent(event_id) {
     await leaveEvent(event_id)
+    notification.fire({
+        title: "You have left the event.",
+    });
+    await refreshSingleEvent(event_id)
 }
 
 async function onDeleteEvent(event_id) {
@@ -130,7 +152,12 @@ async function onDeleteEvent(event_id) {
 
 // The below code is for managing 
 
-const selectedEvent = ref(null);
+const selectedEventId = ref(null)
+const selectedEvent = computed(() => {
+    if(currentEvents.value.length > 0){
+        return currentEvents.value.find(event => event.id === selectedEventId.value)
+    }
+})
 
 </script>
 
@@ -139,67 +166,12 @@ const selectedEvent = ref(null);
     <div>
         <LoadingSpinner v-if="loading === 'init'" class="w-full h-[70vh]" />
         <div v-else class="relative flex h-full gap-5 sm:h-[calc(100vh_-_150px)]">
-            <div
+            <div v-if="district.director_id === store.user.id"
                 class="panel dark:gray-50 absolute z-10 hidden h-full w-[250px] max-w-full flex-none space-y-3 overflow-hidden p-4 ltr:rounded-r-none rtl:rounded-l-none xl:relative xl:block xl:h-auto ltr:xl:rounded-r-md rtl:xl:rounded-l-md">
                 <div class="flex h-full flex-col pb-16">
-                    <div v-if="district.director_id === store.user.id" class="pb-5">
+                    <div class="pb-5">
                         <NuxtLink to="/app/create-event" class="btn btn-primary w-full" type="button">New Event</NuxtLink>
                     </div>
-                    <!-- <client-only>
-                        <perfect-scrollbar :options="{
-                            swipeEasing: true,
-                            wheelPropagation: false,
-                        }" class="relative h-full grow ltr:-mr-3.5 ltr:pr-3.5 rtl:-ml-3.5 rtl:pl-3.5">
-                            <div class="space-y-1">
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{ 'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'all', }"
-                                    @click="selectedTab = 'all'">
-                                    <div class="flex items-center">
-                                        <icon-mail class="w-5 h-5 shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">All Events</div>
-                                    </div>
-                                    <div
-                                        class="whitespace-nowrap rounded-md bg-primary-light px-2 py-0.5 font-semibold dark:bg-[#060818]">
-                                        2
-                                    </div>
-                                </button>
-
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'incoming',
-                                    }" @click="selectedTab = 'incoming'">
-                                    <div class="flex items-center">
-                                        <icon-info-hexagon class="shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">Incoming Events</div>
-                                    </div>
-                                </button>
-
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'attending',
-                                    }" @click="selectedTab = 'attending'">
-                                    <div class="flex items-center">
-                                        <icon-send class="shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">Events I Will Attend</div>
-                                    </div>
-                                </button>
-
-                                <button type="button"
-                                    class="flex h-10 w-full items-center justify-between rounded-md p-2 font-medium hover:bg-white-dark/10 hover:text-primary dark:hover:bg-[#181F32] dark:hover:text-primary"
-                                    :class="{
-                                        'bg-gray-100 text-primary dark:bg-[#181F32] dark:text-primary': selectedTab === 'outdated',
-                                    }" @click="selectedTab = 'outdated'">
-                                    <div class="flex items-center">
-                                        <icon-send class="shrink-0" />
-                                        <div class="ltr:ml-3 rtl:mr-3">Outdated Events</div>
-                                    </div>
-                                </button>
-                            </div>
-                        </perfect-scrollbar>
-                    </client-only> -->
                 </div>
             </div>
             <LoadingSpinner v-if="loading" class="w-full h-[70vh]" />
@@ -256,7 +228,7 @@ const selectedEvent = ref(null);
                         <div
                             class="min-h-[400px] sm:min-h-[300px] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                             <template v-for="event in currentEvents" :key="event.id">
-                                <div @click="selectedEvent = event" class="panel cursor-pointer" :class="{
+                                <div @click="selectedEventId = event.id" class="panel cursor-pointer" :class="{
                                     'bg-primary-light shadow-primary': event.tag === 'personal',
                                     'bg-warning-light shadow-warning': event.tag === 'work',
                                     'bg-info-light shadow-info': event.tag === 'social',
@@ -309,15 +281,15 @@ const selectedEvent = ref(null);
                                                         </NuxtLink>
                                                     </template>
                                                     <template v-else>
-                                                        <button v-if="store.user.attending_events?.includes(event.id)"
-                                                            @click="onLeaveEvent(event.id)" type="button"
+                                                        <button v-if="event.attendees.includes(store.user.id)"
+                                                            @click.stop="onLeaveEvent(event.id)" type="button"
                                                             title="Attend to this event"
                                                             class="group text-danger ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
                                                             <icon-x class="w-7 h-7 group-hover:fill-danger"
                                                                 :class="{ 'fill-danger': event.isFav }" />
                                                             Leave
                                                         </button>
-                                                        <button v-else @click="onAttendEvent(event.id)" type="button"
+                                                        <button v-else @click.stop="onAttendEvent(event.id)" type="button"
                                                             title="Attend to this event"
                                                             class="group text-primary ltr:ml-2 rtl:mr-2 flex flex-row items-center gap-1">
                                                             <icon-square-check class="w-7 h-7 group-hover:fill-primary"
@@ -338,7 +310,7 @@ const selectedEvent = ref(null);
                         </div>
                     </template>
                 </div>
-                <Event v-if="selectedEvent" :district="district" :selectedEvent="selectedEvent" @back="selectedEvent = null"
+                <Event v-if="selectedEvent" :district="district" :selectedEvent="selectedEvent" @back="selectedEventId = null"
                     @attend-event="onAttendEvent(selectedEvent.id)" @leave-event="onLeaveEvent(selectedEvent.id)"
                     @delete-event="onDeleteEvent(selectedEvent.id)" />
             </div>

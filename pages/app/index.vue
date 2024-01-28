@@ -23,14 +23,12 @@ const onImageSelection = async (e) => {
 }
 
 const onPost = async (e) => {
-    if (district.value.director_id === store.user.id) {
-        let text = e.target.post.value
-        e.target.post.value = ""
-        await createPost("post", store.user.id, district.value.id, {
-            text
-        })
-        await refreshPosts()
-    }
+    let text = e.target.post.value
+    e.target.post.value = ""
+    await createPost("post", store.user.id, district.value.id, {
+        text
+    })
+    await refreshPosts()
 }
 
 const onLike = async (post_id) => {
