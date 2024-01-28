@@ -9,8 +9,8 @@ const store = useAppStore()
 const { getDistrictMeta, updateDistrictPreview, createPost, getPosts, likePost } = useFirebaseStore()
 
 // getDistrictMeta()
-let { data: district, pending:districtPending, refresh:refreshDistrict } = useAsyncData('cities', getDistrictMeta, { server: false, lazy: false })
-let { data: posts, pending:postsPending, refresh: refreshPosts } = useAsyncData('posts', () => getPosts(store.user.districtId), { server: false, lazy: false })
+let { data: district, pending: districtPending, refresh: refreshDistrict } = useAsyncData('cities', getDistrictMeta, { server: false, lazy: false })
+let { data: posts, pending: postsPending, refresh: refreshPosts } = useAsyncData('posts', () => getPosts(store.user.districtId), { server: false, lazy: false })
 
 const previewInput = ref(null)
 
@@ -33,7 +33,7 @@ const onPost = async (e) => {
     }
 }
 
-const onLike = async(post_id) => {
+const onLike = async (post_id) => {
     await likePost(post_id)
     await refreshPosts()
 }
@@ -87,23 +87,17 @@ const onLike = async(post_id) => {
         </div>
         <div class="panel mt-4">
             <h1 class="text-xl font-semibold text-gray-700 mb-4">What is happening?</h1>
-            <template v-if="district.director_id === store.user.id">
-                <form @submit.prevent="onPost">
-                    <label for="post">Create a post:</label>
-                    <textarea name="post" id="desc" rows="3" class="form-textarea resize-none"
-                        placeholder="Create a post.."></textarea>
-                    <button type="submit" class="btn btn-primary ml-auto m-3">Send</button>
-                </form>
-            </template>
+            <form @submit.prevent="onPost">
+                <label for="post">Create a post:</label>
+                <textarea name="post" id="desc" rows="3" class="form-textarea resize-none"
+                    placeholder="Create a post.."></textarea>
+                <button type="submit" class="btn btn-primary ml-auto m-3">Send</button>
+            </form>
             <div v-if="postsPending">
-                <Loading/>
+                <Loading />
             </div>
             <template v-else>
-                <Post 
-                v-for="post of Array.from(posts.docs, post => { return {...post.data(), id:post.id}})" 
-                :post="post" 
-                :district="district"
-                @like="onLike(post.id)"/>
+                <Post v-for="post of posts" :post="post" :district="district" @like="onLike(post.id)" />
             </template>
         </div>
     </div>

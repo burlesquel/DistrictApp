@@ -22,7 +22,7 @@
                     }" class="relative h-[calc(100vh-80px)]">
                         <ul class="relative space-y-0.5 p-4 py-0">
                             <li class="nav-item">
-                                <NuxtLink to="/app/district" class="group" @click="toggleMobileMenu">
+                                <NuxtLink to="/app" class="group" @click="toggleMobileMenu">
                                     <div class="flex items-center">
                                         <icon-menu-components class="shrink-0 group-hover:!text-primary" />
                                         <span
@@ -34,61 +34,76 @@
                             <h2
                                 class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
                                 <icon-minus class="hidden h-5 w-4 flex-none" />
-                                <span>apps</span>
-                            </h2>
-                            <li class="nav-item">
-                                <ul>
-                                    <li class="nav-item">
-                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
-                                            <div class="flex items-center">
-                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
-                                                <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events</span>
-                                            </div>
-                                        </NuxtLink>
-                                    </li>
-                                </ul>
-                            </li>
-                            <h2
-                                class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
-                                <icon-minus class="hidden h-5 w-4 flex-none" />
                                 <span>EVENTS</span>
                             </h2>
                             <li class="nav-item">
                                 <ul>
                                     <li class="nav-item">
-                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                        <NuxtLink to="/app/events?type=all" @click="toggleMobileMenu">
                                             <div class="flex items-center">
-                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <icon-list-check class="shrink-0 group-hover:!text-primary" />
                                                 <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">All Events</span>
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">All
+                                                    Events</span>
                                             </div>
                                         </NuxtLink>
                                     </li>
                                     <li class="nav-item">
-                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                        <NuxtLink to="/app/events?type=incoming" @click="toggleMobileMenu">
                                             <div class="flex items-center">
-                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <icon-bell-bing class="shrink-0 group-hover:!text-primary" />
                                                 <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Incoming Events</span>
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Incoming
+                                                    Events</span>
                                             </div>
                                         </NuxtLink>
                                     </li>
                                     <li class="nav-item">
-                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                        <NuxtLink to="/app/events?type=attending" @click="toggleMobileMenu">
                                             <div class="flex items-center">
-                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <icon-send class="shrink-0 group-hover:!text-primary" />
                                                 <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events I Will Attend</span>
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events
+                                                    I Will Attend</span>
                                             </div>
                                         </NuxtLink>
                                     </li>
                                     <li class="nav-item">
-                                        <NuxtLink to="/app/events" class="group" @click="toggleMobileMenu">
+                                        <NuxtLink to="/app/events?type=outdated" @click="toggleMobileMenu">
                                             <div class="flex items-center">
-                                                <icon-menu-components class="shrink-0 group-hover:!text-primary" />
+                                                <icon-archive class="shrink-0 group-hover:!text-primary" />
                                                 <span
-                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Events I Will Attend</span>
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Outdated
+                                                    Events</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <h2
+                                class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                                <icon-minus class="hidden h-5 w-4 flex-none" />
+                                <span>ACCOUNT</span>
+                            </h2>
+                            <li class="nav-item">
+                                <ul>
+                                    <li class="nav-item">
+                                        <NuxtLink to="/app/profile" @click="toggleMobileMenu">
+                                            <div class="flex items-center">
+                                                <icon-user class="shrink-0 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">
+                                                    Profile</span>
+                                            </div>
+                                        </NuxtLink>
+                                    </li>
+                                    <li class="nav-item">
+                                        <NuxtLink @click="nuxtApp.$auth.signOut(); close()">
+                                            <div class="flex items-center">
+                                                <icon-logout class="shrink-0 rotate-90 group-hover:!text-primary" />
+                                                <span
+                                                    class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Sign Out</span>
                                             </div>
                                         </NuxtLink>
                                     </li>
@@ -106,11 +121,9 @@
 import { ref, onMounted } from 'vue';
 
 import { useAppStore } from '@/stores/index';
-import VueCollapsible from 'vue-height-collapsible/vue3';
 const store = useAppStore();
-const activeDropdown = ref('');
-const subActive = ref('');
-
+const router = useRouter()
+const nuxtApp = useNuxtApp()
 onMounted(() => {
     setTimeout(() => {
         const selector = document.querySelector('.sidebar ul a[href="' + window.location.pathname + '"]');

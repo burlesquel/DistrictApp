@@ -207,13 +207,27 @@ export default function () {
         let q = query(colRef,
             where("district_id", "==", district_id),
             where("type", "==", "post"),
+            orderBy("created", "desc"),
             limit(10))
         let data = await getDocs(q)
-        console.log(data);
-        return data
+        const user_ids = [...new Set(Array.from(data.docs, post => post.data().user_id))]
+        const users = await getUsersData(user_ids)
+        return Array.from(data.docs, (post) => {
+            let data = post.data()
+            let user = users.find(user => user.id === data.user_id)
+            return {
+                id:post.id,
+                user:{
+                    id:user.id,
+                    ...user.data()
+                },
+                ...data
+            }
+        })
     }
 
     async function likePost(post_id){
+        console.log(post_id);
         const docRef = doc($firestore, "posts", post_id)
         let post = (await getDoc(docRef)).data()
         if(post.likes.includes(store.user.id)){

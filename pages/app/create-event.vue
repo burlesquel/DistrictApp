@@ -22,8 +22,10 @@ const saving = ref(false)
 
 const selectedType = ref("outdoor")
 
-const startTime = ref('2022-07-05 12:00');
-const endTime = ref('2022-07-05 12:00');
+let today = new Date().toISOString().split("T")
+
+const startTime = ref(`${today[0]} ${today[1].split(".")[0]}`);
+const endTime = ref(`${today[0]} ${today[1].split(".")[0]}`);
 const rangeCalendar = ref({
     dateFormat: 'Y-m-d H:i',
     enableTime: true,

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { useAppStore } from '@/stores/index';
 import LoadingSpinner from '~/components/loading.vue';
 import Event from '~/components/app/Event.vue';
+const router = useRouter()
 
 useHead({ title: 'Mailbox' });
 const store = useAppStore();
@@ -18,7 +19,7 @@ const events = ref([])
 const currentPage = ref(0)
 const totalPageNum = ref(9999)
 const loading = ref('init')
-const selectedTab = ref('inbox');
+const selectedTab = ref(null);
 const district = ref(null)
 
 async function onNextPage() {
@@ -72,6 +73,10 @@ watch(selectedTab, async () => {
     loading.value = false
 })
 
+watch(router.currentRoute, (to) => {
+    selectedTab.value = to.query.type
+})
+
 const currentEvents = computed(() => {
     let currentPageData = events.value[currentPage.value]
     if (currentPageData) {
@@ -89,9 +94,15 @@ watch(currentEvents, () => {
 })
 
 onMounted(async () => {
+    let type = router.currentRoute.value.query.type
     district.value = await getMyDistrict()
-    let data = await getEvents(store.user.districtId)
-    events.value.push(data.docs)
+    if (type) {
+        selectedTab.value = type
+    }
+    else {
+        let data = await getEvents(store.user.districtId)
+        events.value.push(data.docs)
+    }
     loading.value = false
 })
 
@@ -121,10 +132,6 @@ async function onDeleteEvent(event_id) {
 
 const selectedEvent = ref(null);
 
-async function onComment() {
-
-}
-
 </script>
 
 
@@ -138,7 +145,7 @@ async function onComment() {
                     <div v-if="district.director_id === store.user.id" class="pb-5">
                         <NuxtLink to="/app/create-event" class="btn btn-primary w-full" type="button">New Event</NuxtLink>
                     </div>
-                    <client-only>
+                    <!-- <client-only>
                         <perfect-scrollbar :options="{
                             swipeEasing: true,
                             wheelPropagation: false,
@@ -192,7 +199,7 @@ async function onComment() {
                                 </button>
                             </div>
                         </perfect-scrollbar>
-                    </client-only>
+                    </client-only> -->
                 </div>
             </div>
             <LoadingSpinner v-if="loading" class="w-full h-[70vh]" />
@@ -331,14 +338,9 @@ async function onComment() {
                         </div>
                     </template>
                 </div>
-                <Event 
-                v-if="selectedEvent" 
-                :district="district" 
-                :selectedEvent="selectedEvent"
-                @back="selectedEvent = null"
-                @attend-event="onAttendEvent(selectedEvent.id)" 
-                @leave-event="onLeaveEvent(selectedEvent.id)" 
-                @delete-event="onDeleteEvent(selectedEvent.id)" />
+                <Event v-if="selectedEvent" :district="district" :selectedEvent="selectedEvent" @back="selectedEvent = null"
+                    @attend-event="onAttendEvent(selectedEvent.id)" @leave-event="onLeaveEvent(selectedEvent.id)"
+                    @delete-event="onDeleteEvent(selectedEvent.id)" />
             </div>
         </div>
     </div>
