@@ -257,11 +257,11 @@ const selectedEvent = computed(() => {
                                                 modi temporibus repellat impedit natus quaerat omnis magnam odit?</p>
                                             <div class="flex flex-col font-semibold gap-1">
                                                 <span>
-                                                    <icon-clock class="text-danger inline" />
+                                                    <icon-clock class="text-green-700 inline" />
                                                     {{ event.starts.toDate().toDateString() }}
                                                 </span>
                                                 <span>
-                                                    <icon-clock class="text-green-700 inline" />
+                                                    <icon-clock class="text-danger inline" />
                                                     {{ event.ends.toDate().toDateString() }}
                                                 </span>
                                             </div>

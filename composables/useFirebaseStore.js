@@ -29,6 +29,13 @@ export default function () {
         store.user = { id: docSnap.id, ...docSnap.data() }
     }
 
+    async function getUsersByDistrict(district_id){
+        const colRef = collection($firestore, "users")
+        let q = query(colRef,
+            where("districtId", "==", district_id))
+        return await getDocs(q)
+    }
+
     async function updateProfilePhoto(file) {
         const url = await uploadPhoto("images/profile-photos", store.user.id, file)
         await updateUser(store.user.id, { photoURL: url })
@@ -354,6 +361,7 @@ export default function () {
         updateProfilePhoto,
         refreshUser,
         getUserById,
+        getUsersByDistrict,
         getAllCities,
         getCounties,
         getDistricts,

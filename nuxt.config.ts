@@ -11,8 +11,5 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: { include: ['quill'] },
-  },
-  router: {
-    options: { linkExactActiveClass: 'active' },
-  },
+  }
 })
