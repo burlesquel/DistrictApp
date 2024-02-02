@@ -13625,12 +13625,12 @@ textarea.form-control-lg {
 }
 @media (min-width: 1200px) {
   body:not(.stretched) #wrapper {
-    max-width: 1200px;
+    /* max-width: 1200px; */
   }
 }
 @media (min-width: 1400px) {
   body:not(.stretched) #wrapper {
-    max-width: 1400px;
+    /* max-width: 1400px; */
   }
 }
 .stretched #wrapper {

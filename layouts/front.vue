@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-    <div id="wrapper stretched">
+    <div id="wrapper">
         <!-- Top Bar
 ============================================= -->
         <div id="top" class="transparent-topbar">
