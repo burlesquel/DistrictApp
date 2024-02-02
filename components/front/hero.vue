@@ -1,18 +1,17 @@
 <template>
     <section id="slider" class="slider-element slider-parallax min-vh-60 min-vh-md-100 include-header">
         <div class="slider-inner"
-            style="background: var(--cnvs-contrast-0) url('/front/demos/seo/images/hero/hero-1.jpg') center center no-repeat; background-size: cover;">
+            style="background: var(--cnvs-contrast-0) url('/front/demos/seo/images/hero/hero.jpg'); background-size: cover;">
             <div class="vertical-middle slider-element-fade">
                 <div class="container py-5">
                     <div class="row pt-5">
                         <div class="col-lg-5 col-md-8">
                             <div class="slider-title">
-                                <div class="badge rounded-pill badge-default">SEO Ready</div>
-                                <h2>Improve your SEO with Data.</h2>
+                                <div class="badge rounded-pill badge-default">Mahalle App</div>
+                                <h2>Your local community awaits.</h2>
                                 <h3 class="text-rotater mb-2" data-separator="," data-rotate="fadeIn" data-speed="3500">-
-                                    Boost your own <span class="t-rotate">Awesome,Beautiful,Great</span> Website.</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia vitae mollitia dignissimos
-                                    ab qui aspernatur.</p>
+                                    Neighborhood Bonds <span class="t-rotate">Connect, Share Knowledge, Thrive</span>.</h3>
+                                <p>Get ready to bring you and your neighbors closer together! Our "Neighborhood Unity" app aims to revive neighborhood culture, increase solidarity, and strengthen communication in the midst of fast-paced life!.</p><br>
                                 <a href="demo-seo-about.html"
                                     class="button button-rounded button-large text-transform-none ls-0">Get Started</a>
                                 <a href="demo-seo-contact.html"

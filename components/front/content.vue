@@ -7,7 +7,7 @@
 
             <!-- Client Carousel
     ============================================= -->
-            <div class="section bg-transparent m-0 border-bottom py-5">
+            <!-- <div class="section bg-transparent m-0 border-bottom py-5">
                 <div class="container">
                     <div id="oc-clients" class="owl-carousel image-carousel carousel-widget" data-margin="100"
                         data-loop="true" data-autoplay="5000" data-nav="false" data-pagi="false" data-items-xs="2"
@@ -24,7 +24,7 @@
                                     alt="Brands"></a></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Features
     ============================================= -->
@@ -265,7 +265,7 @@
 
             <!-- Form Section
     ============================================= -->
-            <div class="section m-0"
+            <!-- <div class="section m-0"
                 style="background: url('demos/seo/images/sections/1.jpg') no-repeat center center; background-size: cover; padding: 100px 0;">
                 <div class="container">
                     <div class="row justify-content-between align-items-center">
@@ -337,11 +337,11 @@
                     </div>
 
                 </div>
-            </div>
+            </div> -->
 
             <!-- Works/Projects
     ============================================= -->
-            <div class="section m-0"
+             <!-- <div class="section m-0"
                 style="background: url('demos/seo/images/sections/5.jpg') no-repeat center center; background-size: cover;padding: 80px 0;">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center">
@@ -491,12 +491,50 @@
                     </div>
 
                 </div>
-            </div>
+            </div>-->
 
             <!-- Features
     ============================================= -->
             <div class="container py-5">
                 <div class="row">
+                    <div class="col-md-4 mt-5">
+                        <div class="feature-box fbox-center border-0">
+                            <div class="fbox-icon">
+                                <a href="#"><img src="/front/demos/seo/images/icons/research.svg" alt="Feature Icon"
+                                        class="bg-transparent rounded-0"></a>
+                            </div>
+                            <div class="fbox-content">
+                                <h3 class="text-transform-none ls-0">1. Planning &amp; Research</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, dolore, voluptates!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-5">
+                        <div class="feature-box fbox-center border-0">
+                            <div class="fbox-icon">
+                                <a href="#"><img src="/front/demos/seo/images/icons/optimizing.svg" alt="Feature Icon"
+                                        class="bg-transparent rounded-0"></a>
+                            </div>
+                            <div class="fbox-content">
+                                <h3 class="text-transform-none ls-0">2. Optimizing</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, provident.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-5">
+                        <div class="feature-box fbox-center border-0">
+                            <div class="fbox-icon">
+                                <a href="#"><img src="/front/demos/seo/images/icons/result.svg" alt="Feature Icon"
+                                        class="bg-transparent rounded-0"></a>
+                            </div>
+                            <div class="fbox-content">
+                                <h3 class="text-transform-none ls-0">3. Result</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, ipsa!</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-4 mt-5">
                         <div class="feature-box fbox-center border-0">
                             <div class="fbox-icon">
@@ -649,7 +687,7 @@
 
             <!-- Blogs
     ============================================= -->
-            <div class="container py-4">
+            <!-- <div class="container py-4">
                 <div class="heading-block border-bottom-0 text-center">
                     <div class="badge rounded-pill badge-default">Latest Articles</div>
                     <h3 class="text-transform-none ls-0">Recently From the Blog</h3>
@@ -721,7 +759,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div> -->
 
             <!-- Promo/Contact
     ============================================= -->
