@@ -27,10 +27,10 @@ useHead({
 </script>
 
 <template>
-    <div id="wrapper">
+    <div id="wrapper stretched">
         <!-- Top Bar
 ============================================= -->
-        <div id="top-bar" class="transparent-topbar">
+        <div id="top" class="transparent-topbar">
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-12 col-md-auto dark">
@@ -120,7 +120,6 @@ useHead({
             <div class="header-wrap-clone"></div>
         </header><!-- #header end -->
         <slot/>
-
         <!-- Footer
 ============================================= -->
         <footer id="footer" class="border-0" style="background: var(--cnvs-contrast-0);">

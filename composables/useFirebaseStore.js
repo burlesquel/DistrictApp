@@ -171,18 +171,29 @@ export default function () {
         const numOfPeopleSnapshot = await getCountFromServer(query(collection($firestore, 'users'), where('districtId', '==', district_id)))
         const numOfPeople = numOfPeopleSnapshot.data().count
         let director;
-        console.log(district);
         if (district.director_id) {
             const directorRef = doc($firestore, "users", district.director_id)
             director = (await getDoc(directorRef)).data()
         }
-        console.log(director);
+        let canApplyForMuhtar;
+        if (director) {
+            canApplyForMuhtar = false
+        }
+        else {
+            const muhtarAppQuery = query(collection($firestore, "muhtar-applications"),
+                where("user_id", "==", store.user.id),
+                where("district_id", "==", store.user.districtId))
+                let result = await getDocs(muhtarAppQuery)
+                console.log(result);
+            canApplyForMuhtar = result.size === 0
+        }
         return {
             ...district,
             city,
             county,
             numOfPeople,
-            director
+            director,
+            canApplyForMuhtar
         }
     }
 
@@ -360,11 +371,18 @@ export default function () {
         return users.docs
     }
 
+    async function getDistrictsData(district_ids = []) {
+        const colRef = collection($firestore, "district")
+        let q = query(colRef, where(documentId(), "in", district_ids))
+        let districts = await getDocs(q)
+        return districts.docs
+    }
+
     async function createMuhtarApplication() {
-        const colRef = collection($firestore, "users")
+        const colRef = collection($firestore, "muhtar-applications")
         await addDoc(colRef, {
             user_id: store.user.id,
-            district_id: store.districtId
+            district_id: store.user.districtId
         })
     }
 
@@ -372,23 +390,42 @@ export default function () {
         if (!store.user.isAdmin) return;
         const colRef = collection($firestore, "muhtar-applications")
         let q;
-        if(district_id){
+        if (district_id) {
             q = query(colRef, where("district_id", "==", district_id))
         }
-        else{
+        else {
             q = colRef
         }
         let applications = await getDocs(q)
         let user_ids = [...new Set(Array.from(applications.docs, application => application.data().user_id))].filter(elem => elem)
         let users = user_ids.length === 0 ? [] : await getUsersData(user_ids)
+        let district_ids = district_id ? [district_id] : [...new Set(Array.from(applications.docs, application => application.data().district_id))].filter(elem => elem)
+        let districts = district_ids.length === 0 ? [] : await getDistrictsData(district_ids)
         return Array.from(applications.docs, application => {
             let data = application.data()
             let user = users.find(user => user.id === data.user_id)
-            if(user){
+            if (user) {
                 data.user = { id: user.id, ...user.data() }
+            }
+            let district = districts.find(district => district.id === data.district_id)
+            if(district){
+                data.district = {id:district.id, ...district.data()}
             }
             return data
         })
+    }
+
+    async function setMuhtarApplicationStatus(application, status){
+        let applicationRef = doc($firestore, "muhtar-applications", application.id)
+        let districtRef =  doc($firestore, "district", application.district_id)
+        let userRef =  doc($firestore, "users", application.user_id)
+        if(status === true){
+            
+        }
+        else if(status === false){
+            
+        }
+        await deleteDoc(applicationRef)
     }
 
     return {

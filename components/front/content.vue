@@ -1,33 +1,6 @@
 <template>
-    <!-- Content
-		============================================= -->
     <section id="content">
-
         <div class="content-wrap pt-0">
-
-            <!-- Client Carousel
-    ============================================= -->
-            <!-- <div class="section bg-transparent m-0 border-bottom py-5">
-                <div class="container">
-                    <div id="oc-clients" class="owl-carousel image-carousel carousel-widget" data-margin="100"
-                        data-loop="true" data-autoplay="5000" data-nav="false" data-pagi="false" data-items-xs="2"
-                        data-items-sm="3" data-items-md="4" data-items-lg="5" data-items-xl="6">
-                        <div class="oc-item"><a href="#"><img src="/front/demos/business/images/clients/linkedin.svg"
-                                    alt="Brands"></a></div>
-                        <div class="oc-item"><a href="#"><img src="/front/demos/business/images/clients/nat-geo.svg"
-                                    alt="Brands"></a></div>
-                        <div class="oc-item"><a href="#"><img src="/front/demos/business/images/clients/jetblue.svg"
-                                    alt="Brands"></a></div>
-                        <div class="oc-item"><a href="#"><img src="/front/demos/business/images/clients/zillow.svg"
-                                    alt="Brands"></a></div>
-                        <div class="oc-item"><a href="#"><img src="/front/demos/business/images/clients/amazon.svg"
-                                    alt="Brands"></a></div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Features
-    ============================================= -->
             <div class="section bg-transparent mt-4 mb-0 pb-0">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center mx-auto mb-0" style="max-width: 550px">
@@ -37,9 +10,7 @@
                             authoritatively.</p>
                     </div>
                     <div class="row justify-content-between align-items-center">
-
                         <div class="col-lg-4 col-sm-6">
-
                             <div class="feature-box flex-md-row-reverse text-md-end border-0">
                                 <div class="fbox-icon">
                                     <a href="#"><img src="/front/demos/seo/images/icons/seo.svg" alt="Feature Icon"
@@ -51,7 +22,6 @@
                                     </p>
                                 </div>
                             </div>
-
                             <div class="feature-box flex-md-row-reverse text-md-end border-0 mt-5">
                                 <div class="fbox-icon">
                                     <a href="#"><img src="/front/demos/seo/images/icons/adword.svg" alt="Feature Icon"
@@ -62,7 +32,6 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, provident.</p>
                                 </div>
                             </div>
-
                             <div class="feature-box flex-md-row-reverse text-md-end border-0 mt-5">
                                 <div class="fbox-icon">
                                     <a href="#"><img src="/front/demos/seo/images/icons/analysis.svg" alt="Feature Icon"
@@ -73,17 +42,13 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, ipsa!</p>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-lg-3 col-7 offset-3 offset-sm-0 d-sm-none d-lg-block text-center my-5">
                             <img src="/front/demos/seo/images/sections/2.png" alt="iphone" class="rounded parallax"
                                 data-bottom-top="transform: translateY(-30px)"
                                 data-top-bottom="transform: translateY(30px)">
                         </div>
-
                         <div class="col-lg-4 col-sm-6">
-
                             <div class="feature-box border-0">
                                 <div class="fbox-icon">
                                     <a href="#"><img src="/front/demos/seo/images/icons/social.svg" alt="Feature Icon"
@@ -95,7 +60,6 @@
                                     </p>
                                 </div>
                             </div>
-
                             <div class="feature-box border-0 mt-5">
                                 <div class="fbox-icon">
                                     <a href="#"><img src="/front/demos/seo/images/icons/experience.svg" alt="Feature Icon"
@@ -106,26 +70,20 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, ipsa!</p>
                                 </div>
                             </div>
-
                             <div class="feature-box border-0 mt-5">
                                 <div class="fbox-icon">
-                                    <a href="#"><img src="/front/demos/seo/images/icons/content_marketing.svg" alt="Feature Icon"
-                                            class="bg-transparent rounded-0"></a>
+                                    <a href="#"><img src="/front/demos/seo/images/icons/content_marketing.svg"
+                                            alt="Feature Icon" class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
                                     <h3 class="text-transform-none ls-0">Content Marketing</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, provident.</p>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
-
-            <!-- Pricing
-    ============================================= -->
             <div class="section m-0"
                 style="background: url('demos/seo/images/sections/4.png') no-repeat center top; background-size: cover; padding: 140px 0 0;">
                 <div class="container">
@@ -151,18 +109,15 @@
                                 <div class="price-discount"></div>
                             </div>
                         </div>
-
                         <div class="col-lg-8">
                             <div id="section-pricing" class="page-section p-0 m-0">
-
                                 <div id="pricing-switch" class="pricing row align-items-end g-0 col-mb-50 mb-4">
-
                                     <div class="col-md-6">
-
                                         <div class="pricing-box">
                                             <div class="pricing-title">
                                                 <img class="mb-2 bg-transparent rounded-0"
-                                                    src="/front/demos/seo/images/icons/man.svg" alt="Pricing Icon" width="50">
+                                                    src="/front/demos/seo/images/icons/man.svg" alt="Pricing Icon"
+                                                    width="50">
                                                 <h3>Single User Plan</h3>
                                                 <span>Most Popular</span>
                                             </div>
@@ -213,7 +168,8 @@
                                         <div class="pricing-box">
                                             <div class="pricing-title">
                                                 <img class="mb-2 bg-transparent rounded-0"
-                                                    src="/front/demos/seo/images/icons/group.svg" alt="Pricing Icon" width="60">
+                                                    src="/front/demos/seo/images/icons/group.svg" alt="Pricing Icon"
+                                                    width="60">
                                                 <h3>Multiple User Plan</h3>
                                             </div>
                                             <div class="pricing-price">
@@ -262,239 +218,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Form Section
-    ============================================= -->
-            <!-- <div class="section m-0"
-                style="background: url('demos/seo/images/sections/1.jpg') no-repeat center center; background-size: cover; padding: 100px 0;">
-                <div class="container">
-                    <div class="row justify-content-between align-items-center">
-
-                        <div class="col-md-4">
-                            <div class="heading-block border-bottom-0 mb-4">
-                                <div class="badge rounded-pill badge-default">Careers</div>
-                                <h3 class="text-transform-none ls-0">Get your free Quote today</h3>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolore voluptatem
-                                assumenda quae possimus sunt dignissimos tempora officia.</p>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4">
-                            <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <h4 class="mb-3">Apply Now</h4>
-                                    <div class="form-widget">
-                                        <div class="form-result"></div>
-                                        <form class="row mb-0" id="template-contactform" name="template-contactform"
-                                            action="include/form.php" method="post">
-                                            <div class="form-process">
-                                                <div class="css3-spinner"
-                                                    style="--cnvs-loader-color:var(--cnvs-themecolor);">
-                                                    <div class="css3-spinner-scaler"></div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 form-group mb-3">
-                                                <label for="template-contactform-name">Name:*</label>
-                                                <input type="text" id="template-contactform-name"
-                                                    name="template-contactform-name" class="form-control input-sm required"
-                                                    value="">
-                                            </div>
-                                            <div class="col-12 form-group mb-3">
-                                                <label for="template-contactform-email">Email Address:*</label>
-                                                <input type="email" id="template-contactform-email"
-                                                    name="template-contactform-email" class="form-control input-sm required"
-                                                    value="">
-                                            </div>
-                                            <div class="col-12 form-group mb-4">
-                                                <label for="template-contactform-website">Website:*</label>
-                                                <input type="text" id="template-contactform-website"
-                                                    name="template-contactform-website"
-                                                    class="form-control input-sm required" value="">
-                                            </div>
-                                            <div class="col-12 form-group d-none">
-                                                <input type="text" id="template-contactform-botcheck"
-                                                    name="template-contactform-botcheck" value="" class="form-control">
-                                            </div>
-                                            <div class="col-12 form-group mb-0">
-                                                <button class="button button-rounded w-100 text-transform-none ls-0 m-0"
-                                                    type="submit" id="template-contactform-submit"
-                                                    name="template-contactform-submit" value="submit">Apply Now</button>
-                                            </div>
-
-                                            <input type="hidden" name="prefix" value="template-contactform-">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mt-5 mt-md-0 text-center">
-                            <a href="https://www.youtube.com/watch?v=P3Huse9K6Xs" data-lightbox="iframe"
-                                class="play-icon shadow"><i class="bi-play"></i></a>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div> -->
-
-            <!-- Works/Projects
-    ============================================= -->
-             <!-- <div class="section m-0"
-                style="background: url('demos/seo/images/sections/5.jpg') no-repeat center center; background-size: cover;padding: 80px 0;">
-                <div class="container">
-                    <div class="heading-block border-bottom-0 text-center">
-                        <div class="badge rounded-pill badge-default">Completed Projects</div>
-                        <h3 class="text-transform-none ls-0">Our Latest Works</h3>
-                    </div>
-
-                    <div id="portfolio" class="portfolio row gutter-20">
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-media pf-icons">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/1.jpg" alt="The Atmosphere">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3><a href="#">The Atmosphere</a></h3>
-                                    <span>Digital Marketing</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-illustrations">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/2.jpg" alt="Wavelength Structure">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3>Wavelength Structure</h3>
-                                    <span>SEO</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-graphics pf-uielements">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/3.jpg" alt="Greenhouse Garden">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3>Simplicity Pages</h3>
-                                    <span>Analytics</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-icons pf-illustrations">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/4.jpg" alt="Industrial Hub">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3>SEO Analysis</h3>
-                                    <span>SEO</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-uielements pf-media">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/5.jpg" alt="Corporate Headquarters">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3>Marketing Strategy</h3>
-                                    <span>Digital Marketing</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="portfolio-item col-12 col-sm-6 col-md-4 pf-graphics pf-illustrations">
-                            <div class="grid-inner">
-                                <div class="portfolio-image">
-                                    <img src="/front/demos/seo/images/works/6.jpg" alt="Space Station">
-                                    <div class="bg-overlay">
-                                        <div class="bg-overlay-content dark" data-hover-animate="fadeIn"
-                                            data-hover-speed="500">
-                                            <a href="#" class="overlay-trigger-icon bg-light text-dark"
-                                                data-hover-animate="fadeIn" data-hover-speed="500"><i
-                                                    class="uil uil-ellipsis-h"></i></a>
-                                        </div>
-                                        <div class="bg-overlay-bg dark" data-hover-animate="fadeIn" data-hover-speed="500">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="portfolio-desc">
-                                    <h3>Space Station</h3>
-                                    <span>Social Media</span>
-                                </div>
-                            </div>
-                        </article>
-
-                    </div>
-
-                    <div class="text-center">
-                        <a href="demo-seo-about.html"
-                            class="button button-large button-rounded text-capitalize ms-0 mt-5 ls-0">View All Works</a>
-                    </div>
-
-                </div>
-            </div>-->
-
-            <!-- Features
-    ============================================= -->
             <div class="container py-5">
                 <div class="row">
                     <div class="col-md-4 mt-5">
@@ -664,8 +387,8 @@
                         </div>
                         <div class="oc-item">
                             <div class="card rounded-6 shadow border-0">
-                                <img class="testimonial-image rounded-circle p-2 bg-white" src="/front/images/testimonials/5.jpg"
-                                    alt="Customer Testimonails">
+                                <img class="testimonial-image rounded-circle p-2 bg-white"
+                                    src="/front/images/testimonials/5.jpg" alt="Customer Testimonails">
                                 <div class="card-body p-4 pt-2 position-relative overflow-hidden">
                                     <div class="row">
                                         <div class="col-12 text-center">
@@ -684,85 +407,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Blogs
-    ============================================= -->
-            <!-- <div class="container py-4">
-                <div class="heading-block border-bottom-0 text-center">
-                    <div class="badge rounded-pill badge-default">Latest Articles</div>
-                    <h3 class="text-transform-none ls-0">Recently From the Blog</h3>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col-md-4">
-                        <article class="entry">
-                            <div class="entry-image mb-3">
-                                <a href="#"><img src="/front/demos/seo/images/blog/1.jpg" alt="Image 3"></a>
-                            </div>
-                            <div class="entry-title">
-                                <h3><a href="#">Top Most SEO Optizied Websites</a></h3>
-                            </div>
-                            <div class="entry-meta">
-                                <ul>
-                                    <li><i class="bi-person"></i><a href="#"> John Doe</a></li>
-                                    <li><i class="bi-calendar"></i><a href="#"> 11 Mar 2021</a></li>
-                                </ul>
-                            </div>
-                            <div class="entry-content">
-                                <p>Asperiores, tenetur, blanditiis, quaerat odit ex exercitationem progressive technology
-                                    through pariatur quibusdam veritatis quisquam. Efficiently communicate alternative.</p>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-md-4">
-                        <article class="entry">
-                            <div class="entry-image mb-3">
-                                <a href="#"><img src="/front/demos/seo/images/blog/2.jpg" alt="Image 3"></a>
-                            </div>
-                            <div class="entry-title">
-                                <h3><a href="#">10 Recent SEO Tips for Startups</a></h3>
-                            </div>
-                            <div class="entry-meta">
-                                <ul>
-                                    <li><i class="bi-person"></i><a href="#"> Semicolonweb</a></li>
-                                    <li><i class="bi-calendar"></i><a href="#"> 18 Apr 2021</a></li>
-                                </ul>
-                            </div>
-                            <div class="entry-content">
-                                <p>Interactively predominate progressive technology through distinctive materials.
-                                    Progressively benchmark extensible intellectual. Exercitationem progressive technology
-                                    through pariatur.</p>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="col-md-4">
-                        <article class="entry">
-                            <div class="entry-image mb-3">
-                                <a href="#"><img src="/front/demos/seo/images/blog/3.jpg" alt="Image 3"></a>
-                            </div>
-                            <div class="entry-title">
-                                <h3><a href="#">3 Ways to Transform Your Site Into a SEO</a></h3>
-                            </div>
-                            <div class="entry-meta">
-                                <ul>
-                                    <li><i class="bi-person"></i><a href="#"> John Doe</a></li>
-                                    <li><i class="bi-calendar"></i><a href="#"> 06 Aug 2021</a></li>
-                                </ul>
-                            </div>
-                            <div class="entry-content">
-                                <p>Globally synergize premium metrics with holistic e-markets. Professionally morph
-                                    interoperable networks vis-a-vis value-added methods.</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-            </div> -->
-
-            <!-- Promo/Contact
-    ============================================= -->
             <div class="section mt-5 footer-stick promo-section bg-transparent" style="padding: 100px 0; overflow: visible">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center">
@@ -775,5 +419,4 @@
                 </div>
             </div>
         </div>
-    </section><!-- #content end -->
-</template>
+    </section><!-- #content end --></template>

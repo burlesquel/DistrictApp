@@ -40,22 +40,27 @@ onMounted(async () => {
                         <tr>
                             <th></th>
                             <th>Name</th>
+                            <th>District</th>
+                            <th></th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="cursor-pointer" @click="router.push(`/app/profile/${application.user.id}`)" v-for="application in applications">
+                        <tr class="cursor-pointer" @click="router.push(`/app/profile/${application.user.id}`)"
+                            v-for="application in applications">
                             <td>
                                 <div class="rounded-full h-12 w-12 bg-gray-300 dark:bg-gray-700">
                                     <img class="h-full w-full rounded-full object-cover"
-                                        :src="contact.avatar ?? '/app/images/avatar-placeholder.jpg'" />
+                                        :src="application.user.photoURL ?? '/app/images/avatar-placeholder.jpg'" />
                                 </div>
                             </td>
                             <td>
-                                {{ contact.displayName }}
+                                {{ application.user.displayName }}
                             </td>
-                            <td></td>
+                            <td>{{ application.district.name }}</td>
+                            <td><button class="btn btn-success">Accept</button></td>
+                            <td><button class="btn btn-danger">Reject</button></td>
                             <td></td>
                         </tr>
                     </tbody>

@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from 'vue';
 import Post from '~/components/app/Post.vue';
-useHead({ title: 'Invoice Preview' });
+useHead({ title: 'Mahalle App' });
 definePageMeta({
     layout: "app-default"
 })
 const store = useAppStore()
-const { getDistrictMeta, updateDistrictPreview, createPost, getPosts, likePost } = useFirebaseStore()
+const { getDistrictMeta, updateDistrictPreview, createPost, getPosts, likePost, createMuhtarApplication } = useFirebaseStore()
 
 // getDistrictMeta()
 let { data: district, pending: districtPending, refresh: refreshDistrict } = useAsyncData('cities', getDistrictMeta, { server: false, lazy: false })
@@ -34,6 +34,11 @@ const onPost = async (e) => {
 const onLike = async (post_id) => {
     await likePost(post_id)
     await refreshPosts()
+}
+
+const onMuhtarApply = async () => {
+    await createMuhtarApplication()
+    await refreshDistrict()
 }
 </script>
 
@@ -65,10 +70,18 @@ const onLike = async (post_id) => {
                                 <div class="text-2xl font-semibold ltr:mr-3 rtl:ml-3">{{ district.director.displayName }}
                                 </div>
                             </div>
-                            <div class="mt-5 flex flex-col justify-center" v-else>
-                                <span class="text-xs">This district hasn't any director yet.</span>
-                                <div class="text-xl font-bold ltr:mr-3 rtl:ml-3">Click to apply</div>
-                            </div>
+                            <template v-else>
+                                <div v-if="district.canApplyForMuhtar" class="mt-5 flex flex-col justify-center">
+                                    <span class="text-xs">This district hasn't any director yet.</span>
+                                    <div @click="onMuhtarApply" class="text-xl cursor-pointer font-bold ltr:mr-3 rtl:ml-3">Click to apply
+                                    </div>
+                                </div>
+                                <div v-else class="mt-5 flex flex-col justify-center">
+                                    <span class="text-xs">You have sent your director application.</span>
+                                    <div class="text-xl font-bold ltr:mr-3 rtl:ml-3"></div>
+                                </div>
+                            </template>
+
                         </div>
                     </div>
                 </div>

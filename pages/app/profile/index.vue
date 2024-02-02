@@ -128,7 +128,7 @@ async function onPhotoChange(e) {
                                             <div>
                                                 <label for="phone">Phone</label>
                                                 <input v-model="currentPhone" id="phone" type="text"
-                                                    placeholder="+1 (530) 555-12121" class="form-input" />
+                                                    placeholder="555 555 555" class="form-input" />
                                             </div>
                                             <div>
                                                 <label for="email">Email</label>

@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router';
 useHead({ title: 'Login Boxed' });
 const router = useRouter();
 const store = useAppStore()
-import json from './data.json'
 definePageMeta({
     layout: 'app-auth',
 });
