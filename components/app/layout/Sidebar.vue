@@ -87,6 +87,19 @@
                             </li>
                             <h2
                                 class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                                <span>ADMIN</span>
+                            </h2>
+                            <li class="nav-item">
+                                <NuxtLink to="/admin/muhtar-applications">
+                                    <div class="flex items-center">
+                                        <icon-user-plus class="shrink-0 group-hover:!text-primary" />
+                                        <span
+                                            class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Muhtar Applications</span>
+                                    </div>
+                                </NuxtLink>
+                            </li>
+                            <h2
+                                class="-mx-4 mb-1 flex items-center bg-white-light/30 px-7 py-3 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
                                 <icon-minus class="hidden h-5 w-4 flex-none" />
                                 <span>ACCOUNT</span>
                             </h2>
@@ -113,6 +126,7 @@
                         </ul>
                     </perfect-scrollbar>
                 </client-only>
+                <span @click="setDistricts">CLICK</span>
             </div>
         </nav>
     </div>
@@ -124,7 +138,7 @@ import { ref, onMounted } from 'vue';
 import { useAppStore } from '@/stores/index';
 const store = useAppStore();
 const router = useRouter()
-console.log(router.currentRoute.value.fullPath);
+const {setDistricts} = useFirebaseStore();
 const nuxtApp = useNuxtApp()
 onMounted(() => {
     setTimeout(() => {

@@ -2,6 +2,7 @@ export default defineNuxtPlugin(async nuxtApp => {
   const store = useAppStore()
   const {getMyDistrict} = useFirebaseStore()
   addRouteMiddleware('auth', async (to, from) => {
+    console.log(to.name);
     if (to.meta.layout === "app-default") {
       // If user is not signed in, we do not let him/her inside application
       if (!store.user) {
@@ -19,6 +20,9 @@ export default defineNuxtPlugin(async nuxtApp => {
         if(district.director_id !== store.user.id){
           return navigateTo("/404")
         }
+      }
+      else if(to.name === "admin-muhtar-applications" && !store.user.isAdmin){
+        return navigateTo("/app")
       }
       else {
         return

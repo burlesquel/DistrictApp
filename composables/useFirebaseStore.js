@@ -2,6 +2,8 @@ import { setDoc, getDoc, addDoc, doc, getDocs, updateDoc, collection, getCountFr
 
 const TWO_WEEKS_IN_SECONDS = 14 * 24 * 60 * 60
 
+import cities from "./data.json"
+
 export default function () {
     const { $firestore, $auth } = useNuxtApp()
     const { uploadPhoto } = useFirebaseStorage()
@@ -13,7 +15,7 @@ export default function () {
             email,
             ...data,
             role: 0,
-            created:serverTimestamp()
+            created: serverTimestamp()
         })
     }
 
@@ -29,7 +31,7 @@ export default function () {
         store.user = { id: docSnap.id, ...docSnap.data() }
     }
 
-    async function getUsersByDistrict(district_id){
+    async function getUsersByDistrict(district_id) {
         const colRef = collection($firestore, "users")
         let q = query(colRef,
             where("districtId", "==", district_id))
@@ -83,8 +85,8 @@ export default function () {
         }
     }
 
-    async function setDistricts(cities) {
-        const districts = []
+    async function setDistricts() {
+        let districts = []
         for (let city of cities) {
             let city_id = city.id
             city.counties.forEach(async (county, index) => {
@@ -105,6 +107,10 @@ export default function () {
                 })
             })
         }
+        // WE SET THE FIRST 20.000 DISTRICTS 
+        // 0 - 20.000
+        districts = districts.slice(0, 20000)
+        console.log(districts);
         const CHUNK_SIZE = 100
         for (let i = 0; i < districts.length; i += CHUNK_SIZE) {
             const chunk = districts.slice(i, i + CHUNK_SIZE);
@@ -204,7 +210,7 @@ export default function () {
             district_id,
             ...data,
             attendees: [],
-            likes:[],
+            likes: [],
             created: serverTimestamp()
         })
     }
@@ -224,9 +230,9 @@ export default function () {
             let data = post.data()
             let user = users.find(user => user.id === data.user_id)
             return {
-                id:post.id,
-                user:{
-                    id:user.id,
+                id: post.id,
+                user: {
+                    id: user.id,
                     ...user.data()
                 },
                 ...data
@@ -234,18 +240,18 @@ export default function () {
         })
     }
 
-    async function likePost(post_id){
+    async function likePost(post_id) {
         console.log(post_id);
         const docRef = doc($firestore, "posts", post_id)
         let post = (await getDoc(docRef)).data()
-        if(post.likes.includes(store.user.id)){
+        if (post.likes.includes(store.user.id)) {
             await updateDoc(docRef, {
-                likes:arrayRemove(store.user.id)
+                likes: arrayRemove(store.user.id)
             })
         }
-        else{
+        else {
             await updateDoc(docRef, {
-                likes:arrayUnion(store.user.id)
+                likes: arrayUnion(store.user.id)
             })
         }
 
@@ -294,7 +300,7 @@ export default function () {
         return await getDocs(q)
     }
 
-    async function getSingleEvent(post_id){
+    async function getSingleEvent(post_id) {
         let docRef = doc($firestore, "posts", post_id)
         return await getDoc(docRef)
     }
@@ -326,7 +332,7 @@ export default function () {
         let users = await getUsersData(user_ids)
         return Array.from(comments.docs, comment => {
             let user = users.find(user => user.id === comment.data().user_id)
-            comment.user = {...user.data(), id:user.id}
+            comment.user = { ...user.data(), id: user.id }
             return comment
         })
     }
@@ -354,6 +360,36 @@ export default function () {
         return users.docs
     }
 
+    async function createMuhtarApplication() {
+        const colRef = collection($firestore, "users")
+        await addDoc(colRef, {
+            user_id: store.user.id,
+            district_id: store.districtId
+        })
+    }
+
+    async function getMuhtarApplications(district_id) {
+        if (!store.user.isAdmin) return;
+        const colRef = collection($firestore, "muhtar-applications")
+        let q;
+        if(district_id){
+            q = query(colRef, where("district_id", "==", district_id))
+        }
+        else{
+            q = colRef
+        }
+        let applications = await getDocs(q)
+        let user_ids = [...new Set(Array.from(applications.docs, application => application.data().user_id))].filter(elem => elem)
+        let users = user_ids.length === 0 ? [] : await getUsersData(user_ids)
+        return Array.from(applications.docs, application => {
+            let data = application.data()
+            let user = users.find(user => user.id === data.user_id)
+            if(user){
+                data.user = { id: user.id, ...user.data() }
+            }
+            return data
+        })
+    }
 
     return {
         createUser,
@@ -383,6 +419,8 @@ export default function () {
         getComments,
         createComment,
         deleteComment,
-        getUsersData
+        getUsersData,
+        createMuhtarApplication,
+        getMuhtarApplications
     }
 }
