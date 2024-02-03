@@ -403,6 +403,7 @@ export default function () {
         let districts = district_ids.length === 0 ? [] : await getDistrictsData(district_ids)
         return Array.from(applications.docs, application => {
             let data = application.data()
+            data.id = application.id
             let user = users.find(user => user.id === data.user_id)
             if (user) {
                 data.user = { id: user.id, ...user.data() }
@@ -418,12 +419,10 @@ export default function () {
     async function setMuhtarApplicationStatus(application, status){
         let applicationRef = doc($firestore, "muhtar-applications", application.id)
         let districtRef =  doc($firestore, "district", application.district_id)
-        let userRef =  doc($firestore, "users", application.user_id)
         if(status === true){
-            
-        }
-        else if(status === false){
-            
+            await updateDoc(districtRef, {
+                director_id:application.user_id
+            })
         }
         await deleteDoc(applicationRef)
     }
@@ -458,6 +457,7 @@ export default function () {
         deleteComment,
         getUsersData,
         createMuhtarApplication,
-        getMuhtarApplications
+        getMuhtarApplications,
+        setMuhtarApplicationStatus
     }
 }

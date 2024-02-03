@@ -7,16 +7,25 @@ definePageMeta({
 })
 
 const router = useRouter()
-const { getMuhtarApplications } = useFirebaseStore()
+const { getMuhtarApplications, setMuhtarApplicationStatus } = useFirebaseStore()
 
 const pending = ref(true)
 const applications = ref(null)
 
-onMounted(async () => {
+async function populateData() {
+    pending.value = true
     applications.value = await getMuhtarApplications()
     console.log(applications.value);
     pending.value = false
-})
+}
+
+onMounted(populateData)
+
+async function onSetMuhtarApplicationStatus(application, status) {
+    console.log(application, status);
+    await setMuhtarApplicationStatus(application, status);
+    await populateData();
+}
 
 </script>
 
@@ -54,8 +63,10 @@ onMounted(async () => {
                                 {{ application.user.displayName }}
                             </td>
                             <td>{{ application.district.name }}</td>
-                            <td><button class="btn btn-success">Accept</button></td>
-                            <td><button class="btn btn-danger">Reject</button></td>
+                            <td><button @click.stop="onSetMuhtarApplicationStatus(application, true)"
+                                    class="btn btn-success">Accept</button></td>
+                            <td><button @click.stop="onSetMuhtarApplicationStatus(application, false)"
+                                    class="btn btn-danger">Reject</button></td>
                             <td></td>
                         </tr>
                     </tbody>

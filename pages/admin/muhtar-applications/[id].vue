@@ -8,7 +8,7 @@ definePageMeta({
 const store = useAppStore()
 const router = useRouter()
 const route = useRoute()
-const { getMuhtarApplications, getDistrictMeta } = useFirebaseStore()
+const { getMuhtarApplications, getDistrictMeta, setMuhtarApplicationStatus } = useFirebaseStore()
 
 const district_id = route.params.id
 console.log(district_id);
@@ -17,11 +17,20 @@ const pending = ref(true)
 const district = ref(null)
 const applications = ref(null)
 
-onMounted(async () => {
+async function populateData() {
+    pending.value = true
     district.value = await getDistrictMeta(district_id)
     applications.value = await getMuhtarApplications(district_id)
     pending.value = false
-})
+}
+
+onMounted(populateData)
+
+async function onSetMuhtarApplicationStatus(application, status) {
+    console.log(application, status);
+    await setMuhtarApplicationStatus(application, status);
+    await populateData();
+}
 
 </script>
 
@@ -59,8 +68,10 @@ onMounted(async () => {
                                 {{ application.user.displayName }}
                             </td>
                             <td>{{ application.district.name }}</td>
-                            <td><button class="btn btn-success">Accept</button></td>
-                            <td><button class="btn btn-danger">Reject</button></td>
+                            <td><button @click.stop="onSetMuhtarApplicationStatus(application, true)"
+                                    class="btn btn-success">Accept</button></td>
+                            <td><button @click.stop="onSetMuhtarApplicationStatus(application, false)"
+                                    class="btn btn-danger">Reject</button></td>
                             <td></td>
                         </tr>
                     </tbody>
