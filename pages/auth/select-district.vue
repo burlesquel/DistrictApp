@@ -79,10 +79,10 @@ async function onContinue(e){
                                 </div>
                             </div>
                             <div v-if="districts">
-                                <label for="Email">County</label>
+                                <label for="Email">District</label>
                                 <div class="relative text-white-dark">
                                     <select name="district" id="City">
-                                        <option disabled selected>Please select your county</option>
+                                        <option disabled selected>Please select your district</option>
                                         <option v-for="district of districts" :value="district.id">{{ district.name }}</option>
                                     </select>
                                 </div>
