@@ -126,7 +126,7 @@
                         </ul>
                     </perfect-scrollbar>
                 </client-only>
-                <span @click="setDistricts">CLICK</span>
+                <!-- <span @click="setDistricts">CLICK</span> -->
             </div>
         </nav>
     </div>
