@@ -27,7 +27,7 @@ useHead({
 </script>
 
 <template>
-    <div id="wrapper">
+    <div class="scroll-smooth" id="wrapper">
         <!-- Top Bar
 ============================================= -->
         <div id="top" class="transparent-topbar">
@@ -95,7 +95,7 @@ useHead({
                 ============================================= -->
                         <nav class="primary-menu with-arrows">
 
-                            <ul class="menu-container scroll-smooth">
+                            <ul class="menu-container">
                                 <!-- use .current class on <li> for highlighting -->
                                 <li class="menu-item"><a class="menu-link" href="#home">
                                         <div>Home</div>
@@ -103,11 +103,11 @@ useHead({
                                 <li class="menu-item"><a class="menu-link" href="#services">
                                         <div>Services</div>
                                     </a></li>
-                                <li class="menu-item"><a class="menu-link" href="#list">
-                                        <div>List?</div>
-                                    </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#plans">
                                         <div>Plans</div>
+                                    </a></li>
+                                <li class="menu-item"><a class="menu-link" href="#list">
+                                        <div>List?</div>
                                     </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#testimonials">
                                         <div>Testimonials</div>
