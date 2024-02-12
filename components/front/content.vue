@@ -3,11 +3,10 @@
         <div class="content-wrap pt-0">
             <div class="section bg-transparent mt-4 mb-0 pb-0">
                 <div class="container">
-                    <div class="heading-block border-bottom-0 text-center mx-auto mb-0" style="max-width: 550px">
+                    <div class="heading-block border-bottom-0 text-center mx-auto mb-0" style="max-width: 500px">
                         <div class="badge rounded-pill badge-default">Services</div>
                         <h3 class="text-transform-none ls-0 mb-3">What We Do</h3>
-                        <p>Dynamically provide access to resource-leveling mindshare vis-a-vis bricks-and-clicks ideas
-                            authoritatively.</p>
+                        <p>"DistrictApp" aims to strengthen bonds among neighbors, encourage information sharing, and foster collective growth</p>
                     </div>
                     <div class="row justify-content-between align-items-center">
                         <div class="col-lg-4 col-sm-6">
@@ -17,8 +16,8 @@
                                             class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
-                                    <h3 class="text-transform-none ls-0">SEO optimization</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, dolore, voluptates!
+                                    <h3 class="text-transform-none ls-0">Swift Assistance</h3>
+                                    <p>Quickly collaborate in emergencies or daily needs, providing support to your neighbors.
                                     </p>
                                 </div>
                             </div>
@@ -28,8 +27,8 @@
                                             class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
-                                    <h3 class="text-transform-none ls-0">Adwords Campaign</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, provident.</p>
+                                    <h3 class="text-transform-none ls-0">Local Business Directory</h3>
+                                    <p> Explore and back local businesses in your neighborhood, fostering economic growth and community spirit.</p>
                                 </div>
                             </div>
                             <div class="feature-box flex-md-row-reverse text-md-end border-0 mt-5">
@@ -38,8 +37,8 @@
                                             class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
-                                    <h3 class="text-transform-none ls-0">Digital Analysis</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, ipsa!</p>
+                                    <h3 class="text-transform-none ls-0">Active Interaction</h3>
+                                    <p>Engage more frequently with your neighbors through neighborhood activities, community gatherings, and shared events.</p>
                                 </div>
                             </div>
                         </div>
@@ -55,8 +54,8 @@
                                             class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
-                                    <h3 class="text-transform-none ls-0">Social Media Marketing</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, dolore, voluptates!
+                                    <h3 class="text-transform-none ls-0">Event Planning and Coordination</h3>
+                                    <p>Easily plan and coordinate neighborhood events, gatherings, and initiatives.
                                     </p>
                                 </div>
                             </div>
@@ -76,8 +75,8 @@
                                             alt="Feature Icon" class="bg-transparent rounded-0"></a>
                                 </div>
                                 <div class="fbox-content">
-                                    <h3 class="text-transform-none ls-0">Content Marketing</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, provident.</p>
+                                    <h3 class="text-transform-none ls-0">Personalized Neighborhood Feed</h3>
+                                    <p>Customize your experience by receiving tailored content, relevant updates, and recommendations based on your preferences and interests.</p>
                                 </div>
                             </div>
                         </div>
@@ -88,26 +87,8 @@
                 style="background: url('demos/seo/images/sections/4.png') no-repeat center top; background-size: cover; padding: 140px 0 0;">
                 <div class="container">
                     <div class="row justify-content-between">
-                        <div class="col-lg-4 mt-4">
-                            <div class="heading-block border-bottom-0 mb-4">
-                                <div class="badge rounded-pill badge-default">Pricing Table</div>
-                                <h3 class="text-transform-none ls-0">No Hidden Charges. <br>Choose Your Best Plan.</h3>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolore voluptatem
-                                assumenda quae possimus sunt dignissimos tempora officia.</p>
-                            <div class="pricing-tenure-switcher d-flex align-items-center mb-4 position-relative"
-                                data-container="#pricing-switch">
-                                <span class="pts-switch pts-false col-auto">Monthly</span>
-                                <div class="pts-switcher col-auto">
-                                    <div class="switch mx-3">
-                                        <input id="switch-toggle-pricing-tenure" class="switch-toggle switch-toggle-round"
-                                            type="checkbox">
-                                        <label for="switch-toggle-pricing-tenure" class="mb-0"></label>
-                                    </div>
-                                </div>
-                                <span class="pts-switch pts-true col-auto">Yearly</span>
-                                <div class="price-discount"></div>
-                            </div>
+                        <div class="col-md-2 mt-2">
+                        
                         </div>
                         <div class="col-lg-8">
                             <div id="section-pricing" class="page-section p-0 m-0">
@@ -152,9 +133,7 @@
                                                 </ul>
                                             </div>
                                             <div class="pricing-action">
-                                                <div class="pts-content pts-content-false"><a href="#"
-                                                        class="button button-large button-rounded w-100 text-capitalize m-0 ls-0">Get
-                                                        Started</a></div>
+                                              
                                                 <div class="pts-content pts-content-true"><a href="#"
                                                         class="button button-large button-rounded w-100 text-capitalize m-0 ls-0">Get
                                                         Started</a></div>
@@ -199,9 +178,7 @@
                                                 </ul>
                                             </div>
                                             <div class="pricing-action">
-                                                <div class="pts-content pts-content-false"><a href="#"
-                                                        class="button button-rounded button-large button-light text-dark bg-white border w-100 text-transform-none m-0 ls-0">Get
-                                                        Started</a></div>
+                                                
                                                 <div class="pts-content pts-content-true"><a href="#"
                                                         class="button button-rounded button-large button-light text-dark bg-white border w-100 text-transform-none m-0 ls-0">Get
                                                         Started</a></div>
@@ -214,7 +191,9 @@
 
                             </div>
                         </div>
-
+                        <div class="col-md-2 mt-2">
+                        
+                    </div>
                     </div>
                 </div>
             </div>
