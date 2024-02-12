@@ -1,12 +1,12 @@
 <script setup>
 import Swal from 'sweetalert2';
 const errors = {
-    "auth/email-already-in-use":"This email is already used. Try with another one.",
-    "auth/missing-password":"Please enter a password.",
-    "auth/weak-password":"The password you have provided is weak. Try something different.",
-    "auth/timeout":"The page timed out.",
-    "auth/invalid-phone-number":"The phone number seems invalid.",
-    "auth/invalid-email":"The email you have provided is invalid.",
+    "auth/email-already-in-use": "This email is already used. Try with another one.",
+    "auth/missing-password": "Please enter a password.",
+    "auth/weak-password": "The password you have provided is weak. Try something different.",
+    "auth/timeout": "The page timed out.",
+    "auth/invalid-phone-number": "The phone number seems invalid.",
+    "auth/invalid-email": "The email you have provided is invalid.",
 }
 const { registerUser, authorizeWithGoogle } = useFirebaseAuth()
 definePageMeta({
@@ -14,18 +14,17 @@ definePageMeta({
 });
 const onRegister = async (e) => {
     const { name, email, password } = e.target
-    // registerUser(email.value, password.value).catch(err => {
-    //     console.log(err.message);
-    //     const toast = Swal.mixin({
-    //         toast:true,
-    //         position:"bottom-start",
-    //         showConfirmButton:false,
-    //         timer:3000,
-    //         title:errors[err.code] ?? err.message
-    //     });
-    //     toast.fire()
-    // })
-    await registerUser(email.value, password.value, name.value)
+    registerUser(email.value, password.value, name.value).catch(err => {
+        console.log(err.message);
+        const toast = Swal.mixin({
+            toast: true,
+            position: "bottom-start",
+            showConfirmButton: false,
+            timer: 3000,
+            title: errors[err.code] ?? err.message
+        });
+        toast.fire()
+    })
 }
 
 const onGoogleAuth = authorizeWithGoogle
@@ -60,7 +59,7 @@ const onGoogleAuth = authorizeWithGoogle
                             <div>
                                 <label for="Name">Name</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Name" name="name" type="text" placeholder="Enter Name"
+                                    <input id="Name" name="name" type="text" required placeholder="Enter Name"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-user :fill="true" />
@@ -70,7 +69,7 @@ const onGoogleAuth = authorizeWithGoogle
                             <div>
                                 <label for="Email">Email</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" name="email" type="email" placeholder="Enter Email"
+                                    <input id="Email" name="email" type="email" required placeholder="Enter Email"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
@@ -80,8 +79,8 @@ const onGoogleAuth = authorizeWithGoogle
                             <div>
                                 <label for="Password">Password</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Password" name="password" type="password" placeholder="Enter Password"
-                                        class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input id="Password" name="password" type="password" required
+                                        placeholder="Enter Password" class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-lock-dots :fill="true" />
                                     </span>

@@ -1,16 +1,31 @@
 <script setup>
 import { useAppStore } from '@/stores/index';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 useHead({ title: 'Login Boxed' });
 const router = useRouter();
 const { registerUser, authorizeWithGoogle, login } = useFirebaseAuth()
 definePageMeta({
     layout: 'app-auth',
 });
+const errors = {
+    "auth/invalid-credential": "Invalid credentials. Try something different.",
+    "auth/missing-password": "Please enter a password.",
+    "auth/missing-email": "Please enter an email.",
+    "auth/timeout": "The page timed out."
+}
 const onLogin = (e) => {
     const { email, password } = e.target
     login(email.value, password.value).catch(err => {
         console.log(err.message);
+        const toast = Swal.mixin({
+            toast: true,
+            position: "bottom-start",
+            showConfirmButton: false,
+            timer: 3000,
+            title: errors[err.code] ?? err.message
+        });
+        toast.fire()
     })
 }
 const onGoogleAuth = authorizeWithGoogle
@@ -46,7 +61,7 @@ const onGoogleAuth = authorizeWithGoogle
                             <div>
                                 <label for="Email">Email</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" name="email" type="email" placeholder="Enter Email"
+                                    <input id="Email" name="email" type="email" required placeholder="Enter Email"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
@@ -56,18 +71,12 @@ const onGoogleAuth = authorizeWithGoogle
                             <div>
                                 <label for="Password">Password</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Password" name="password" type="password" placeholder="Enter Password"
+                                    <input id="Password" name="password" type="password" required placeholder="Enter Password"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-lock-dots :fill="true" />
                                     </span>
                                 </div>
-                            </div>
-                            <div>
-                                <label class="flex cursor-pointer items-center">
-                                    <input type="checkbox" class="form-checkbox bg-white dark:bg-black" />
-                                    <span class="text-white-dark">Subscribe to weekly newsletter</span>
-                                </label>
                             </div>
                             <button type="submit"
                                 class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
