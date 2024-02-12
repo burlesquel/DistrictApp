@@ -1,7 +1,7 @@
 <template>
     <section id="content">
         <div class="content-wrap pt-0">
-            <div class="section bg-transparent mt-4 mb-0 pb-0">
+            <div id="services" class="section bg-transparent mt-4 mb-0 pb-0">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center mx-auto mb-0" style="max-width: 500px">
                         <div class="badge rounded-pill badge-default">Services</div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section m-0"
+            <div id="plans" class="section m-0"
                 style="background: url('demos/seo/images/sections/4.png') no-repeat center top; background-size: cover; padding: 140px 0 0;">
                 <div class="container">
                     <div class="row justify-content-between">
@@ -197,7 +197,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container py-5">
+            <div id="list" class="container py-5">
                 <div class="row">
                     <div class="col-md-4 mt-5">
                         <div class="feature-box fbox-center border-0">
@@ -280,7 +280,7 @@
 
             <!-- Testimonials
     ============================================= -->
-            <div class="section mt-0"
+            <div id="testimonials" class="section mt-0"
                 style="background: url('demos/seo/images/sections/3.jpg') no-repeat top center; background-size: cover; padding: 80px 0 70px;">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center">
@@ -386,7 +386,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section mt-5 footer-stick promo-section bg-transparent" style="padding: 100px 0; overflow: visible">
+            <div id="try" class="section mt-5 footer-stick promo-section bg-transparent" style="padding: 100px 0; overflow: visible">
                 <div class="container">
                     <div class="heading-block border-bottom-0 text-center">
                         <h5 class="text-uppercase ls-1 mb-1">Grab your Free Trail and Explore the Options</h5>

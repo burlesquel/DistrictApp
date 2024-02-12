@@ -1,5 +1,5 @@
 <template>
-    <section id="slider" class="slider-element slider-parallax min-vh-60 min-vh-md-100 include-header">
+    <section id="home" class="slider-element slider-parallax min-vh-60 min-vh-md-100 include-header">
         <div class="slider-inner"
             style="background: var(--cnvs-contrast-0) url('/front/demos/seo/images/hero/hero.jpg'); background-size: cover;">
             <div class="vertical-middle slider-element-fade">

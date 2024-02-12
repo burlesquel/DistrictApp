@@ -10,18 +10,18 @@
 // import "front/css/custom.css"
 
 useHead({
-    script:[
-        {src:"/front/js/functions.bundle.js", type:"text/javascript", body:true},
-        {src:"/front/js/plugins.min.js", type:"text/javascript", body:true},
-        {src:"https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js", type:"text/javascript", defer:true, client:true},
-        {innerHTML:"document.addEventListener('DOMContentLoaded', function(){skrollr.init({forceHeight: false});})", defer:true, body:true, type:"text/javascript", client:true}
+    script: [
+        { src: "/front/js/functions.bundle.js", type: "text/javascript", body: true },
+        { src: "/front/js/plugins.min.js", type: "text/javascript", body: true },
+        { src: "https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js", type: "text/javascript", defer: true, client: true },
+        { innerHTML: "document.addEventListener('DOMContentLoaded', function(){skrollr.init({forceHeight: false});})", defer: true, body: true, type: "text/javascript", client: true }
     ],
-    link:[
-        {rel:"stylesheet", href:"/front/style.css"},
-        {rel:"stylesheet", href:"/front/css/font-icons.css"},
-        {rel:"stylesheet", href:"/front/css/components/bs-switches.css"},
-        {rel:"stylesheet", href:"/front/demos/seo/seo.css"},
-        {rel:"stylesheet", href:"/front/css/custom.css"}
+    link: [
+        { rel: "stylesheet", href: "/front/style.css" },
+        { rel: "stylesheet", href: "/front/css/font-icons.css" },
+        { rel: "stylesheet", href: "/front/css/components/bs-switches.css" },
+        { rel: "stylesheet", href: "/front/demos/seo/seo.css" },
+        { rel: "stylesheet", href: "/front/css/custom.css" }
     ]
 })
 </script>
@@ -74,10 +74,8 @@ useHead({
                 ============================================= -->
                         <div id="logo">
                             <a href="index.html">
-                                <img class="logo-default"
-                                    src="/front/images/logo@2x.png" alt="Canvas Logo">
-                                <img class="logo-dark"
-                                    src="/front/images/logo-dark@2x.png" alt="Canvas Logo">
+                                <img class="logo-default" src="/front/images/logo@2x.png" alt="Canvas Logo">
+                                <img class="logo-dark" src="/front/images/logo-dark@2x.png" alt="Canvas Logo">
                             </a>
                         </div><!-- #logo end -->
 
@@ -97,18 +95,22 @@ useHead({
                 ============================================= -->
                         <nav class="primary-menu with-arrows">
 
-                            <ul class="menu-container">
-                                <li class="menu-item current"><a class="menu-link" href="#">
+                            <ul class="menu-container scroll-smooth">
+                                <!-- use .current class on <li> for highlighting -->
+                                <li class="menu-item"><a class="menu-link" href="#home">
                                         <div>Home</div>
                                     </a></li>
-                                <li class="menu-item"><a class="menu-link" href="#">
-                                        <div>What We Do</div>
+                                <li class="menu-item"><a class="menu-link" href="#services">
+                                        <div>Services</div>
                                     </a></li>
-                                <li class="menu-item"><a class="menu-link" href="#">
-                                        <div>What We Do</div>
+                                <li class="menu-item"><a class="menu-link" href="#list">
+                                        <div>List?</div>
                                     </a></li>
-                                <li class="menu-item"><a class="menu-link" href="#">
-                                        <div>What We Do</div>
+                                <li class="menu-item"><a class="menu-link" href="#plans">
+                                        <div>Plans</div>
+                                    </a></li>
+                                <li class="menu-item"><a class="menu-link" href="#testimonials">
+                                        <div>Testimonials</div>
                                     </a></li>
                             </ul>
 
@@ -119,7 +121,7 @@ useHead({
             </div>
             <div class="header-wrap-clone"></div>
         </header><!-- #header end -->
-        <slot/>
+        <slot />
         <!-- Footer
 ============================================= -->
         <footer id="footer" class="border-0" style="background: var(--cnvs-contrast-0);">
@@ -138,7 +140,8 @@ useHead({
 
                                 <p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp;
                                     <strong>Flexible</strong> Design Standards with a Retina &amp; Responsive Approach.
-                                    Browse the amazing Features this template offers.</p>
+                                    Browse the amazing Features this template offers.
+                                </p>
 
                                 <div class="line line-sm"></div>
 
@@ -237,69 +240,70 @@ useHead({
 
                             <div class="widget">
 
-                            <div class="row col-mb-30">
-                                <div class="col-lg-6 col-md-12 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <a href="https://facebook.com/semicolonweb" target="_blank"
-                                            class="social-icon bg-dark h-bg-facebook mb-0 me-2">
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                        </a>
-                                        <a href="https://facebook.com/semicolonweb" target="_blank"
-                                            class="text-dark"><small><strong class="d-block">Like us</strong>on
-                                                Facebook</small></a>
+                                <div class="row col-mb-30">
+                                    <div class="col-lg-6 col-md-12 col-6">
+                                        <div class="d-flex align-items-center">
+                                            <a href="https://facebook.com/semicolonweb" target="_blank"
+                                                class="social-icon bg-dark h-bg-facebook mb-0 me-2">
+                                                <i class="fa-brands fa-facebook-f"></i>
+                                                <i class="fa-brands fa-facebook-f"></i>
+                                            </a>
+                                            <a href="https://facebook.com/semicolonweb" target="_blank"
+                                                class="text-dark"><small><strong class="d-block">Like us</strong>on
+                                                    Facebook</small></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-6">
+                                        <div class="d-flex align-items-center">
+                                            <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
+                                                class="social-icon bg-dark h-bg-rss mb-0 me-2">
+                                                <i class="fa-solid fa-rss"></i>
+                                                <i class="fa-solid fa-rss"></i>
+                                            </a>
+                                            <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
+                                                class="text-dark"><small><strong class="d-block">Subscribe</strong>to RSS
+                                                    Feeds</small></a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-12 col-6">
-                                    <div class="d-flex align-items-center">
-                                        <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
-                                            class="social-icon bg-dark h-bg-rss mb-0 me-2">
-                                            <i class="fa-solid fa-rss"></i>
-                                            <i class="fa-solid fa-rss"></i>
-                                        </a>
-                                        <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
-                                            class="text-dark"><small><strong class="d-block">Subscribe</strong>to RSS
-                                                Feeds</small></a>
-                                    </div>
-                                </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
 
-            </div><!-- .footer-widgets-wrap end -->
-        </div>
-
-        <!-- Copyrights
-    ============================================= -->
-        <div id="copyrights"
-            style="background: url('/front/demos/seo/images/hero/footer.svg') no-repeat top center; background-size: cover; padding-top: 70px;">
-            <div class="container">
-
-                <div class="row justify-content-between col-mb-30"> 
-                    <div class="col-12 col-lg-auto text-center text-lg-start">
-                        Copyrights &copy; 2023 All Rights Reserved by Canvas Inc.<br>
-                        <div class="copyright-links"><a href="#" class="text-contrast-600">Terms of Use</a> / <a
-                                href="#" class="text-contrast-600">Privacy Policy</a></div>
-                    </div>
-
-                    <div class="col-12 col-lg-auto text-center text-lg-end">
-                        <div class="copyrights-menu copyright-links">
-                            <a href="#" class="text-contrast-600">Home</a>/<a href="#" class="text-contrast-600">About
-                                Us</a>/<a href="#" class="text-contrast-600">Team</a>/<a href="#"
-                                class="text-contrast-600">Clients</a>/<a href="#" class="text-contrast-600">FAQs</a>/<a
-                                href="#" class="text-contrast-600">Contact</a>
-                        </div>
-                    </div>
-                </div>
-
+                </div><!-- .footer-widgets-wrap end -->
             </div>
-        </div><!-- #copyrights end -->
-    </footer><!-- #footer end -->
 
-</div><!-- #wrapper end -->
+            <!-- Copyrights
+    ============================================= -->
+            <div id="copyrights"
+                style="background: url('/front/demos/seo/images/hero/footer.svg') no-repeat top center; background-size: cover; padding-top: 70px;">
+                <div class="container">
 
-<!-- Go To Top
+                    <div class="row justify-content-between col-mb-30">
+                        <div class="col-12 col-lg-auto text-center text-lg-start">
+                            Copyrights &copy; 2023 All Rights Reserved by Canvas Inc.<br>
+                            <div class="copyright-links"><a href="#" class="text-contrast-600">Terms of Use</a> / <a
+                                    href="#" class="text-contrast-600">Privacy Policy</a></div>
+                        </div>
+
+                        <div class="col-12 col-lg-auto text-center text-lg-end">
+                            <div class="copyrights-menu copyright-links">
+                                <a href="#" class="text-contrast-600">Home</a>/<a href="#" class="text-contrast-600">About
+                                    Us</a>/<a href="#" class="text-contrast-600">Team</a>/<a href="#"
+                                    class="text-contrast-600">Clients</a>/<a href="#" class="text-contrast-600">FAQs</a>/<a
+                                    href="#" class="text-contrast-600">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- #copyrights end -->
+        </footer><!-- #footer end -->
+
+    </div><!-- #wrapper end -->
+
+    <!-- Go To Top
 ============================================= -->
-<div id="gotoTop" class="uil uil-angle-up"></div></template>
+    <div id="gotoTop" class="uil uil-angle-up"></div>
+</template>
