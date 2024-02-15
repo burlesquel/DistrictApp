@@ -138,9 +138,7 @@ useHead({
                                 <img src="/front/images/footer-widget-logo.png" alt="Footer Logo" class="alignleft"
                                     style="margin-top: 8px; padding-right: 18px; border-right: 1px solid #DDD;">
 
-                                <p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp;
-                                    <strong>Flexible</strong> Design Standards with a Retina &amp; Responsive Approach.
-                                    Browse the amazing Features this template offers.
+                                <p> Strengthening Bonds, Growing Our Community DistrictApp
                                 </p>
 
                                 <div class="line line-sm"></div>
@@ -158,7 +156,6 @@ useHead({
 
                                     <div class="col-lg-3 col-6 widget_links">
                                         <ul>
-                                            <li><a href="#">Shop</a></li>
                                             <li><a href="#">Portfolio</a></li>
                                             <li><a href="#">Blog</a></li>
                                             <li><a href="#">Events</a></li>
@@ -168,23 +165,15 @@ useHead({
 
                                     <div class="col-lg-3 col-6 widget_links">
                                         <ul>
-                                            <li><a href="#">Corporate</a></li>
-                                            <li><a href="#">Agency</a></li>
-                                            <li><a href="#">eCommerce</a></li>
-                                            <li><a href="#">Personal</a></li>
-                                            <li><a href="#">One Page</a></li>
+                                            <li><a href="#">Disclaimer</a></li>
+                                            <li><a href="#">Terms of Use</a></li>
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Cookie Policy</a></li>
+                                            <li><a href="#">Refund Policy</a></li>
                                         </ul>
                                     </div>
 
-                                    <div class="col-lg-3 col-6 widget_links">
-                                        <ul>
-                                            <li><a href="#">Restaurant</a></li>
-                                            <li><a href="#">Wedding</a></li>
-                                            <li><a href="#">App Showcase</a></li>
-                                            <li><a href="#">Magazine</a></li>
-                                            <li><a href="#">Landing Page</a></li>
-                                        </ul>
-                                    </div>
+                                  
                                 </div>
 
                             </div>

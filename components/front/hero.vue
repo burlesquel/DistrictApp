@@ -12,9 +12,9 @@
                                 <h3 class="text-rotater mb-2" data-separator="," data-rotate="fadeIn" data-speed="3500">-
                                     Neighborhood Bonds <span class="t-rotate">Connect, Share Knowledge, Thrive</span>.</h3>
                                 <p>Get ready to bring you and your neighbors closer together! Our "Neighborhood Unity" app aims to revive neighborhood culture, increase solidarity, and strengthen communication in the midst of fast-paced life!.</p><br>
-                                <a href="demo-seo-about.html"
+                                <a href="app/"
                                     class="button button-rounded button-large text-transform-none ls-0">Get Started</a>
-                                <a href="demo-seo-contact.html"
+                                <a href="app/"
                                     class="button button-rounded button-large button-light text-dark bg-white border text-transform-none ls-0">Contact
                                     Us</a>
                             </div>
