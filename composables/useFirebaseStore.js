@@ -85,45 +85,44 @@ export default function () {
         }
     }
 
-    async function setDistricts() {
-        let districts = []
-        for (let city of cities) {
-            let city_id = city.id
-            city.counties.forEach(async (county, index) => {
-                let county_id = `${city_id}-${index}`
-                let county_index = index
-                county.districts.forEach(async (district, index_) => {
-                    let id = `${city_id}-${county_index}-${index_}`
-                    let data = {
-                        id,
-                        city_id,
-                        county_id,
-                        name: district
-                    }
-                    districts.push(data)
-                    // let docRef = doc($firestore, 'district', id)
-                    // await setDoc(docRef, data)
-                    // console.log(county_id);
-                })
-            })
-        }
-        // WE SET THE FIRST 20.000 DISTRICTS 
-        // 0 - 20.000
-        districts = districts.slice(0, 20000)
-        console.log(districts);
-        const CHUNK_SIZE = 100
-        for (let i = 0; i < districts.length; i += CHUNK_SIZE) {
-            const chunk = districts.slice(i, i + CHUNK_SIZE);
-            let batch = writeBatch($firestore)
-            chunk.forEach(item => {
-                let docRef = doc($firestore, 'district', item.id)
-                batch.set(docRef, item);
-            });
-            console.log(batch);
-            await batch.commit();
-            console.log("batch commited");
-        }
-    }
+    // async function setDistricts() {
+    //     let districts = []
+    //     for (let city of cities) {
+    //         let city_id = city.id
+    //         city.counties.forEach(async (county, index) => {
+    //             let county_id = `${city_id}-${index}`
+    //             let county_index = index
+    //             county.districts.forEach(async (district, index_) => {
+    //                 let id = `${city_id}-${county_index}-${index_}`
+    //                 let data = {
+    //                     id,
+    //                     city_id,
+    //                     county_id,
+    //                     name: district
+    //                 }
+    //                 districts.push(data)
+    //                 // let docRef = doc($firestore, 'district', id)
+    //                 // await setDoc(docRef, data)
+    //                 // console.log(county_id);
+    //             })
+    //         })
+    //     }
+    //     // WE SET THE FIRST 20.000 DISTRICTS 
+    //     // 60.000 - 80.000
+    //     districts = districts.slice(60000, 80000)
+    //     const CHUNK_SIZE = 100
+    //     for (let i = 0; i < districts.length; i += CHUNK_SIZE) {
+    //         const chunk = districts.slice(i, i + CHUNK_SIZE);
+    //         let batch = writeBatch($firestore)
+    //         chunk.forEach(item => {
+    //             let docRef = doc($firestore, 'district', item.id)
+    //             batch.set(docRef, item);
+    //         });
+    //         console.log(batch);
+    //         await batch.commit();
+    //         console.log("batch commited");
+    //     }
+    // }
 
     async function getAllCities() {
         const querySnapshot = await getDocs(collection($firestore, 'city'))
@@ -442,7 +441,7 @@ export default function () {
         getDistrictMeta,
         updateDistrictPreview,
         setCounties,
-        setDistricts,
+        // setDistricts,
         createPost,
         getPosts,
         likePost,

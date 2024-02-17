@@ -19,7 +19,7 @@ const selectedCity = ref(city_id)
 const selectedCounty = ref(`${city_id}-${county}`)
 const selectedDistrict = ref(store.user.districtId)
 
-let { data: cities, city_pending } = useAsyncData('cities', getAllCities, { server: false, lazy: false })
+let { data: cities, city_pending } = useAsyncData('cities', getAllCities, { lazy: false })
 let { data: counties, county_pending } = useAsyncData('counties', async () => { return await getCounties(selectedCity.value) }, { server: false, lazy: false, watch: [selectedCity] })
 let { data: districts, district_pending } = useAsyncData('districts', async () => { return await getDistricts(selectedCounty.value) }, { server: false, lazy: false, watch: [selectedCounty] })
 
