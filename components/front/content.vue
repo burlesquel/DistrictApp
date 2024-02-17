@@ -91,6 +91,10 @@
                         
                         </div>
                         <div class="col-lg-8">
+                            <div class="heading-block border-bottom-0 text-center">
+                        <div class="badge rounded-pill badge-default">Plans</div>
+                        <h3 class="text-transform-none ls-0">Plans</h3>
+                    </div>
                             <div id="section-pricing" class="page-section p-0 m-0">
                                 <div id="pricing-switch" class="pricing row align-items-end g-0 col-mb-50 mb-4">
                                     <div class="col-md-6">
@@ -99,42 +103,41 @@
                                                 <img class="mb-2 bg-transparent rounded-0"
                                                     src="/front/demos/seo/images/icons/man.svg" alt="Pricing Icon"
                                                     width="50">
-                                                <h3>Single User Plan</h3>
+                                                <h3>Headman Features</h3>
                                                 <span>Most Popular</span>
                                             </div>
-                                            <div class="pricing-price">
+                                            <!-- <div class="pricing-price">
                                                 <div class="pts-content pts-content-false"><span
                                                         class="price-unit">&dollar;</span>5<span class="price-tenure">Per
                                                         Month</span></div>
                                                 <div class="pts-content pts-content-true"><span
                                                         class="price-unit">&dollar;</span>48<span class="price-tenure">Per
                                                         Year</span></div>
-                                            </div>
+                                            </div> -->
                                             <div class="pricing-features border-0 bg-transparent">
                                                 <ul>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Limited</strong>
-                                                        Support</li>
-                                                    <li class="pts-content pts-content-false text-black-50"><i
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Administrative</strong>
+                                                            Control Panel</li>
+                                                    <!-- <li class="pts-content pts-content-false text-black-50"><i
                                                             class="bi-dash-circle me-2"></i><del
                                                             style="opacity: .5"><strong>1</strong> Free Optimization</del>
                                                     </li>
                                                     <li class="pts-content pts-content-true"><i
                                                             class="fa-solid fa-check-circle color me-2"></i><strong>1</strong>
-                                                        Free Optimization</li>
+                                                        Free Optimization</li> -->
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>100+</strong>
-                                                        Pages</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>User</strong>
+                                                            Approval and Management</li>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Single</strong>
-                                                        User License</li>
-                                                    <li><i class="fa-solid fa-check-circle color me-2"></i>Phone &amp; Email
-                                                        Support</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Community</strong>
+                                                            Announcements</li>
+                                                    <li><i class="fa-solid fa-check-circle color me-2"></i>Neighborhood Reports</li>
                                                 </ul>
                                             </div>
                                             <div class="pricing-action">
                                               
-                                                <div class="pts-content pts-content-true"><a href="#"
+                                                <div class="pts-content pts-content-true"><a href="/app"
                                                         class="button button-large button-rounded w-100 text-capitalize m-0 ls-0">Get
                                                         Started</a></div>
                                             </div>
@@ -149,37 +152,37 @@
                                                 <img class="mb-2 bg-transparent rounded-0"
                                                     src="/front/demos/seo/images/icons/group.svg" alt="Pricing Icon"
                                                     width="60">
-                                                <h3>Multiple User Plan</h3>
+                                                <h3>User Features</h3>
                                             </div>
-                                            <div class="pricing-price">
+                                            <!-- <div class="pricing-price">
                                                 <div class="pts-content pts-content-false"><span
                                                         class="price-unit">&dollar;</span>12<span class="price-tenure">Per
                                                         Month</span></div>
                                                 <div class="pts-content pts-content-true"><span
                                                         class="price-unit">&dollar;</span>115<span class="price-tenure">Per
                                                         Year</span></div>
-                                            </div>
+                                            </div> -->
                                             <div class="pricing-features border-0 bg-transparent">
                                                 <ul>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>24*7</strong>
-                                                        Support</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Account</strong>
+                                                            Management</li>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>10</strong>
-                                                        Free Optimization</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Participation </strong>
+                                                            in Events</li>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>1000+</strong>
-                                                        Pages</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Information</strong>
+                                                            Sharing</li>
                                                     <li><i
-                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Unlimited</strong>
-                                                        User License</li>
-                                                    <li><i class="fa-solid fa-check-circle color me-2"></i>Phone &amp; Email
-                                                        Support</li>
+                                                            class="fa-solid fa-check-circle color me-2"></i><strong>Neighborhood </strong>
+                                                            Forums</li>
+                                                    <!-- <li><i class="fa-solid fa-check-circle color me-2"></i>Phone &amp; Email
+                                                        Support</li> -->
                                                 </ul>
                                             </div>
                                             <div class="pricing-action">
                                                 
-                                                <div class="pts-content pts-content-true"><a href="#"
+                                                <div class="pts-content pts-content-true"><a href="/app"
                                                         class="button button-rounded button-large button-light text-dark bg-white border w-100 text-transform-none m-0 ls-0">Get
                                                         Started</a></div>
                                             </div>
@@ -199,7 +202,10 @@
             </div>
             <div id="list" class="container py-5">
                 <div class="row">
-                 
+                    <div class="heading-block border-bottom-0 text-center">
+                        <div class="badge rounded-pill badge-default">how to</div>
+                        <h3 class="text-transform-none ls-0">How to join</h3>
+                    </div>
                     <div class="col-md-4 mt-5">
                         <div class="feature-box fbox-center border-0">
                             <div class="fbox-icon">

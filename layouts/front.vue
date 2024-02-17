@@ -107,7 +107,7 @@ useHead({
                                         <div>Plans</div>
                                     </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#list">
-                                        <div>List?</div>
+                                        <div>How to Join?</div>
                                     </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#testimonials">
                                         <div>Testimonials</div>
@@ -136,7 +136,7 @@ useHead({
                             <div class="widget">
 
                                 <img src="/front/images/footer-widget-logo.png" alt="Footer Logo" class="alignleft"
-                                    style="margin-top: 8px; padding-right: 18px; border-right: 1px solid #DDD;">
+                                    style="margin-top: 8px; padding-right: 10px; border-right: 1px solid #DDD;">
 
                                 <p> Strengthening Bonds, Growing Our Community DistrictApp
                                 </p>
@@ -191,7 +191,7 @@ useHead({
                                             </div>
                                             <div class="fbox-content">
                                                 <span class="text-muted">Call Us:</span><br>
-                                                <h3 class="text-transform-none ls-0 fw-semibold">(10) 22 33445566</h3>
+                                                <h3 class="text-transform-none ls-0 fw-semibold">(555)555 55 55</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +203,7 @@ useHead({
                                             </div>
                                             <div class="fbox-content">
                                                 <span class="text-muted">Email Us:</span><br>
-                                                <h3 class="text-transform-none ls-0 fw-semibold">info@canvas.com</h3>
+                                                <h3 class="text-transform-none ls-0 fw-semibold">info@districtapp.com</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -271,14 +271,14 @@ useHead({
 
                     <div class="row justify-content-between col-mb-30">
                         <div class="col-12 col-lg-auto text-center text-lg-start">
-                            Copyrights &copy; 2023 All Rights Reserved by Canvas Inc.<br>
+                            Copyrights &copy; 2024 All Rights Reserved by DistrictApp Inc.<br>
                             <div class="copyright-links"><a href="#" class="text-contrast-600">Terms of Use</a> / <a
                                     href="#" class="text-contrast-600">Privacy Policy</a></div>
                         </div>
 
                         <div class="col-12 col-lg-auto text-center text-lg-end">
                             <div class="copyrights-menu copyright-links">
-                                <a href="#" class="text-contrast-600">Home</a>/<a href="#" class="text-contrast-600">About
+                                <a href="#" class="text-contrast-600">Home</a>/<a href="/home" class="text-contrast-600">About
                                     Us</a>/<a href="#" class="text-contrast-600">Team</a>/<a href="#"
                                     class="text-contrast-600">Clients</a>/<a href="#" class="text-contrast-600">FAQs</a>/<a
                                     href="#" class="text-contrast-600">Contact</a>
