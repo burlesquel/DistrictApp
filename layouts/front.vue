@@ -74,7 +74,7 @@ useHead({
                 ============================================= -->
                         <div id="logo">
                             <a href="index.html">
-                                <img class="logo-default" src="/front/images/logo@2x.png" alt="Canvas Logo">
+                                <img class="logo-default" src="/front/images/logogo.png" alt="Canvas Logo" style="padding-left: 31px; height: 100px; " >
                                 <img class="logo-dark" src="/front/images/logo-dark@2x.png" alt="Canvas Logo">
                             </a>
                         </div><!-- #logo end -->
@@ -135,10 +135,10 @@ useHead({
 
                             <div class="widget">
 
-                                <img src="/front/images/footer-widget-logo.png" alt="Footer Logo" class="alignleft"
-                                    style="margin-top: 8px; padding-right: 10px; border-right: 1px solid #DDD;">
+                                <img src="/front/images/logogo.png" alt="Footer Logo" class="alignleft"
+                                    style="margin-top: 8px; padding-right: 10px; border-right: 1px solid #DDD; height: 100px;">
 
-                                <p> Strengthening Bonds, Growing Our Community DistrictApp
+                                <p style="    padding: 42px;"> Strengthening Bonds, Growing Our Community DistrictApp
                                 </p>
 
                                 <div class="line line-sm"></div>
