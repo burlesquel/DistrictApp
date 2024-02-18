@@ -77,7 +77,7 @@ onMounted(()=>{
                 ============================================= -->
                         <div id="logo">
                             <a href="index.html">
-                                <img class="logo-default" src="/front/images/logo@2x.png" alt="Canvas Logo">
+                                <img class="logo-default" src="/front/images/logogo.png" alt="Canvas Logo" style="padding-left: 31px; height: 100px; " >
                                 <img class="logo-dark" src="/front/images/logo-dark@2x.png" alt="Canvas Logo">
                             </a>
                         </div><!-- #logo end -->
@@ -110,7 +110,7 @@ onMounted(()=>{
                                         <div>Plans</div>
                                     </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#list">
-                                        <div>List?</div>
+                                        <div>How to Join?</div>
                                     </a></li>
                                 <li class="menu-item"><a class="menu-link" href="#testimonials">
                                         <div>Testimonials</div>
@@ -138,12 +138,10 @@ onMounted(()=>{
 
                             <div class="widget">
 
-                                <img src="/front/images/footer-widget-logo.png" alt="Footer Logo" class="alignleft"
-                                    style="margin-top: 8px; padding-right: 18px; border-right: 1px solid #DDD;">
+                                <img src="/front/images/logogo.png" alt="Footer Logo" class="alignleft"
+                                    style="margin-top: 8px; padding-right: 10px; border-right: 1px solid #DDD; height: 100px;">
 
-                                <p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp;
-                                    <strong>Flexible</strong> Design Standards with a Retina &amp; Responsive Approach.
-                                    Browse the amazing Features this template offers.
+                                <p style="    padding: 42px;"> Strengthening Bonds, Growing Our Community DistrictApp
                                 </p>
 
                                 <div class="line line-sm"></div>
@@ -161,7 +159,6 @@ onMounted(()=>{
 
                                     <div class="col-lg-3 col-6 widget_links">
                                         <ul>
-                                            <li><a href="#">Shop</a></li>
                                             <li><a href="#">Portfolio</a></li>
                                             <li><a href="#">Blog</a></li>
                                             <li><a href="#">Events</a></li>
@@ -171,23 +168,15 @@ onMounted(()=>{
 
                                     <div class="col-lg-3 col-6 widget_links">
                                         <ul>
-                                            <li><a href="#">Corporate</a></li>
-                                            <li><a href="#">Agency</a></li>
-                                            <li><a href="#">eCommerce</a></li>
-                                            <li><a href="#">Personal</a></li>
-                                            <li><a href="#">One Page</a></li>
+                                            <li><a href="#">Disclaimer</a></li>
+                                            <li><a href="#">Terms of Use</a></li>
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Cookie Policy</a></li>
+                                            <li><a href="#">Refund Policy</a></li>
                                         </ul>
                                     </div>
 
-                                    <div class="col-lg-3 col-6 widget_links">
-                                        <ul>
-                                            <li><a href="#">Restaurant</a></li>
-                                            <li><a href="#">Wedding</a></li>
-                                            <li><a href="#">App Showcase</a></li>
-                                            <li><a href="#">Magazine</a></li>
-                                            <li><a href="#">Landing Page</a></li>
-                                        </ul>
-                                    </div>
+                                  
                                 </div>
 
                             </div>
@@ -205,7 +194,7 @@ onMounted(()=>{
                                             </div>
                                             <div class="fbox-content">
                                                 <span class="text-muted">Call Us:</span><br>
-                                                <h3 class="text-transform-none ls-0 fw-semibold">(10) 22 33445566</h3>
+                                                <h3 class="text-transform-none ls-0 fw-semibold">(555)555 55 55</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +206,7 @@ onMounted(()=>{
                                             </div>
                                             <div class="fbox-content">
                                                 <span class="text-muted">Email Us:</span><br>
-                                                <h3 class="text-transform-none ls-0 fw-semibold">info@canvas.com</h3>
+                                                <h3 class="text-transform-none ls-0 fw-semibold">info@districtapp.com</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -285,14 +274,14 @@ onMounted(()=>{
 
                     <div class="row justify-content-between col-mb-30">
                         <div class="col-12 col-lg-auto text-center text-lg-start">
-                            Copyrights &copy; 2023 All Rights Reserved by Canvas Inc.<br>
+                            Copyrights &copy; 2024 All Rights Reserved by DistrictApp Inc.<br>
                             <div class="copyright-links"><a href="#" class="text-contrast-600">Terms of Use</a> / <a
                                     href="#" class="text-contrast-600">Privacy Policy</a></div>
                         </div>
 
                         <div class="col-12 col-lg-auto text-center text-lg-end">
                             <div class="copyrights-menu copyright-links">
-                                <a href="#" class="text-contrast-600">Home</a>/<a href="#" class="text-contrast-600">About
+                                <a href="#" class="text-contrast-600">Home</a>/<a href="/home" class="text-contrast-600">About
                                     Us</a>/<a href="#" class="text-contrast-600">Team</a>/<a href="#"
                                     class="text-contrast-600">Clients</a>/<a href="#" class="text-contrast-600">FAQs</a>/<a
                                     href="#" class="text-contrast-600">Contact</a>
