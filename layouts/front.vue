@@ -11,8 +11,8 @@
 
 useHead({
     script: [
-        { src: "/front/js/functions.bundle.js", type: "text/javascript", body: true, client:true, defer:true },
-        { src: "/front/js/plugins.min.js", type: "text/javascript", body: true, client:true, defer:true },
+        { src: "/front/js/functions.bundle.js", type: "text/javascript", body: true, client: true, defer: true },
+        { src: "/front/js/plugins.min.js", type: "text/javascript", body: true, client: true, defer: true },
         { src: "https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js", type: "text/javascript", defer: true, client: true },
     ],
     link: [
@@ -24,8 +24,8 @@ useHead({
     ]
 })
 
-onMounted(()=>{
-    skrollr.init({forceHeight: false});
+onMounted(() => {
+    skrollr.init({ forceHeight: false });
 })
 </script>
 
@@ -77,7 +77,8 @@ onMounted(()=>{
                 ============================================= -->
                         <div id="logo">
                             <a href="index.html">
-                                <img class="logo-default" src="/front/images/logogo.png" alt="Canvas Logo" style="padding-left: 31px; height: 100px; " >
+                                <img class="logo-default" src="/front/images/logogo.png" alt="Canvas Logo"
+                                    style="padding-left: 31px; height: 100px; ">
                                 <img class="logo-dark" src="/front/images/logo-dark@2x.png" alt="Canvas Logo">
                             </a>
                         </div><!-- #logo end -->
@@ -176,7 +177,7 @@ onMounted(()=>{
                                         </ul>
                                     </div>
 
-                                  
+
                                 </div>
 
                             </div>
@@ -281,10 +282,16 @@ onMounted(()=>{
 
                         <div class="col-12 col-lg-auto text-center text-lg-end">
                             <div class="copyrights-menu copyright-links">
-                                <a href="#" class="text-contrast-600">Home</a>/<a href="/home" class="text-contrast-600">About
-                                    Us</a>/<a href="#" class="text-contrast-600">Team</a>/<a href="#"
-                                    class="text-contrast-600">Clients</a>/<a href="#" class="text-contrast-600">FAQs</a>/<a
-                                    href="#" class="text-contrast-600">Contact</a>
+                                <NuxtLink href="#" class="text-contrast-600">Home</NuxtLink>/
+                                <NuxtLink to="#" class="text-contrast-600">About Us</NuxtLink>
+                                /
+                                <NuxtLink to="#" class="text-contrast-600">Team</NuxtLink>
+                                /
+                                <NuxtLink to="#" class="text-contrast-600">Clients</NuxtLink>
+                                /
+                                <NuxtLink to="#" class="text-contrast-600">FAQs</NuxtLink>
+                                /
+                                <NuxtLink to="#" class="text-contrast-600">Contact</NuxtLink>
                             </div>
                         </div>
                     </div>
