@@ -11,10 +11,9 @@
 
 useHead({
     script: [
-        { src: "/front/js/functions.bundle.js", type: "text/javascript", body: true },
-        { src: "/front/js/plugins.min.js", type: "text/javascript", body: true },
+        { src: "/front/js/functions.bundle.js", type: "text/javascript", body: true, client:true, defer:true },
+        { src: "/front/js/plugins.min.js", type: "text/javascript", body: true, client:true, defer:true },
         { src: "https://cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.30/skrollr.min.js", type: "text/javascript", defer: true, client: true },
-        { innerHTML: "document.addEventListener('DOMContentLoaded', function(){skrollr.init({forceHeight: false});})", defer: true, body: true, type: "text/javascript", client: true }
     ],
     link: [
         { rel: "stylesheet", href: "/front/style.css" },
@@ -23,6 +22,10 @@ useHead({
         { rel: "stylesheet", href: "/front/demos/seo/seo.css" },
         { rel: "stylesheet", href: "/front/css/custom.css" }
     ]
+})
+
+onMounted(()=>{
+    skrollr.init({forceHeight: false});
 })
 </script>
 
