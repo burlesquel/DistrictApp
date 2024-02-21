@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="fbox-content">
                                     <h3 class="text-transform-none ls-0">Customer Experience</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, ipsa!</p>
+                                    <p>The platform should have a transparent communication policy and a reliable approach to data privacy to earn the trust of neighborhood residents.</p>
                                 </div>
                             </div>
                             <div class="feature-box border-0 mt-5">
