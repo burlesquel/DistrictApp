@@ -41,24 +41,21 @@ onMounted(() => {
                         <!-- Top Social
                 ============================================= -->
                         <ul id="top-social">
-                            <li><a href="https://facebook.com/semicolonweb" class="h-bg-facebook" target="_blank"><span
+                            <li><a href="https://facebook.com/" class="h-bg-facebook" target="_blank"><span
                                         class="ts-icon"><i class="fa-brands fa-facebook-f"></i></span><span
                                         class="ts-text">Facebook</span></a></li>
-                            <li><a href="https://twitter.com/__semicolon" class="h-bg-x-twitter" target="_blank"><span
+                            <li><a href="https://twitter.com/" class="h-bg-x-twitter" target="_blank"><span
                                         class="ts-icon"><i class="fa-brands fa-x-twitter"></i></span><span
                                         class="ts-text">Twitter</span></a></li>
-                            <li><a href="https://youtube.com/semicolonweb" class="h-bg-youtube" target="_blank"><span
+                            <li><a href="https://youtube.co" class="h-bg-youtube" target="_blank"><span
                                         class="ts-icon"><i class="fa-brands fa-youtube"></i></span><span
                                         class="ts-text">Youtube</span></a></li>
-                            <li><a href="https://instagram.com/semicolonweb" class="h-bg-instagram" target="_blank"><span
+                            <li><a href="https://instagram.com/gdscistinye" class="h-bg-instagram" target="_blank"><span
                                         class="ts-icon"><i class="fa-brands fa-instagram"></i></span><span
                                         class="ts-text">Instagram</span></a></li>
-                            <li><a href="tel:+10.11.85412542" class="h-bg-call"><span class="ts-icon"><i
-                                            class="fa-solid fa-phone"></i></span><span
-                                        class="ts-text">+10.11.85412542</span></a></li>
-                            <li><a href="mailto:info@canvas.com" class="h-bg-email3"><span class="ts-icon"><i
+                            <li><a href="mailto:info@districtapp.com" class="h-bg-email3"><span class="ts-icon"><i
                                             class="bi-envelope-fill"></i></span><span
-                                        class="ts-text">info@canvas.com</span></a></li>
+                                        class="ts-text">info@districtapp.com</span></a></li>
                         </ul><!-- #top-social end -->
 
                     </div>
@@ -236,24 +233,24 @@ onMounted(() => {
                                 <div class="row col-mb-30">
                                     <div class="col-lg-6 col-md-12 col-6">
                                         <div class="d-flex align-items-center">
-                                            <a href="https://facebook.com/semicolonweb" target="_blank"
+                                            <a href="https://facebook.com/" target="_blank"
                                                 class="social-icon bg-dark h-bg-facebook mb-0 me-2">
                                                 <i class="fa-brands fa-facebook-f"></i>
                                                 <i class="fa-brands fa-facebook-f"></i>
                                             </a>
-                                            <a href="https://facebook.com/semicolonweb" target="_blank"
+                                            <a href="https://facebook.com/" target="_blank"
                                                 class="text-dark"><small><strong class="d-block">Like us</strong>on
                                                     Facebook</small></a>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-6">
                                         <div class="d-flex align-items-center">
-                                            <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
+                                            <a href="##" target="_blank"
                                                 class="social-icon bg-dark h-bg-rss mb-0 me-2">
                                                 <i class="fa-solid fa-rss"></i>
                                                 <i class="fa-solid fa-rss"></i>
                                             </a>
-                                            <a href="https://themeforest.net/user/SemiColonWeb/follow" target="_blank"
+                                            <a href="#" target="_blank"
                                                 class="text-dark"><small><strong class="d-block">Subscribe</strong>to RSS
                                                     Feeds</small></a>
                                         </div>
